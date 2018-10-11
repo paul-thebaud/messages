@@ -5,18 +5,36 @@
  * building robust, powerful web applications using Vue and Laravel.
  */
 
-require('./bootstrap');
+import "./bootstrap";
 
-window.Vue = require('vue');
+import Vue from 'vue';
+import VueRouter from 'vue-router';
+
+import ExampleComponent from "./components/ExampleComponent.vue";
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
+Vue.use(VueRouter);
+Vue.component('example-component', ExampleComponent);
+const Hello = { template: '<div>foo</div>' };
+const Join = { template: '<div>bar</div>' };
 
-Vue.component('example-component', require('./components/ExampleComponent.vue'));
+const routes = [
+    { path: '/', component: Hello },
+    { path: '/join', component: Join },
+];
+
+const router = new VueRouter(
+    {
+        mode: 'history',
+        routes: routes
+    }
+);
 
 const app = new Vue({
-    el: '#app'
+    el: '#app',
+    router
 });
