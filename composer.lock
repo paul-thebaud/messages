@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c529b6f08e7142fd544fe0291d22dda1",
+    "content-hash": "ab484c3dc27d2e98e5cc2b97336b53f5",
     "packages": [
         {
             "name": "defuse/php-encryption",
@@ -655,6 +655,64 @@
                 "url"
             ],
             "time": "2017-03-20T17:10:46+00:00"
+        },
+        {
+            "name": "hootlex/laravel-friendships",
+            "version": "v1.0.24",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/hootlex/laravel-friendships.git",
+                "reference": "0100718545bad757006737c21a7b35dc5c52b443"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/hootlex/laravel-friendships/zipball/0100718545bad757006737c21a7b35dc5c52b443",
+                "reference": "0100718545bad757006737c21a7b35dc5c52b443",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4.0"
+            },
+            "require-dev": {
+                "codeclimate/php-test-reporter": "^0.3.2",
+                "doctrine/dbal": "^2.5",
+                "fzaninotto/faker": "~1.4",
+                "laravel/laravel": "5.*",
+                "mockery/mockery": "^0.9.5",
+                "phpunit/phpunit": "5.*"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Hootlex\\Friendships\\FriendshipsServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Hootlex\\Friendships\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Hootlex",
+                    "email": "hootlex@icloud.com"
+                }
+            ],
+            "description": "This package gives Eloquent models the ability to manage their friendships.",
+            "keywords": [
+                "eloquent",
+                "friend-system",
+                "friends",
+                "friendships",
+                "laravel"
+            ],
+            "time": "2018-07-03T09:16:10+00:00"
         },
         {
             "name": "jakub-onderka/php-console-color",
@@ -3410,6 +3468,60 @@
                 "environment"
             ],
             "time": "2018-07-29T20:33:41+00:00"
+        },
+        {
+            "name": "webpatser/laravel-uuid",
+            "version": "3.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/webpatser/laravel-uuid.git",
+                "reference": "9c9bd4344f4aa78326b34a324d8a208e65c8221f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/webpatser/laravel-uuid/zipball/9c9bd4344f4aa78326b34a324d8a208e65c8221f",
+                "reference": "9c9bd4344f4aa78326b34a324d8a208e65c8221f",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.0"
+            },
+            "require-dev": {
+                "fzaninotto/faker": "~1.4",
+                "phpunit/phpunit": "~6.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Webpatser\\Uuid\\UuidServiceProvider"
+                    ],
+                    "aliases": {
+                        "Uuid": "Webpatser\\Uuid\\Uuid"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Webpatser\\Uuid": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Christoph Kempen",
+                    "email": "christoph@downsized.nl"
+                }
+            ],
+            "description": "Class to generate a UUID according to the RFC 4122 standard. Support for version 1, 3, 4 and 5 UUID are built-in.",
+            "homepage": "https://github.com/webpatser/uuid",
+            "keywords": [
+                "UUID RFC4122"
+            ],
+            "time": "2017-09-03T23:32:05+00:00"
         },
         {
             "name": "zendframework/zend-diactoros",

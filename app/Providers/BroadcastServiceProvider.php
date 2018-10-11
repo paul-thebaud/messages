@@ -2,15 +2,19 @@
 
 namespace App\Providers;
 
-use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Broadcast;
+use Illuminate\Support\ServiceProvider;
 
+/**
+ * Class BroadcastServiceProvider.
+ *
+ * @author  Killian Hascoët <killianh@live.fr>
+ * @author  Paul Thébaud <paul.thebaud29@gmail.com>
+ */
 class BroadcastServiceProvider extends ServiceProvider
 {
     /**
-     * Bootstrap any application services.
-     *
-     * @return void
+     * {@inheritdoc}
      */
     public function boot()
     {

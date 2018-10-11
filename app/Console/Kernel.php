@@ -5,33 +5,28 @@ namespace App\Console;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
+/**
+ * Class Kernel.
+ *
+ * @author  Killian Hascoët <killianh@live.fr>
+ * @author  Paul Thébaud <paul.thebaud29@gmail.com>
+ */
 class Kernel extends ConsoleKernel
 {
     /**
-     * The Artisan commands provided by your application.
-     *
-     * @var array
+     * {@inheritdoc}
      */
-    protected $commands = [
-        //
-    ];
+    protected $commands = [];
 
     /**
-     * Define the application's command schedule.
-     *
-     * @param  \Illuminate\Console\Scheduling\Schedule  $schedule
-     * @return void
+     * {@inheritdoc}
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')
-        //          ->hourly();
     }
 
     /**
-     * Register the commands for the application.
-     *
-     * @return void
+     * {@inheritdoc}
      */
     protected function commands()
     {

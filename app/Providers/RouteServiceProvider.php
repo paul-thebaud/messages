@@ -5,49 +5,41 @@ namespace App\Providers;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 
+/**
+ * Class RouteServiceProvider.
+ *
+ * @author  Killian Hascoët <killianh@live.fr>
+ * @author  Paul Thébaud <paul.thebaud29@gmail.com>
+ */
 class RouteServiceProvider extends ServiceProvider
 {
     /**
-     * This namespace is applied to your controller routes.
-     *
-     * In addition, it is set as the URL generator's root namespace.
-     *
-     * @var string
+     * {@inheritdoc}
      */
     protected $namespace = 'App\Http\Controllers';
 
     /**
-     * Define your route model bindings, pattern filters, etc.
-     *
-     * @return void
+     * {@inheritdoc}
      */
     public function boot()
     {
-        //
-
         parent::boot();
     }
 
     /**
-     * Define the routes for the application.
-     *
-     * @return void
+     * {@inheritdoc}
      */
     public function map()
     {
         $this->mapApiRoutes();
 
         $this->mapWebRoutes();
-
-        //
     }
 
     /**
      * Define the "web" routes for the application.
      *
      * These routes all receive session state, CSRF protection, etc.
-     *
-     * @return void
      */
     protected function mapWebRoutes()
     {
@@ -60,8 +52,6 @@ class RouteServiceProvider extends ServiceProvider
      * Define the "api" routes for the application.
      *
      * These routes are typically stateless.
-     *
-     * @return void
      */
     protected function mapApiRoutes()
     {

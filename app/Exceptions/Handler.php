@@ -5,21 +5,23 @@ namespace App\Exceptions;
 use Exception;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 
+/**
+ * Class Handler.
+ *
+ * @author  Killian Hascoët <killianh@live.fr>
+ * @author  Paul Thébaud <paul.thebaud29@gmail.com>
+ */
 class Handler extends ExceptionHandler
 {
     /**
-     * A list of the exception types that are not reported.
-     *
-     * @var array
+     * {@inheritdoc}
      */
     protected $dontReport = [
         //
     ];
 
     /**
-     * A list of the inputs that are never flashed for validation exceptions.
-     *
-     * @var array
+     * {@inheritdoc}
      */
     protected $dontFlash = [
         'password',
@@ -27,10 +29,7 @@ class Handler extends ExceptionHandler
     ];
 
     /**
-     * Report or log an exception.
-     *
-     * @param  \Exception  $exception
-     * @return void
+     * {@inheritdoc}
      */
     public function report(Exception $exception)
     {
@@ -38,11 +37,7 @@ class Handler extends ExceptionHandler
     }
 
     /**
-     * Render an exception into an HTTP response.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Exception  $exception
-     * @return \Illuminate\Http\Response
+     * {@inheritdoc}
      */
     public function render($request, Exception $exception)
     {
