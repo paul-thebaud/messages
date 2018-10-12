@@ -17,7 +17,7 @@ class UserPolicy
 
     public function show(User $user, User $userToShow): bool
     {
-        return $user->isFriendWith($userToShow);
+        return $this->delete($user, $userToShow) || $user->isFriendWith($userToShow);
     }
 
     public function update(User $user, User $userToUpdate): bool

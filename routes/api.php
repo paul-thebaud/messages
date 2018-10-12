@@ -17,7 +17,9 @@ Route::namespace('Api')->group(function () {
     Route::middleware(['auth:api', 'verified'])->group(function () {
         Route::delete('/auth/token', 'AuthController@unauthenticate');
 
-        Route::get('/users/me', 'UserController@me');
+        Route::apiResource('/users', 'UserController');
+        Route::apiResource('/users/{user}/friends', 'UserController@friends');
+        Route::apiResource('/conversations', 'ConversationController');
     });
 
     Route::post('/auth/register', 'AuthController@register');

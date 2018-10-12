@@ -36,7 +36,7 @@ class AuthController extends AbstractController
      *
      * @return JsonResponse The response.
      *
-     * @throws ValidationException When the request is invalid.
+     * @throws ValidationException If the request is invalid.
      */
     public function register(Request $request): JsonResponse
     {
@@ -64,12 +64,12 @@ class AuthController extends AbstractController
      *
      * @return JsonResponse The response.
      *
-     * @throws ValidationException When the request is invalid.
+     * @throws ValidationException If the request is invalid.
      */
     public function redirect(Request $request): JsonResponse
     {
         $this->validate($request, [
-            'driver' => sprintf('required|in:%s', implode(',', self::OAUTH_DRIVERS)),
+            'driver' => 'required|in:%s' . implode(',', self::OAUTH_DRIVERS),
         ]);
         return response()->json([
             'url' => Socialite::with($request->input('driver'))
@@ -86,12 +86,12 @@ class AuthController extends AbstractController
      *
      * @return JsonResponse The response.
      *
-     * @throws ValidationException When the request is invalid.
+     * @throws ValidationException If the request is invalid.
      */
     public function authenticate(Request $request): JsonResponse
     {
         $this->validate($request, [
-            'driver'    => sprintf('required|in:password,%s', implode(',', self::OAUTH_DRIVERS)),
+            'driver'    => 'required|in:password,%s' . implode(',', self::OAUTH_DRIVERS),
             'auth_code' => 'required_unless:driver,password|string',
             'username'  => 'required_unless:driver,password|string|min:4|max:60',
             'email'     => 'required_if:driver,password',

@@ -16,12 +16,9 @@ class CreateConversationsTable extends Migration
             $table->primary('id');
 
             $table->string('name', 60)->nullable();
-            $table->uuid('user_id');
 
             $table->timestamps();
             $table->softDeletes();
-
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 
