@@ -3,7 +3,7 @@
 namespace App\Policies;
 
 use App\Models\Conversation;
-use App\Models\Message;
+use App\Models\ConversationUser;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
@@ -33,6 +33,7 @@ class ConversationPolicy
     {
         return $conversation->users()
             ->where('id', $user->id)
+            ->wherePivot('role', ConversationUser::ROLE_ADMIN)
             ->exists();
     }
 }

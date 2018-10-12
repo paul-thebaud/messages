@@ -2,6 +2,12 @@
 
 namespace App\Providers;
 
+use App\Models\Conversation;
+use App\Models\Message;
+use App\Models\User;
+use App\Policies\ConversationPolicy;
+use App\Policies\MessagePolicy;
+use App\Policies\UserPolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
 /**
@@ -16,7 +22,9 @@ class AuthServiceProvider extends ServiceProvider
      * {@inheritdoc}
      */
     protected $policies = [
-        'App\Model' => 'App\Policies\ModelPolicy',
+        Conversation::class => ConversationPolicy::class,
+        Message::class      => MessagePolicy::class,
+        User::class         => UserPolicy::class,
     ];
 
     /**
