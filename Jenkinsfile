@@ -18,7 +18,7 @@ pipeline {
             sh 'composer install'
           }
         }
-        stage('Composer') {
+        stage('Yarn') {
           steps {
             sh 'yarn install'
           }
