@@ -110,12 +110,12 @@ pipeline {
           script {
               if(env.BRANCH_NAME == "release" || env.BRANCH_NAME == "dev"){
                   stage('nonlatest'){
-                    sh "sudo docker build -t killianh/myastreinte:${GIT_COMMIT} -t killianh/myastreinte:${BRANCH_NAME} ."
+                    sh "sudo docker build -t killianh/messages:${GIT_COMMIT} -t killianh/messages:${BRANCH_NAME} ."
                   }
               }
               if(env.BRANCH_NAME == "master"){
                   stage('latest'){
-                    sh "sudo docker build -t killianh/myastreinte:${GIT_COMMIT} -t killianh/myastreinte:${BRANCH_NAME}  -t killianh/myastreinte:latest ."
+                    sh "sudo docker build -t killianh/messages:${GIT_COMMIT} -t killianh/messages:${BRANCH_NAME}  -t killianh/messages:latest ."
                   }
               }
           }
@@ -126,7 +126,7 @@ pipeline {
         script {
           if(env.BRANCH_NAME == "release" || env.BRANCH_NAME == "dev" || env.BRANCH_NAME == "master"){
             stage('push'){
-              sh "sudo docker push killianh/myastreinte"
+              sh "sudo docker push killianh/messages"
             }
           }
         }
@@ -137,7 +137,7 @@ pipeline {
         script {
           if(env.BRANCH_NAME == "release" || env.BRANCH_NAME == "dev" || env.BRANCH_NAME == "master"){
             stage('pull'){
-              sh "sudo docker pull killianh/myastreinte:${GIT_COMMIT}"
+              sh "sudo docker pull killianh/messages:${GIT_COMMIT}"
             }
           }
         }
@@ -148,7 +148,7 @@ pipeline {
         script {
           if(env.BRANCH_NAME == "release" || env.BRANCH_NAME == "dev" || env.BRANCH_NAME == "master"){
             stage('stop'){
-              sh "sudo docker stop myastreinte${BRANCH_NAME} || true"
+              sh "sudo docker stop messages${BRANCH_NAME} || true"
             }
           }
         }
@@ -159,7 +159,7 @@ pipeline {
           script {
             if(env.BRANCH_NAME == "release" || env.BRANCH_NAME == "dev" || env.BRANCH_NAME == "master"){
               stage('stop'){
-                sh "sudo docker rm myastreinte${BRANCH_NAME} || true"
+                sh "sudo docker rm messages${BRANCH_NAME} || true"
               }
             }
           }
@@ -170,17 +170,17 @@ pipeline {
             script{
                 if(env.BRANCH_NAME == "dev"){
                     stage('dev'){
-                        sh "sudo docker run -p 10001:9000 --name=myastreinte${BRANCH_NAME} --restart=always -d killianh/myastreinte:${GIT_COMMIT}"
+                        sh "sudo docker run -p 10011:9000 --name=messages${BRANCH_NAME} --restart=always -d killianh/messages:${GIT_COMMIT}"
                     }
                 }
                 if(env.BRANCH_NAME == "release"){
                     stage('release'){
-                        sh "sudo docker run -p 10002:9000 --name=myastreinte${BRANCH_NAME} --restart=always -d killianh/myastreinte:${GIT_COMMIT}"
+                        sh "sudo docker run -p 10012:9000 --name=messages${BRANCH_NAME} --restart=always -d killianh/messages:${GIT_COMMIT}"
                     }
                 }
                 if(env.BRANCH_NAME == "master"){
                     stage('master'){
-                        sh "sudo docker run -p 10003:9000 --name=myastreinte${BRANCH_NAME} --restart=always -d killianh/myastreinte:${GIT_COMMIT}"
+                        sh "sudo docker run -p 10013:9000 --name=messages${BRANCH_NAME} --restart=always -d killianh/messages:${GIT_COMMIT}"
                     }
                 }
             }
@@ -191,17 +191,17 @@ pipeline {
             script{
                 if(env.BRANCH_NAME == "dev"){
                     stage('dev'){
-                        sh "scp -r ./public root@172.17.0.1:/var/www/myastreinte/${BRANCH_NAME}"
+                        sh "scp -r ./public root@172.17.0.1:/var/www/messages/${BRANCH_NAME}"
                     }
                 }
                 if(env.BRANCH_NAME == "release"){
                     stage('release'){
-                        sh "scp -r ./public root@172.17.0.1:/var/www/myastreinte/${BRANCH_NAME}"
+                        sh "scp -r ./public root@172.17.0.1:/var/www/messages/${BRANCH_NAME}"
                     }
                 }
                 if(env.BRANCH_NAME == "master"){
                     stage('master'){
-                        sh "scp -r ./public root@172.17.0.1:/var/www/myastreinte/${BRANCH_NAME}"
+                        sh "scp -r ./public root@172.17.0.1:/var/www/messages/${BRANCH_NAME}"
                     }
                 }
             }
@@ -212,7 +212,7 @@ pipeline {
             script{
                 if(env.BRANCH_NAME == "release" || env.BRANCH_NAME == "dev" || env.BRANCH_NAME == "master"){
                     stage('push'){
-                      sh "sudo docker exec myastreinte${BRANCH_NAME} nohup php artisan queue:work --tries=3 &"
+                      sh "sudo docker exec messages${BRANCH_NAME} nohup php artisan queue:work --tries=3 &"
                     }
                 }
             }
