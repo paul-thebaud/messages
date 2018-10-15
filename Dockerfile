@@ -18,7 +18,7 @@ WORKDIR /var/www
 
 RUN chmod +x composerinstall.sh
 
-RUN docker-php-ext-install pdo pdo_mysql mbstring gd curl
+RUN docker-php-ext-install pdo pdo_mysql mbstring gd
 
 RUN ./composerinstall.sh
 RUN php composer.phar install --no-scripts \
