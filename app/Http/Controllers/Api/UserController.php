@@ -88,9 +88,11 @@ class UserController extends AbstractController
      *
      * @throws AuthorizationException If the user cannot perform this action.
      */
-    public function delete(User $user): JsonResponse
+    public function destroy(User $user): JsonResponse
     {
         $this->authorize('delete', $user);
+
+        $user->delete();
 
         return response()->json('', JsonResponse::HTTP_NO_CONTENT);
     }
