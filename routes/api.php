@@ -18,7 +18,9 @@ Route::namespace('Api')->group(function () {
         Route::delete('/auth/token', 'AuthController@unauthenticate');
 
         Route::apiResource('/users', 'UserController');
-        Route::apiResource('/users/{user}/friends', 'UserController@friends');
+        Route::apiResource('/users/{user}/notifications', 'NotificationController', [
+            'only' => ['index', 'update', 'destroy']
+        ]);
         Route::apiResource('/conversations', 'ConversationController');
     });
 

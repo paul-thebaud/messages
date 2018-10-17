@@ -40,22 +40,6 @@ class UserController extends AbstractController
     }
 
     /**
-     * Fetch the user's friends.
-     *
-     * @param User $user The user to fetch friends from.
-     *
-     * @return JsonResponse The response.
-     *
-     * @throws AuthorizationException If the user cannot perform this action.
-     */
-    public function friends(User $user): JsonResponse
-    {
-        $this->authorize('show', $user);
-
-        return response()->json($user->friends());
-    }
-
-    /**
      * Update the user.
      *
      * @param Request $request The request.
