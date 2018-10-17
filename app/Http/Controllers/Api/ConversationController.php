@@ -75,9 +75,11 @@ class ConversationController extends AbstractController
      *
      * @throws AuthorizationException If the user cannot perform this action.
      */
-    public function delete(Conversation $conversation): JsonResponse
+    public function destroy(Conversation $conversation): JsonResponse
     {
         $this->authorize('delete', $conversation);
+
+        $conversation->delete();
 
         return response()->json('', JsonResponse::HTTP_NO_CONTENT);
     }
