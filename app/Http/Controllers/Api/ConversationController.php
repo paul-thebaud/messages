@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\AbstractController;
 use App\Models\Conversation;
+use Exception;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -74,6 +75,7 @@ class ConversationController extends AbstractController
      * @return JsonResponse The response.
      *
      * @throws AuthorizationException If the user cannot perform this action.
+     * @throws Exception If the model does not exists.
      */
     public function destroy(Conversation $conversation): JsonResponse
     {
