@@ -4,10 +4,14 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\AbstractController;
 use App\Models\Conversation;
+use App\Models\ConversationUser;
+use App\Notifications\ConversationDeleted;
+use App\Notifications\ConversationUpdated;
 use Exception;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Validation\ValidationException;
 
 class ConversationController extends AbstractController
@@ -43,6 +47,29 @@ class ConversationController extends AbstractController
     }
 
     /**
+     * Create a conversation.
+     *
+     * @param Request $request The request.
+     *
+     * @return JsonResponse The response.
+     *
+     * @throws ValidationException If the request is invalid.
+     */
+    public function create(Request $request): JsonResponse
+    {
+        $this->validate($request, [
+            'type' => 'required|string|in:' . implode(',', Conversation::TYPES),
+            'name' => 'nullable|string|min:4|max:60',
+        ]);
+
+        /** @var Conversation $conversation */
+        $conversation = Conversation::query()->create($request->only('type', 'name'));
+        $conversation->users()->attach($request->user(), ['role' => ConversationUser::ROLE_ADMIN]);
+
+        return response()->json($conversation, JsonResponse::HTTP_CREATED);
+    }
+
+    /**
      * Update the conversation.
      *
      * @param Request      $request      The request.
@@ -57,12 +84,13 @@ class ConversationController extends AbstractController
     {
         $this->authorize('update', $conversation);
 
-        /** @todo Allow updating with users. */
         $this->validate($request, [
             'name' => 'nullable|string|min:4|max:60',
         ]);
 
         $conversation->update($request->only('name'));
+
+        Notification::send($conversation->users, new ConversationUpdated($conversation));
 
         return response()->json('', JsonResponse::HTTP_NO_CONTENT);
     }
@@ -82,6 +110,8 @@ class ConversationController extends AbstractController
         $this->authorize('delete', $conversation);
 
         $conversation->delete();
+
+        Notification::send($conversation->users, new ConversationDeleted($conversation));
 
         return response()->json('', JsonResponse::HTTP_NO_CONTENT);
     }

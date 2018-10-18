@@ -2,8 +2,6 @@
 
 namespace App\Policies;
 
-use App\Models\Conversation;
-use App\Models\Message;
 use App\Models\Notification;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;

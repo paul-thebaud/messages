@@ -3,11 +3,11 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\AbstractController;
-use App\Models\Notification;
 use Exception;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Notifications\DatabaseNotification;
 
 class NotificationController extends AbstractController
 {
@@ -27,17 +27,17 @@ class NotificationController extends AbstractController
     /**
      * Update the notification.
      *
-     * @param Notification $notification The notification to update.
+     * @param DatabaseNotification $notification The notification to update.
      *
      * @return JsonResponse The response.
      *
      * @throws AuthorizationException If the user cannot perform this action.
      */
-    public function update(Notification $notification): JsonResponse
+    public function update(DatabaseNotification $notification): JsonResponse
     {
         $this->authorize('update', $notification);
 
-        $notification->markNotificationAsRead()->save();
+        $notification->markAsRead();
 
         return response()->json('', JsonResponse::HTTP_NO_CONTENT);
     }
@@ -45,14 +45,14 @@ class NotificationController extends AbstractController
     /**
      * Delete the notification.
      *
-     * @param Notification $notification The notification to delete.
+     * @param DatabaseNotification $notification The notification to delete.
      *
      * @return JsonResponse The response.
      *
      * @throws AuthorizationException If the user cannot perform this action.
      * @throws Exception If the model does not exists.
      */
-    public function destroy(Notification $notification): JsonResponse
+    public function destroy(DatabaseNotification $notification): JsonResponse
     {
         $this->authorize('delete', $notification);
 

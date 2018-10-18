@@ -39,6 +39,13 @@ class Message extends UuidModel
     ];
 
     /**
+     * {@inheritdoc}
+     */
+    protected $fillable = [
+        'text',
+    ];
+
+    /**
      * The conversation where the message was sent.
      *
      * @return BelongsTo The relation.
