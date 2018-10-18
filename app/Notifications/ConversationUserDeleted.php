@@ -50,9 +50,11 @@ class ConversationUserDeleted extends Notification implements ShouldQueue
      */
     public function toArray(Notifiable $notifiable)
     {
-        return [
-            'conversation_id' => $this->conversation->id,
-            'user_id'         => $this->conversation->id,
-        ];
+        return $this->conversation
+            ->users()
+            ->where('id', $this->user->id)
+            ->first()
+            ->conversation_user
+            ->toArray();
     }
 }

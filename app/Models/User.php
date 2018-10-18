@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Concerns\UuidModel;
+use App\Models\Pivots\ConversationUser;
 use Carbon\Carbon;
 use Hootlex\Friendships\Traits\Friendable;
 use Illuminate\Auth\Authenticatable;
@@ -20,13 +21,14 @@ use Laravel\Passport\HasApiTokens;
 /**
  * Class User.
  *
- * @property string      $username          The username (string between 4 and 60 chars).
- * @property string      $name              The name (alias of username).
- * @property string      $email             The email.
- * @property string      $password          The hashed version of password.
- * @property Carbon|null $email_verified_at The email verification datetime.
- * @property Carbon|null $created_at        The creation datetime.
- * @property Carbon|null $updated_at        The update datetime.
+ * @property string                $username                        The username (string between 4 and 60 chars).
+ * @property string                $name                            The name (alias of username).
+ * @property string                $email                           The email.
+ * @property string                $password                        The hashed version of password.
+ * @property ConversationUser|null $conversation_user               The pivot for user.
+ * @property Carbon|null           $email_verified_at               The email verification datetime.
+ * @property Carbon|null           $created_at                      The creation datetime.
+ * @property Carbon|null           $updated_at                      The update datetime.
  *
  * @author  Killian Hascoët <killianh@live.fr>
  * @author  Paul Thébaud <paul.thebaud29@gmail.com>

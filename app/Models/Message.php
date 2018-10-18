@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Concerns\UuidModel;
+use App\Models\Pivots\MessageUser;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -12,15 +13,16 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 /**
  * Class Message.
  *
- * @property string            $text               The text content.
- * @property string            $conversation_id    The conversation ID.
- * @property Conversation      $conversation       The conversation instance.
- * @property string            $user_id            The writer user ID.
- * @property User              $user               The writer user instance.
- * @property Collection|User[] $users              The users who read this message.
- * @property Carbon|null       $created_at         The creation datetime.
- * @property Carbon|null       $updated_at         The update datetime.
- * @property Carbon|null       $deleted_at         The deletion datetime.
+ * @property string            $text                       The text content.
+ * @property string            $conversation_id            The conversation ID.
+ * @property Conversation      $conversation               The conversation instance.
+ * @property string            $user_id                    The writer user ID.
+ * @property User              $user                       The writer user instance.
+ * @property Collection|User[] $users                      The users who read this message.
+ * @property MessageUser|null  $message_user               The pivot for user.
+ * @property Carbon|null       $created_at                 The creation datetime.
+ * @property Carbon|null       $updated_at                 The update datetime.
+ * @property Carbon|null       $deleted_at                 The deletion datetime.
  *
  * @author  Killian Hascoët <killianh@live.fr>
  * @author  Paul Thébaud <paul.thebaud29@gmail.com>
