@@ -31,6 +31,10 @@ class ConversationUser extends Pivot
      * @var string ROLE_ADMIN The admin role with all permissions.
      */
     public const ROLE_ADMIN = 'admin';
+    /**
+     * @var string[] ROLES The available roles of a user in a conversation.
+     */
+    public const ROLES = [self::ROLE_USER, self::ROLE_ADMIN];
 
     /**
      * {@inheritdoc}
@@ -45,6 +49,14 @@ class ConversationUser extends Pivot
     protected $dates = [
         'created_at',
         'updated_at',
+    ];
+
+    /**
+     * {@inheritdoc}
+     */
+    protected $fillable = [
+        'nickname',
+        'role',
     ];
 
     /**

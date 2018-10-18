@@ -19,6 +19,6 @@ class IndexController extends AbstractController
      */
     public function __invoke(): View
     {
-        return view('welcome');
+        return view('index');
     }
 }
