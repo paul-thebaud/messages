@@ -43,7 +43,7 @@ class ConversationDeleted extends Notification implements ShouldQueue
     public function toArray(Notifiable $notifiable)
     {
         return [
-            'conversation_id' => $this->conversation->id,
+            'id' => $this->conversation->id,
         ];
     }
 }

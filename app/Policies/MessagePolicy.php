@@ -27,8 +27,8 @@ class MessagePolicy
     public function read(User $user, Message $message): bool
     {
         return $message->conversation->users()
-                ->where('id', $user->id)
-                ->exists();
+            ->where('id', $user->id)
+            ->exists();
     }
 
     public function update(User $user, Message $message): bool
