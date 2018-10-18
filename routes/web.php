@@ -13,6 +13,15 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/verify/{user}', 'VerificationController')->name('auth.verify');
+Route::get('/verify/{user}', 'VerificationController')
+    ->name('auth.verify');
 
-Route::get('/{any}', 'IndexController')->where('any', '.*')->name('index');
+Route::match(['get', 'post'], '/password/forgot', 'PasswordResetController@forgot')
+    ->name('password.forgot');
+
+Route::get('/password/reset/{token}', 'PasswordResetController@reset')
+    ->name('password.reset');
+
+Route::get('/{any}', 'IndexController')
+    ->where('any', '.*')
+    ->name('index');
