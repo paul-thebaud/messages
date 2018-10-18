@@ -39,7 +39,7 @@ class FriendRequestCreated extends Notification implements ShouldQueue
     /**
      * {@inheritdoc}
      */
-    public function via(Notifiable $notifiable)
+    public function via($notifiable)
     {
         return ['broadcast', 'database'];
     }
@@ -47,7 +47,7 @@ class FriendRequestCreated extends Notification implements ShouldQueue
     /**
      * {@inheritdoc}
      */
-    public function toArray(Notifiable $notifiable)
+    public function toArray($notifiable)
     {
         return [
             'requester_id' => $this->requester->id,

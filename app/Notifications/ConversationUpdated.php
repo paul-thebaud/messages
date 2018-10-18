@@ -32,7 +32,7 @@ class ConversationUpdated extends Notification implements ShouldQueue
     /**
      * {@inheritdoc}
      */
-    public function via(Notifiable $notifiable)
+    public function via($notifiable)
     {
         return ['broadcast', 'database'];
     }
@@ -40,7 +40,7 @@ class ConversationUpdated extends Notification implements ShouldQueue
     /**
      * {@inheritdoc}
      */
-    public function toArray(Notifiable $notifiable)
+    public function toArray($notifiable)
     {
         return [
             'id' => $this->conversation->id,
