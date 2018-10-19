@@ -8,6 +8,6 @@ class DummyTest extends TestCase
 {
     public function testDummy(): void
     {
-        assertTrue(true);
+        $this->assertTrue(true);
     }
 }

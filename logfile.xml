@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <testsuites>
-  <testsuite name="tests/Feature" tests="1" assertions="4" errors="0" failures="0" skipped="0" time="1.070354">
-    <testsuite name="Tests\Feature\Http\Controllers\Api\AuthControllerTest" file="/Users/paulthebaud/Documents/Personnel/Master 2 Informatique/Applications N-Tiers/messages/tests/Feature/Http/Controllers/Api/AuthControllerTest.php" tests="1" assertions="4" errors="0" failures="0" skipped="0" time="1.070354">
-      <testcase name="testRegisterWillValidateRequestParams" class="Tests\Feature\Http\Controllers\Api\AuthControllerTest" classname="Tests.Feature.Http.Controllers.Api.AuthControllerTest" file="/Users/paulthebaud/Documents/Personnel/Master 2 Informatique/Applications N-Tiers/messages/tests/Feature/Http/Controllers/Api/AuthControllerTest.php" line="20" assertions="4" time="1.070354"/>
+  <testsuite name="" tests="1" assertions="1" errors="0" failures="0" skipped="0" time="0.309093">
+    <testsuite name="Unit" tests="1" assertions="1" errors="0" failures="0" skipped="0" time="0.309093">
+      <testsuite name="Tests\Unit\DummyTest" file="/Users/paulthebaud/Documents/Personnel/Master 2 Informatique/Applications N-Tiers/messages/tests/Unit/DummyTest.php" tests="1" assertions="1" errors="0" failures="0" skipped="0" time="0.309093">
+        <testcase name="testDummy" class="Tests\Unit\DummyTest" classname="Tests.Unit.DummyTest" file="/Users/paulthebaud/Documents/Personnel/Master 2 Informatique/Applications N-Tiers/messages/tests/Unit/DummyTest.php" line="9" assertions="1" time="0.309093"/>
+      </testsuite>
     </testsuite>
   </testsuite>
 </testsuites>
