@@ -7,11 +7,14 @@
 import "./bootstrap";
 
 import Vue from 'vue';
+import Vuex from 'vuex';
+import 'es6-promise/auto';
 import VueRouter from 'vue-router';
 import BootstrapVue from 'bootstrap-vue';
 
 import ExampleComponent from "./components/ExampleComponent.vue";
 import ForgotComponent from "./components/auth/password/ForgotComponent.vue";
+
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -20,6 +23,7 @@ import ForgotComponent from "./components/auth/password/ForgotComponent.vue";
  */
 Vue.use(VueRouter);
 Vue.use(BootstrapVue);
+Vue.use(Vuex);
 
 Vue.component('example-component', ExampleComponent);
 Vue.component('password-forgot-component', ForgotComponent);

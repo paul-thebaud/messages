@@ -30,6 +30,8 @@
     },
     "dependencies": {
         "bootstrap-vue": "^2.0.0-rc.11",
-        "vue-test-utils": "^1.0.0-beta.11"
+        "es6-promise": "^4.2.5",
+        "vue-test-utils": "^1.0.0-beta.11",
+        "vuex": "^3.0.1"
     }
 }
