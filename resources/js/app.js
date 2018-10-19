@@ -12,8 +12,7 @@ import 'es6-promise/auto';
 import VueRouter from 'vue-router';
 import BootstrapVue from 'bootstrap-vue';
 
-import ExampleComponent from "./components/ExampleComponent.vue";
-import ForgotComponent from "./components/auth/password/ForgotComponent.vue";
+import routes from './routes';
 
 
 /**
@@ -24,16 +23,6 @@ import ForgotComponent from "./components/auth/password/ForgotComponent.vue";
 Vue.use(VueRouter);
 Vue.use(BootstrapVue);
 Vue.use(Vuex);
-
-Vue.component('example-component', ExampleComponent);
-Vue.component('password-forgot-component', ForgotComponent);
-const Hello = {template: '<div>foo</div>'};
-const Join  = {template: '<div>bar</div>'};
-
-const routes = [
-    {path: '/', component: Hello},
-    {path: '/join', component: Join}
-];
 
 const router = new VueRouter(
     {
