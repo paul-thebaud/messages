@@ -43,7 +43,7 @@ class AuthController extends AbstractController
         $this->validate($request, [
             'username' => 'required|string|min:4|max:60|unique:users',
             'email'    => 'required|email|unique:users',
-            'password' => 'required|string|min:6',
+            'password' => 'required|string|min:6|confirmed',
         ]);
 
         /** @var User $user */

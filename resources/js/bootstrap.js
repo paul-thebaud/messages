@@ -1,12 +1,9 @@
 
 import lodash from "lodash";
-import popper from "popper.js";
 import jquery from "jquery";
-import bootstrap from "bootstrap";
 import axios from "axios";
 
 window._ = lodash;
-window.Popper = popper.default;
 
 /**
  * We'll load jQuery and the Bootstrap jQuery plugin which provides support

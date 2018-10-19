@@ -34,6 +34,7 @@
                 <a href="https://github.com/laravel/laravel">GitHub</a>
             </div>
             <example-component></example-component>
+            <password-forgot-component></password-forgot-component>
         </div>
     </div>
 @endsection

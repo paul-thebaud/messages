@@ -38,4 +38,6 @@ Route::namespace('Api')->group(function () {
     Route::post('/auth/register', 'AuthController@register')->name('auth.register');
     Route::get('/auth/redirect', 'AuthController@redirect')->name('auth.redirect');
     Route::post('/auth/token', 'AuthController@authenticate')->name('auth.token.create');
+    Route::post('/auth/password/forgot', 'PasswordController@forgot')->name('auth.password.forgot');
+    Route::post('/auth/password/reset', 'PasswordController@reset')->name('auth.password.reset');
 });
