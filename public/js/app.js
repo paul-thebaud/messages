@@ -9861,12 +9861,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__bootstrap__ = __webpack_require__(75);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vue__ = __webpack_require__(98);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_vue_router__ = __webpack_require__(101);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_bootstrap_vue__ = __webpack_require__(102);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__components_ExampleComponent_vue__ = __webpack_require__(216);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__components_ExampleComponent_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4__components_ExampleComponent_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__components_auth_password_ForgotComponent_vue__ = __webpack_require__(219);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__components_auth_password_ForgotComponent_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5__components_auth_password_ForgotComponent_vue__);
+throw new Error("Cannot find module \"vuex\"");
+throw new Error("Cannot find module \"es6-promise/auto\"");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_vue_router__ = __webpack_require__(101);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_bootstrap_vue__ = __webpack_require__(102);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__components_ExampleComponent_vue__ = __webpack_require__(216);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__components_ExampleComponent_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6__components_ExampleComponent_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__components_auth_password_ForgotComponent_vue__ = __webpack_require__(219);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__components_auth_password_ForgotComponent_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7__components_auth_password_ForgotComponent_vue__);
 /**
  * First we will load all of this project's JavaScript dependencies which
  * includes Vue and other libraries. It is a great starting point when
@@ -9882,22 +9884,25 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 
+
+
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
-__WEBPACK_IMPORTED_MODULE_1_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_2_vue_router__["a" /* default */]);
-__WEBPACK_IMPORTED_MODULE_1_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_3_bootstrap_vue__["a" /* default */]);
+__WEBPACK_IMPORTED_MODULE_1_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_4_vue_router__["a" /* default */]);
+__WEBPACK_IMPORTED_MODULE_1_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_5_bootstrap_vue__["a" /* default */]);
+__WEBPACK_IMPORTED_MODULE_1_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_2_vuex___default.a);
 
-__WEBPACK_IMPORTED_MODULE_1_vue___default.a.component('example-component', __WEBPACK_IMPORTED_MODULE_4__components_ExampleComponent_vue___default.a);
-__WEBPACK_IMPORTED_MODULE_1_vue___default.a.component('password-forgot-component', __WEBPACK_IMPORTED_MODULE_5__components_auth_password_ForgotComponent_vue___default.a);
+__WEBPACK_IMPORTED_MODULE_1_vue___default.a.component('example-component', __WEBPACK_IMPORTED_MODULE_6__components_ExampleComponent_vue___default.a);
+__WEBPACK_IMPORTED_MODULE_1_vue___default.a.component('password-forgot-component', __WEBPACK_IMPORTED_MODULE_7__components_auth_password_ForgotComponent_vue___default.a);
 var Hello = { template: '<div>foo</div>' };
 var Join = { template: '<div>bar</div>' };
 
 var routes = [{ path: '/', component: Hello }, { path: '/join', component: Join }];
 
-var router = new __WEBPACK_IMPORTED_MODULE_2_vue_router__["a" /* default */]({
+var router = new __WEBPACK_IMPORTED_MODULE_4_vue_router__["a" /* default */]({
     mode: 'history',
     routes: routes
 });
@@ -63285,17 +63290,43 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
         return {
-            email: ''
+            loading: false,
+            form: {
+                email: ''
+            },
+            errors: {}
         };
     },
 
+    computed: {
+        emailState: function emailState() {
+            return Object.keys(this.errors).includes('email') ? false : null;
+        }
+    },
     methods: {
         onSubmit: function onSubmit() {
-            console.log(this.email);
+            var _this = this;
+
+            this.loading = true;
+            axios.post('/api/auth/password/forgot', this.form).then(function (response) {
+                console.log(response);
+                _this.form.email = '';
+                _this.errors = {};
+            }).catch(function (error) {
+                if (error.response.status === 422) {
+                    _this.errors = error.response.data.errors;
+                } else {
+                    console.log(error.response);
+                }
+            }).finally(function () {
+                return _this.loading = false;
+            });
         }
     }
 });
@@ -63311,7 +63342,6 @@ var render = function() {
   return _c(
     "b-form",
     {
-      attrs: { validated: "" },
       on: {
         submit: function($event) {
           $event.preventDefault()
@@ -63337,20 +63367,23 @@ var render = function() {
               id: "email",
               type: "email",
               placeholder: "jane.doe@example.com",
+              state: _vm.emailState,
               required: ""
             },
             model: {
-              value: _vm.email,
+              value: _vm.form.email,
               callback: function($$v) {
-                _vm.email = $$v
+                _vm.$set(_vm.form, "email", $$v)
               },
-              expression: "email"
+              expression: "form.email"
             }
           }),
           _vm._v(" "),
           _c("b-form-invalid-feedback", [
             _vm._v(
-              "\n            Please enter a valid email address.\n        "
+              "\n            " +
+                _vm._s(this.emailState === null || this.errors.email[0]) +
+                "\n        "
             )
           ])
         ],
@@ -63359,7 +63392,14 @@ var render = function() {
       _vm._v(" "),
       _c(
         "b-button",
-        { attrs: { type: "submit", variant: "primary", block: "" } },
+        {
+          attrs: {
+            type: "submit",
+            variant: "primary",
+            disabled: _vm.loading,
+            block: ""
+          }
+        },
         [_vm._v("\n        Send me a reset link\n    ")]
       )
     ],
