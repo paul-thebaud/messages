@@ -1,56 +1,50 @@
 <template>
-    <div class="row align-items-center justify-content-center h-100">
-        <div class="col-md-6">
-            <b-card title="Messages" class="shadow">
-                <b-form @submit.prevent="onSubmit">
-                    <p>
-                        Connect to your account and start typing...
-                    </p>
-                    <b-form-group label="Email address"
-                                  label-for="email">
-                        <b-form-input id="email"
-                                      type="email"
-                                      v-model="form.email"
-                                      placeholder="Enter your email"
-                                      :state="null"
-                                      required>
-                        </b-form-input>
-                        <b-form-invalid-feedback>
-                            Invalid credentials.
-                        </b-form-invalid-feedback>
-                    </b-form-group>
-                    <b-form-group label="Password"
-                                  label-for="password">
-                        <b-form-input id="password"
-                                      type="password"
-                                      v-model="form.password"
-                                      placeholder="Enter your password"
-                                      :state="null"
-                                      required>
-                        </b-form-input>
-                    </b-form-group>
-                    <b-button type="submit"
-                              variant="primary"
-                              :disabled="false"
-                              block>
-                        Login
-                    </b-button>
-                    <b-button-group class="mt-2 d-flex social-links">
-                        <b-button class="w-100" disabled>Login using</b-button>
-                        <b-button class="w-100 social-link__google">Google</b-button>
-                        <b-button class="w-100 social-link__fb">Facebook</b-button>
-                    </b-button-group>
-                    <div class="text-center mt-1">
-                        <router-link to="/register">
-                            <small>
-                                No account? Click here!
-                            </small>
-                        </router-link>
+    <b-container class="h-100">
+        <b-row class="align-items-center justify-content-center h-100">
+            <b-col md="6">
+                <b-card title="Messages" footer-tag="footer" class="shadow">
+                    <b-form @submit.prevent="onSubmit">
+                        <p>
+                            Connect to your account and start typing!
+                        </p>
+                        <b-form-group label="Email address" label-for="email">
+                            <b-form-input id="email" type="email" v-model="form.email"
+                                          placeholder="Enter your email" required>
+                            </b-form-input>
+                        </b-form-group>
+                        <b-form-group label="Password" label-for="password">
+                            <b-form-input id="password" type="password" v-model="form.password"
+                                          placeholder="Enter your password" required>
+                            </b-form-input>
+                        </b-form-group>
+                        <b-button type="submit" variant="primary" class="my-3" block>
+                            Login
+                        </b-button>
+                        <b-button-group class="mt-2 d-flex social-links">
+                            <b-button class="w-100" disabled>Login using</b-button>
+                            <b-button class="w-100 social-link__google">Google</b-button>
+                            <b-button class="w-100 social-link__fb">Facebook</b-button>
+                        </b-button-group>
+                    </b-form>
+                    <div slot="footer">
+                        <small>
+                            New on Messages?
+                            <router-link to="/register">
+                                Register now!
+                            </router-link>
+                        </small>
+                        <br>
+                        <small>
+                            Forgot your password?
+                            <router-link to="/password/forgot">
+                                Request a reset link.
+                            </router-link>
+                        </small>
                     </div>
-                </b-form>
-            </b-card>
-        </div>
-    </div>
+                </b-card>
+            </b-col>
+        </b-row>
+    </b-container>
 </template>
 
 <script>
