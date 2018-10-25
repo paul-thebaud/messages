@@ -15,18 +15,11 @@ use Illuminate\Support\Facades\Route;
 
 Route::namespace('Api')->group(function () {
     Route::middleware(['auth:api', 'verified'])->group(function () {
-        Route::delete('/auth/token', 'AuthController@unauthenticate')->name('auth.token.delete');
-
-        Route::apiResource('/users', 'UserController', [
-            'except' => ['store']
-        ]);
-        Route::apiResource('/users/{user}/notifications', 'NotificationController', [
-            'except' => ['store', 'show']
-        ]);
+        Route::apiResource('/tokens', 'TokenController', ['only' => ['index', 'destroy']]);
+        Route::apiResource('/users', 'UserController', ['except' => ['store']]);
+        Route::apiResource('/users/{user}/notifications', 'NotificationController', ['except' => ['store', 'show']]);
         Route::apiResource('/conversations', 'ConversationController');
-        Route::apiResource('/conversations/{conversation}/users', 'ConversationUserController', [
-            'except' => ['show']
-        ]);
+        Route::apiResource('/conversations/{conversation}/users', 'ConversationUserController', ['except' => ['show']]);
         Route::apiResource('/conversations/{conversation}/messages', 'MessageController', [
             'except' => ['show', 'update']
         ]);
@@ -34,10 +27,11 @@ Route::namespace('Api')->group(function () {
             'only' => ['store']
         ]);
     });
+    Route::post('/tokens', 'TokenController@store')->name('tokens.store');
+    Route::post('/users', 'UserController@store')->name('users.store');
 
-    Route::post('/auth/register', 'AuthController@register')->name('auth.register');
-    Route::get('/auth/redirect', 'AuthController@redirect')->name('auth.redirect');
-    Route::post('/auth/token', 'AuthController@authenticate')->name('auth.token.create');
-    Route::post('/auth/password/forgot', 'PasswordController@forgot')->name('auth.password.forgot');
-    Route::post('/auth/password/reset', 'PasswordController@reset')->name('auth.password.reset');
+    Route::get('/oauth/redirect', 'TokenController@redirect')->name('oauth.redirect');
+
+    Route::post('/password/forgot', 'PasswordController@forgot')->name('password.forgot');
+    Route::post('/password/reset', 'PasswordController@reset')->name('password.reset');
 });
