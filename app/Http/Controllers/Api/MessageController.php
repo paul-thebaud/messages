@@ -43,7 +43,7 @@ class MessageController extends AbstractController
      * @throws AuthorizationException If the user cannot perform this action.
      * @throws ValidationException If the request is invalid.
      */
-    public function create(Request $request, Conversation $conversation): JsonResponse
+    public function store(Request $request, Conversation $conversation): JsonResponse
     {
         $this->authorize('create', [Message::class, $conversation]);
 

@@ -43,7 +43,7 @@ class UserFriendController extends AbstractController
      *
      * @throws AuthorizationException If the user cannot perform this action.
      */
-    public function create(User $requester, User $recipient): JsonResponse
+    public function store(User $requester, User $recipient): JsonResponse
     {
         $this->authorize('update', $requester);
 
