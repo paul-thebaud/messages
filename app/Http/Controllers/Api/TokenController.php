@@ -4,58 +4,29 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\AbstractController;
 use App\Models\User;
-use App\Notifications\VerifyEmail;
 use Exception;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
+use Laravel\Passport\Token;
 use Laravel\Socialite\AbstractUser;
 use Laravel\Socialite\Facades\Socialite;
 use Laravel\Socialite\Two\AbstractProvider;
-use Lcobucci\JWT\Parser;
 
 /**
- * Class AuthController.
+ * Class TokenController.
  *
  * @author  Killian Hascoët <killianh@live.fr>
  * @author  Paul Thébaud <paul.thebaud29@gmail.com>
  */
-class AuthController extends AbstractController
+class TokenController extends AbstractController
 {
     /**
      * @var string[] OAUTH_DRIVERS All available OAuth2 drivers.
      */
     public const OAUTH_DRIVERS = ['google'];
-
-    /**
-     * Register a new user.
-     *
-     * @param Request $request The request.
-     *
-     * @return JsonResponse The response.
-     *
-     * @throws ValidationException If the request is invalid.
-     */
-    public function register(Request $request): JsonResponse
-    {
-        $this->validate($request, [
-            'username' => 'required|string|min:4|max:60|unique:users',
-            'email'    => 'required|email|unique:users',
-            'password' => 'required|string|min:6|confirmed',
-        ]);
-
-        /** @var User $user */
-        $user = User::query()->create([
-            'username' => $request->input('username'),
-            'email'    => $request->input('email'),
-            'password' => Hash::make($request->input('password')),
-        ]);
-        $user->notify(new VerifyEmail($user));
-
-        return response()->json('', JsonResponse::HTTP_CREATED);
-    }
 
     /**
      * Get the redirect URL for a OAuth2 driver.
@@ -80,7 +51,19 @@ class AuthController extends AbstractController
     }
 
     /**
-     * Authenticate the user with the given driver.
+     * Fetch the conversations.
+     *
+     * @param Request $request The request.
+     *
+     * @return JsonResponse The response.
+     */
+    public function index(Request $request): JsonResponse
+    {
+        return response()->json($request->user()->tokens);
+    }
+
+    /**
+     * Create a token using the given driver.
      *
      * @param Request $request The request.
      *
@@ -88,7 +71,7 @@ class AuthController extends AbstractController
      *
      * @throws ValidationException If the request is invalid.
      */
-    public function authenticate(Request $request): JsonResponse
+    public function store(Request $request): JsonResponse
     {
         $this->validate($request, [
             'driver'    => 'required|in:password,%s' . implode(',', self::OAUTH_DRIVERS),
@@ -105,17 +88,19 @@ class AuthController extends AbstractController
             // Attempt an authentication with credentials.
             if (false === Auth::attempt($request->only('email', 'password'))) {
                 return response()->json([
-                    'error'   => 'invalid_grant',
-                    'message' => 'The user credentials were incorrect.'
-                ], JsonResponse::HTTP_UNAUTHORIZED);
+                    'errors' => [
+                        'email' => ['The user credentials were incorrect.']
+                    ],
+                ], JsonResponse::HTTP_UNPROCESSABLE_ENTITY);
             }
             $user = Auth::user();
             // Check that account is validated.
             if (null === $user->email_verified_at) {
                 return response()->json([
-                    'error'   => 'not_validated_account',
-                    'message' => 'Account not validated.'
-                ], JsonResponse::HTTP_FORBIDDEN);
+                    'errors' => [
+                        'email' => ['The email address must be validated.']
+                    ],
+                ], JsonResponse::HTTP_UNPROCESSABLE_ENTITY);
             }
         } else {
             // For OAuth2 drivers.
@@ -137,32 +122,42 @@ class AuthController extends AbstractController
                 }
             } catch (Exception $exception) {
                 return response()->json([
-                    'error'   => 'invalid_grant',
-                    'message' => 'The authentication code or something else is invalid.'
-                ], JsonResponse::HTTP_UNAUTHORIZED);
+                    'errors' => [
+                        'email' => ['The authentication code is invalid.']
+                    ],
+                ], JsonResponse::HTTP_UNPROCESSABLE_ENTITY);
             }
         }
 
+        // Create the token and save the used driver and
+        // current user agent in the token's name.
+        $token = $user->createToken(
+            $request->input('name', sprintf(
+                "Token generated with %s grant\nUser agent: %s",
+                $request->input('driver'),
+                $request->userAgent()
+            ))
+        );
         return response()->json([
-            'access_token' => $user->createToken(
-                $request->input('name', sprintf('[%s-grant] Auto-generated API Key', $request->input('driver')))
-            )->accessToken
-        ]);
+            'access_token' => $token->accessToken,
+            'token'        => $token->token,
+        ], JsonResponse::HTTP_CREATED);
     }
 
     /**
-     * Unauthenticate the user by destroying his token.
+     * Delete the given token.
      *
-     * @param Request $request The request.
+     * @param Token $token The token to delete.
      *
      * @return JsonResponse The response.
+     *
+     * @throws AuthorizationException If the user cannot perform this action.
      */
-    public function unauthenticate(Request $request): JsonResponse
+    public function destroy(Token $token): JsonResponse
     {
-        // Destroy the token.
-        $accessToken       = $request->bearerToken();
-        $parsedAccessToken = (new Parser())->parse($accessToken)->getHeader('jti');
-        $request->user()->tokens->find($parsedAccessToken)->revoke();
+        $this->authorize('delete', $token);
+
+        $token->delete();
 
         return response()->json('', JsonResponse::HTTP_NO_CONTENT);
     }

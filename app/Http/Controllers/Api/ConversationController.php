@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\AbstractController;
 use App\Models\Conversation;
-use App\Models\ConversationUser;
+use App\Models\Pivots\ConversationUser;
 use App\Notifications\ConversationDeleted;
 use App\Notifications\ConversationUpdated;
 use Exception;
@@ -55,7 +55,7 @@ class ConversationController extends AbstractController
      *
      * @throws ValidationException If the request is invalid.
      */
-    public function create(Request $request): JsonResponse
+    public function store(Request $request): JsonResponse
     {
         $this->validate($request, [
             'type' => 'required|string|in:' . implode(',', Conversation::TYPES),

@@ -24,7 +24,7 @@ class MessageUserController extends AbstractController
      *
      * @throws AuthorizationException If the user cannot perform this action.
      */
-    public function create(Request $request, Conversation $conversation, Message $message): JsonResponse
+    public function store(Request $request, Conversation $conversation, Message $message): JsonResponse
     {
         $this->authorize('read', $message);
 
