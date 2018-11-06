@@ -1,13 +1,61 @@
-
 // Fonts
 @import url('https://fonts.googleapis.com/css?family=Nunito');
-
 // Variables
-@import 'variables';
+$body-bg: #F8FAFC;
+$border-color: #E9ECEF;
+$font-family-sans-serif: "Nunito", sans-serif;
+$font-size-base: 0.9rem;
+$line-height-base: 1.6;
+$blue: #3490DC;
+$indigo: #6574CD;
+$purple: #9561E2;
+$pink: #F66D9B;
+$red: #E3342F;
+$orange: #F6993F;
+$yellow: #FFED4A;
+$green: #38C172;
+$teal: #4DC0B5;
+$cyan: #6CB2EB;
 
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
 
 html, body {
   height: 100%;
+}
+
+#app {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+
+.btn {
+  @extend .shadow-sm;
+  font-weight: bold;
+  border: none;
+}
+
+.card, .dropdown-menu {
+  @extend .shadow;
+  border: none;
+}
+
+.alert {
+  @extend .shadow-sm;
+  border: none;
+}
+
+.form-control {
+  @extend .shadow-sm;
+}
+
+.navbar {
+  border-bottom: 1px solid $border-color;
+}
+
+.invalid-feedback {
+  font-style: italic;
 }

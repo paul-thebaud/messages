@@ -45,7 +45,7 @@ class ForgotPassword extends Notification implements ShouldQueue
         return (new MailMessage)
             ->greeting('Password reset request on **Messages** application')
             ->line('To reset your password, just click on the link below and fill the form with your new password.')
-            ->action('Reset my password', url()->route('password.reset', ['token' => $this->passwordReset->token]))
+            ->action('Reset my password', url()->to('/password/reset', ['token' => $this->passwordReset->token]))
             ->line('If you do not request this password reset, please ignore this mail.')
             ->line('Thank you for using our application!');
     }

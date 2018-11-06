@@ -27,7 +27,7 @@ class ConversationController extends AbstractController
     {
         /** @todo Pagination? */
         /** @todo Search? */
-        return response()->json($request->user()->conversations);
+        return response()->json($request->user()->conversations()->orderByDesc('updated_at')->get());
     }
 
     /**

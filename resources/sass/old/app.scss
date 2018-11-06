@@ -1,0 +1,29 @@
+// Fonts
+@import url('https://fonts.googleapis.com/css?family=Nunito');
+// Variables
+@import 'old/variables';
+// Bootstrap
+@import '../../../node_modules/bootstrap/scss/bootstrap';
+
+html, body {
+  height: 100%;
+}
+
+.vue-notification {
+  @include border-radius($card-border-radius);
+  border: $card-border-width solid $card-border-color;
+  padding: 5px;
+  margin: 5px !important;
+  font-size: 0.9rem !important;
+  background: $blue !important;
+  border-left: none !important;
+  &.warn {
+    background: $orange;
+  }
+  &.error {
+    background: $red;
+  }
+  &.success {
+    background: $green;
+  }
+}
