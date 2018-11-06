@@ -26,7 +26,7 @@ class TokenController extends AbstractController
     /**
      * @var string[] OAUTH_DRIVERS All available OAuth2 drivers.
      */
-    public const OAUTH_DRIVERS = ['google'];
+    public const OAUTH_DRIVERS = ['google', 'facebook'];
 
     /**
      * Get the redirect URL for a OAuth2 driver.
@@ -40,7 +40,7 @@ class TokenController extends AbstractController
     public function redirect(Request $request): JsonResponse
     {
         $this->validate($request, [
-            'driver' => 'required|in:%s' . implode(',', self::OAUTH_DRIVERS),
+            'driver' => 'required|in:' . implode(',', self::OAUTH_DRIVERS),
         ]);
         return response()->json([
             'url' => Socialite::with($request->input('driver'))
@@ -74,9 +74,8 @@ class TokenController extends AbstractController
     public function store(Request $request): JsonResponse
     {
         $this->validate($request, [
-            'driver'    => 'required|in:password,%s' . implode(',', self::OAUTH_DRIVERS),
+            'driver'    => 'required|in:password,' . implode(',', self::OAUTH_DRIVERS),
             'auth_code' => 'required_unless:driver,password|string',
-            'username'  => 'required_unless:driver,password|string|min:4|max:60',
             'email'     => 'required_if:driver,password',
             'password'  => 'required_if:driver,password',
         ]);
@@ -114,10 +113,10 @@ class TokenController extends AbstractController
                 // Find or create the user.
                 $user = User::query()->firstOrCreate(
                     ['email' => $providerUser->getEmail()],
-                    ['username' => $request->input('username', sprintf('user_', str_random(10)))]
+                    ['username' => explode('@', $providerUser->getEmail())[0]]
                 );
                 // Validate the user if it is not.
-                if ($user->hasVerifiedEmail()) {
+                if (!$user->hasVerifiedEmail()) {
                     $user->markEmailAsVerified();
                 }
             } catch (Exception $exception) {

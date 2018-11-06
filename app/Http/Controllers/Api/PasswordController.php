@@ -58,7 +58,14 @@ class PasswordController extends AbstractController
         /** @var PasswordReset $passwordReset */
         $passwordReset = PasswordReset::query()
             ->where('token', $request->input('token'))
-            ->firstOrFail();
+            ->where('expire_at', '>', now()->toDateTimeString())
+            ->first();
+
+        if (null === $passwordReset) {
+            throw ValidationException::withMessages([
+                'token' => ['Invalid or expired token given'],
+            ]);
+        }
 
         $user           = $passwordReset->user;
         $user->password = Hash::make($request->input('password'));

@@ -1,6 +1,6 @@
 import {mount} from 'vue-test-utils';
 import expect from 'expect';
-import Example from '../../resources/js/components/ExampleComponent.vue';
+import Example from '../../resources/js/old/components/ExampleComponent.vue';
 
 describe('Example', () => {
     let component;

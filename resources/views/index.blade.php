@@ -5,9 +5,7 @@
 @endsection
 
 @section('content')
-    <div id="app" class="h-100">
-        <router-view></router-view>
-    </div>
+    <div id="app" class="h-100"></div>
 @endsection
 
 @push('scripts')
