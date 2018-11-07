@@ -4,9 +4,11 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\AbstractController;
 use App\Models\User;
+use App\Notifications\VerifyEmail;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
 
 class UserController extends AbstractController
@@ -24,6 +26,34 @@ class UserController extends AbstractController
     }
 
     /**
+     * Create a user.
+     *
+     * @param Request $request The request.
+     *
+     * @return JsonResponse The response.
+     *
+     * @throws ValidationException If the request is invalid.
+     */
+    public function store(Request $request): JsonResponse
+    {
+        $this->validate($request, [
+            'username' => 'required|string|min:4|max:60|unique:users',
+            'email'    => 'required|email|unique:users',
+            'password' => 'required|string|min:6|confirmed',
+        ]);
+
+        /** @var User $user */
+        $user = User::query()->create([
+            'username' => $request->input('username'),
+            'email'    => $request->input('email'),
+            'password' => Hash::make($request->input('password')),
+        ]);
+        $user->notify(new VerifyEmail($user));
+
+        return response()->json('', JsonResponse::HTTP_CREATED);
+    }
+
+    /**
      * Fetch the user.
      *
      * @param User $user The user to show.
@@ -37,22 +67,6 @@ class UserController extends AbstractController
         $this->authorize('show', $user);
 
         return response()->json($user);
-    }
-
-    /**
-     * Fetch the user's friends.
-     *
-     * @param User $user The user to fetch friends from.
-     *
-     * @return JsonResponse The response.
-     *
-     * @throws AuthorizationException If the user cannot perform this action.
-     */
-    public function friends(User $user): JsonResponse
-    {
-        $this->authorize('show', $user);
-
-        return response()->json($user->friends());
     }
 
     /**
@@ -88,9 +102,11 @@ class UserController extends AbstractController
      *
      * @throws AuthorizationException If the user cannot perform this action.
      */
-    public function delete(User $user): JsonResponse
+    public function destroy(User $user): JsonResponse
     {
         $this->authorize('delete', $user);
+
+        $user->delete();
 
         return response()->json('', JsonResponse::HTTP_NO_CONTENT);
     }

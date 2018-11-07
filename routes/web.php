@@ -13,6 +13,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/verify/{user}', 'VerificationController')->name('verify');
+Route::get('/verify/{user}', 'VerificationController')
+    ->name('auth.verify');
 
-Route::get('/{any}', 'IndexController')->where('any', '.*');
+Route::get('/{any}', 'IndexController')
+    ->where('any', '.*')
+    ->name('index');

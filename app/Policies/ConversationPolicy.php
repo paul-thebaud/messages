@@ -36,4 +36,15 @@ class ConversationPolicy
             ->wherePivot('role', ConversationUser::ROLE_ADMIN)
             ->exists();
     }
+
+    public function detach(User $user, Conversation $conversation, User $userToDetach): bool
+    {
+        if ($user->id === $userToDetach->id) {
+            return true;
+        }
+        return $conversation->users()
+            ->where('id', $user->id)
+            ->wherePivot('role', ConversationUser::ROLE_ADMIN)
+            ->exists();
+    }
 }
