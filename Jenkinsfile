@@ -54,11 +54,11 @@ pipeline {
         script{
             if(env.BRANCH_NAME == "release"){
                 stage('release'){
-                    sh 'mv .env.release .env'
+                    sh './envCreator.sh -n "Messages Release" -d true -u https://dev.messages.killian.ovh/ -a $JENKINS_MESSAGES_OVH_DATABASE_HOST -b $JENKINS_MESSAGES_OVH_DATABASE_PORT -c $JENKINS_MESSAGES_OVH_DATABASE_RELEASE_NAME -e $JENKINS_MESSAGES_OVH_DATABASE_USERNAME -f $JENKINS_MESSAGES_OVH_DATABASE_PASSWORD -g $JENKINS_MESSAGES_OVH_MAIL_HOST -i $JENKINS_MESSAGES_OVH_MAIL_PORT -j $JENKINS_MESSAGES_OVH_MAIL_USERNAME -k $JENKINS_MESSAGES_OVH_MAIL_PASSWORD -l $JENKINS_MESSAGES_OVH_MAIL_ENCRYPTION'
                 }
             }else if(env.BRANCH_NAME == "master"){
                 stage('master'){
-                    sh 'mv .env.master .env'
+                    sh './envCreator.sh -n "Messages" -d true -u https://dev.messages.killian.ovh/ -a $JENKINS_MESSAGES_OVH_DATABASE_HOST -b $JENKINS_MESSAGES_OVH_DATABASE_PORT -c $JENKINS_MESSAGES_OVH_DATABASE_MASTER_NAME -e $JENKINS_MESSAGES_OVH_DATABASE_USERNAME -f $JENKINS_MESSAGES_OVH_DATABASE_PASSWORD -g $JENKINS_MESSAGES_OVH_MAIL_HOST -i $JENKINS_MESSAGES_OVH_MAIL_PORT -j $JENKINS_MESSAGES_OVH_MAIL_USERNAME -k $JENKINS_MESSAGES_OVH_MAIL_PASSWORD -l $JENKINS_MESSAGES_OVH_MAIL_ENCRYPTION'
                 }
             } else {
                 stage('dev'){
