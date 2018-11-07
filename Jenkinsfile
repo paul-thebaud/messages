@@ -158,7 +158,7 @@ pipeline {
         steps {
           script {
             if(env.BRANCH_NAME == "release" || env.BRANCH_NAME == "dev" || env.BRANCH_NAME == "master"){
-              stage('stop'){
+              stage('rm'){
                 sh "sudo docker rm messages${BRANCH_NAME} || true"
               }
             }
@@ -191,16 +191,19 @@ pipeline {
             script{
                 if(env.BRANCH_NAME == "dev"){
                     stage('dev'){
+                        sh "yarn dev"
                         sh "scp -r ./public root@172.17.0.1:/var/www/messages/${BRANCH_NAME}"
                     }
                 }
                 if(env.BRANCH_NAME == "release"){
                     stage('release'){
+                        sh "yarn production"
                         sh "scp -r ./public root@172.17.0.1:/var/www/messages/${BRANCH_NAME}"
                     }
                 }
                 if(env.BRANCH_NAME == "master"){
                     stage('master'){
+                        sh "yarn production"
                         sh "scp -r ./public root@172.17.0.1:/var/www/messages/${BRANCH_NAME}"
                     }
                 }
@@ -211,7 +214,7 @@ pipeline {
         steps {
             script{
                 if(env.BRANCH_NAME == "release" || env.BRANCH_NAME == "dev" || env.BRANCH_NAME == "master"){
-                    stage('push'){
+                    stage('launch'){
                       sh "sudo docker exec messages${BRANCH_NAME} nohup php artisan queue:work --tries=3 &"
                     }
                 }
