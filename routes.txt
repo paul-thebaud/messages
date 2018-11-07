@@ -1,0 +1,30 @@
++--------+-----------+--------------------------------------------------------------+-----------------------+-------------------------------------------------------------+-----------------------+
+| Domain | Method    | URI                                                          | Name                  | Action                                                      | Middleware            |
++--------+-----------+--------------------------------------------------------------+-----------------------+-------------------------------------------------------------+-----------------------+
+|        | GET|HEAD  | api/v1/auth/redirect                                         | auth.redirect         | App\Http\Controllers\Api\AuthController@redirect            | api                   |
+|        | POST      | api/v1/auth/register                                         | auth.register         | App\Http\Controllers\Api\AuthController@register            | api                   |
+|        | DELETE    | api/v1/auth/token                                            | auth.token.delete     | App\Http\Controllers\Api\AuthController@unauthenticate      | api,auth:api,verified |
+|        | POST      | api/v1/auth/token                                            | auth.token.create     | App\Http\Controllers\Api\AuthController@authenticate        | api                   |
+|        | GET|HEAD  | api/v1/conversations                                         | conversations.index   | App\Http\Controllers\Api\ConversationController@index       | api,auth:api,verified |
+|        | POST      | api/v1/conversations                                         | conversations.store   | App\Http\Controllers\Api\ConversationController@store       | api,auth:api,verified |
+|        | GET|HEAD  | api/v1/conversations/{conversation}                          | conversations.show    | App\Http\Controllers\Api\ConversationController@show        | api,auth:api,verified |
+|        | PUT|PATCH | api/v1/conversations/{conversation}                          | conversations.update  | App\Http\Controllers\Api\ConversationController@update      | api,auth:api,verified |
+|        | DELETE    | api/v1/conversations/{conversation}                          | conversations.destroy | App\Http\Controllers\Api\ConversationController@destroy     | api,auth:api,verified |
+|        | GET|HEAD  | api/v1/conversations/{conversation}/messages                 | messages.index        | App\Http\Controllers\Api\MessageController@index            | api,auth:api,verified |
+|        | POST      | api/v1/conversations/{conversation}/messages                 | messages.store        | App\Http\Controllers\Api\MessageController@store            | api,auth:api,verified |
+|        | DELETE    | api/v1/conversations/{conversation}/messages/{message}       | messages.destroy      | App\Http\Controllers\Api\MessageController@destroy          | api,auth:api,verified |
+|        | POST      | api/v1/conversations/{conversation}/messages/{message}/users | users.store           | App\Http\Controllers\Api\MessageUserController@store        | api,auth:api,verified |
+|        | GET|HEAD  | api/v1/conversations/{conversation}/users                    | users.index           | App\Http\Controllers\Api\ConversationUserController@index   | api,auth:api,verified |
+|        | POST      | api/v1/conversations/{conversation}/users                    | users.store           | App\Http\Controllers\Api\ConversationUserController@store   | api,auth:api,verified |
+|        | PUT|PATCH | api/v1/conversations/{conversation}/users/{user}             | users.update          | App\Http\Controllers\Api\ConversationUserController@update  | api,auth:api,verified |
+|        | DELETE    | api/v1/conversations/{conversation}/users/{user}             | users.destroy         | App\Http\Controllers\Api\ConversationUserController@destroy | api,auth:api,verified |
+|        | GET|HEAD  | api/v1/users                                                 | users.index           | App\Http\Controllers\Api\UserController@index               | api,auth:api,verified |
+|        | DELETE    | api/v1/users/{user}                                          | users.destroy         | App\Http\Controllers\Api\UserController@destroy             | api,auth:api,verified |
+|        | PUT|PATCH | api/v1/users/{user}                                          | users.update          | App\Http\Controllers\Api\UserController@update              | api,auth:api,verified |
+|        | GET|HEAD  | api/v1/users/{user}                                          | users.show            | App\Http\Controllers\Api\UserController@show                | api,auth:api,verified |
+|        | GET|HEAD  | api/v1/users/{user}/notifications                            | notifications.index   | App\Http\Controllers\Api\NotificationController@index       | api,auth:api,verified |
+|        | DELETE    | api/v1/users/{user}/notifications/{notification}             | notifications.destroy | App\Http\Controllers\Api\NotificationController@destroy     | api,auth:api,verified |
+|        | PUT|PATCH | api/v1/users/{user}/notifications/{notification}             | notifications.update  | App\Http\Controllers\Api\NotificationController@update      | api,auth:api,verified |
+|        | GET|HEAD  | verify/{user}                                                | auth.verify           | App\Http\Controllers\VerificationController                 | web                   |
+|        | GET|HEAD  | {any}                                                        | index                 | App\Http\Controllers\IndexController                        | web                   |
++--------+-----------+--------------------------------------------------------------+-----------------------+-------------------------------------------------------------+-----------------------+

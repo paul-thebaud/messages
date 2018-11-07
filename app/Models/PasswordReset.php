@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
-use App\Models\Concerns\UuidModel;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
@@ -17,8 +17,28 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @author  Killian Hascoët <killianh@live.fr>
  * @author  Paul Thébaud <paul.thebaud29@gmail.com>
  */
-class PasswordReset extends UuidModel
+class PasswordReset extends Model
 {
+    /**
+     * {@inheritdoc}
+     */
+    public $incrementing = false;
+
+    /**
+     * {@inheritdoc}
+     */
+    public $timestamps = false;
+
+    /**
+     * {@inheritdoc}
+     */
+    protected $keyType = 'string';
+
+    /**
+     * {@inheritdoc}
+     */
+    protected $primaryKey = 'user_id';
+
     /**
      * {@inheritdoc}
      */
@@ -29,13 +49,14 @@ class PasswordReset extends UuidModel
     /**
      * {@inheritdoc}
      *
-     * Generate token before saving.
+     * Generate token and expiration, and remove previous request before saving.
      */
     public static function boot()
     {
         parent::boot();
 
         self::creating(function (PasswordReset $passwordReset) {
+            PasswordReset::query()->where('user_id', $passwordReset->user_id)->delete();
             $passwordReset->token     = str_random(100);
             $passwordReset->expire_at = now()->addMinutes(15);
         });
