@@ -36,6 +36,20 @@ pipeline {
       }
     }
     stage('Set env') {
+      environment {
+        JENKINS_MESSAGES_OVH_DATABASE_HOST  = credentials('jenkins-messages-ovh-database-host')
+        JENKINS_MESSAGES_OVH_DATABASE_PORT  = credentials('jenkins-messages-ovh-database-port')
+        JENKINS_MESSAGES_OVH_DATABASE_DEV_NAME  = credentials('jenkins-messages-ovh-database-dev-name')
+        JENKINS_MESSAGES_OVH_DATABASE_RELEASE_NAME  = credentials('jenkins-messages-ovh-database-release-name')
+        JENKINS_MESSAGES_OVH_DATABASE_MASTER_NAME  = credentials('jenkins-messages-ovh-database-master-name')
+        JENKINS_MESSAGES_OVH_DATABASE_USERNAME  = credentials('jenkins-messages-ovh-database-username')
+        JENKINS_MESSAGES_OVH_DATABASE_PASSWORD  = credentials('jenkins-messages-ovh-database-password')
+        JENKINS_MESSAGES_OVH_MAIL_HOST  = credentials('jenkins-messages-ovh-mail-host')
+        JENKINS_MESSAGES_OVH_MAIL_PORT  = credentials('jenkins-messages-ovh-mail-port')
+        JENKINS_MESSAGES_OVH_MAIL_USERNAME  = credentials('jenkins-messages-ovh-mail-username')
+        JENKINS_MESSAGES_OVH_MAIL_PASSWORD  = credentials('jenkins-messages-ovh-mail-password')
+        JENKINS_MESSAGES_OVH_MAIL_ENCRYPTION  = credentials('jenkins-messages-ovh-mail-encryption')
+      }
       steps {
         script{
             if(env.BRANCH_NAME == "release"){
@@ -48,7 +62,7 @@ pipeline {
                 }
             } else {
                 stage('dev'){
-                    sh './envCreator.sh -n "Messages Dev" -d true -u https://dev.messages.killian.ovh/ -a mysql.killian.ovh -b 32768 -c devmessages -e root -f A9BA19F564 -g ssl0.ovh.net -i 587 -j messages@killian.ovh -k A9BA19F564 -l tls'
+                    sh './envCreator.sh -n "Messages Dev" -d true -u https://dev.messages.killian.ovh/ -a $JENKINS_MESSAGES_OVH_DATABASE_HOST -b $JENKINS_MESSAGES_OVH_DATABASE_PORT -c $JENKINS_MESSAGES_OVH_DATABASE_DEV_NAME -e $JENKINS_MESSAGES_OVH_DATABASE_USERNAME -f $JENKINS_MESSAGES_OVH_DATABASE_PASSWORD -g $JENKINS_MESSAGES_OVH_MAIL_HOST -i $JENKINS_MESSAGES_OVH_MAIL_PORT -j $JENKINS_MESSAGES_OVH_MAIL_USERNAME -k $JENKINS_MESSAGES_OVH_MAIL_PASSWORD -l $JENKINS_MESSAGES_OVH_MAIL_ENCRYPTION'
                 }
             }
         }
