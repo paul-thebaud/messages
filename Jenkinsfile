@@ -48,7 +48,7 @@ pipeline {
                 }
             } else {
                 stage('dev'){
-                    sh 'mv .env.dev .env'
+                    sh './envCreator.sh -n "Messages Dev" -d true -u https://dev.messages.killian.ovh/ -a mysql.killian.ovh -b 32768 -c devmessages -e root -f A9BA19F564 -g ssl0.ovh.net -i 587 -j messages@killian.ovh -k A9BA19F564 -l tls'
                 }
             }
         }
