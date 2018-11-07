@@ -36,19 +36,33 @@ pipeline {
       }
     }
     stage('Set env') {
+      environment {
+        JENKINS_MESSAGES_OVH_DATABASE_HOST  = credentials('jenkins-messages-ovh-database-host')
+        JENKINS_MESSAGES_OVH_DATABASE_PORT  = credentials('jenkins-messages-ovh-database-port')
+        JENKINS_MESSAGES_OVH_DATABASE_DEV_NAME  = credentials('jenkins-messages-ovh-database-dev-name')
+        JENKINS_MESSAGES_OVH_DATABASE_RELEASE_NAME  = credentials('jenkins-messages-ovh-database-release-name')
+        JENKINS_MESSAGES_OVH_DATABASE_MASTER_NAME  = credentials('jenkins-messages-ovh-database-master-name')
+        JENKINS_MESSAGES_OVH_DATABASE_USERNAME  = credentials('jenkins-messages-ovh-database-username')
+        JENKINS_MESSAGES_OVH_DATABASE_PASSWORD  = credentials('jenkins-messages-ovh-database-password')
+        JENKINS_MESSAGES_OVH_MAIL_HOST  = credentials('jenkins-messages-ovh-mail-host')
+        JENKINS_MESSAGES_OVH_MAIL_PORT  = credentials('jenkins-messages-ovh-mail-port')
+        JENKINS_MESSAGES_OVH_MAIL_USERNAME  = credentials('jenkins-messages-ovh-mail-username')
+        JENKINS_MESSAGES_OVH_MAIL_PASSWORD  = credentials('jenkins-messages-ovh-mail-password')
+        JENKINS_MESSAGES_OVH_MAIL_ENCRYPTION  = credentials('jenkins-messages-ovh-mail-encryption')
+      }
       steps {
         script{
             if(env.BRANCH_NAME == "release"){
                 stage('release'){
-                    sh 'mv .env.release .env'
+                    sh './envCreator.sh -n "Messages Release" -d true -u https://release.messages.killian.ovh/ -a $JENKINS_MESSAGES_OVH_DATABASE_HOST -b $JENKINS_MESSAGES_OVH_DATABASE_PORT -c $JENKINS_MESSAGES_OVH_DATABASE_RELEASE_NAME -e $JENKINS_MESSAGES_OVH_DATABASE_USERNAME -f $JENKINS_MESSAGES_OVH_DATABASE_PASSWORD -g $JENKINS_MESSAGES_OVH_MAIL_HOST -i $JENKINS_MESSAGES_OVH_MAIL_PORT -j $JENKINS_MESSAGES_OVH_MAIL_USERNAME -k $JENKINS_MESSAGES_OVH_MAIL_PASSWORD -l $JENKINS_MESSAGES_OVH_MAIL_ENCRYPTION'
                 }
             }else if(env.BRANCH_NAME == "master"){
                 stage('master'){
-                    sh 'mv .env.master .env'
+                    sh './envCreator.sh -n "Messages" -d true -u https://messages.killian.ovh/ -a $JENKINS_MESSAGES_OVH_DATABASE_HOST -b $JENKINS_MESSAGES_OVH_DATABASE_PORT -c $JENKINS_MESSAGES_OVH_DATABASE_MASTER_NAME -e $JENKINS_MESSAGES_OVH_DATABASE_USERNAME -f $JENKINS_MESSAGES_OVH_DATABASE_PASSWORD -g $JENKINS_MESSAGES_OVH_MAIL_HOST -i $JENKINS_MESSAGES_OVH_MAIL_PORT -j $JENKINS_MESSAGES_OVH_MAIL_USERNAME -k $JENKINS_MESSAGES_OVH_MAIL_PASSWORD -l $JENKINS_MESSAGES_OVH_MAIL_ENCRYPTION'
                 }
             } else {
                 stage('dev'){
-                    sh 'mv .env.dev .env'
+                    sh './envCreator.sh -n "Messages Dev" -d true -u https://dev.messages.killian.ovh/ -a $JENKINS_MESSAGES_OVH_DATABASE_HOST -b $JENKINS_MESSAGES_OVH_DATABASE_PORT -c $JENKINS_MESSAGES_OVH_DATABASE_DEV_NAME -e $JENKINS_MESSAGES_OVH_DATABASE_USERNAME -f $JENKINS_MESSAGES_OVH_DATABASE_PASSWORD -g $JENKINS_MESSAGES_OVH_MAIL_HOST -i $JENKINS_MESSAGES_OVH_MAIL_PORT -j $JENKINS_MESSAGES_OVH_MAIL_USERNAME -k $JENKINS_MESSAGES_OVH_MAIL_PASSWORD -l $JENKINS_MESSAGES_OVH_MAIL_ENCRYPTION'
                 }
             }
         }
@@ -158,7 +172,7 @@ pipeline {
         steps {
           script {
             if(env.BRANCH_NAME == "release" || env.BRANCH_NAME == "dev" || env.BRANCH_NAME == "master"){
-              stage('stop'){
+              stage('rm'){
                 sh "sudo docker rm messages${BRANCH_NAME} || true"
               }
             }
@@ -191,16 +205,19 @@ pipeline {
             script{
                 if(env.BRANCH_NAME == "dev"){
                     stage('dev'){
+                        sh "yarn dev"
                         sh "scp -r ./public root@172.17.0.1:/var/www/messages/${BRANCH_NAME}"
                     }
                 }
                 if(env.BRANCH_NAME == "release"){
                     stage('release'){
+                        sh "yarn production"
                         sh "scp -r ./public root@172.17.0.1:/var/www/messages/${BRANCH_NAME}"
                     }
                 }
                 if(env.BRANCH_NAME == "master"){
                     stage('master'){
+                        sh "yarn production"
                         sh "scp -r ./public root@172.17.0.1:/var/www/messages/${BRANCH_NAME}"
                     }
                 }
@@ -211,7 +228,7 @@ pipeline {
         steps {
             script{
                 if(env.BRANCH_NAME == "release" || env.BRANCH_NAME == "dev" || env.BRANCH_NAME == "master"){
-                    stage('push'){
+                    stage('launch'){
                       sh "sudo docker exec messages${BRANCH_NAME} nohup php artisan queue:work --tries=3 &"
                     }
                 }

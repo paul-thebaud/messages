@@ -24,11 +24,6 @@ class MessagePolicy
             ->exists();
     }
 
-    public function show(User $user, Message $message): bool
-    {
-        return $this->read($user, $message);
-    }
-
     public function read(User $user, Message $message): bool
     {
         return $message->conversation->users()
