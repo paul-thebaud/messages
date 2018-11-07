@@ -10,7 +10,7 @@ Vue.use(VueRouter);
 Vue.use(VueBootstrap);
 
 // Configure Axios.
-const BASE_URL = process.env.MIX_APP_URL || 'http://127.0.0.1:8000';
+const BASE_URL = process.env.MIX_APP_URL;
 
 axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 axios.defaults.headers.common['X-CSRF-TOKEN']     = document.head.querySelector('meta[name="csrf-token"]').content;
