@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/bash
 
 usage="$(basename "$0") [-h] [-n value] [-d value] [-u value] [-a value] [-b value] [-c value] [-e value] [-f value] [-g value] [-i value] [-j value] [-k value] [-l value] -- program to generate a .env file for laravel
 
