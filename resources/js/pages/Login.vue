@@ -8,14 +8,14 @@
                     </p>
                     <form @submit.prevent="login">
                         <b-form-group label="Email" label-for="email">
-                            <b-form-input id="email" type="text" v-model="form.email"
+                            <b-form-input id="email" type="email" v-model="form.email"
                                           placeholder="Enter email"
                                           :state="this.error.has('email') ? false : null">
                             </b-form-input>
                             <b-form-invalid-feedback>{{ this.error.get('email') }}</b-form-invalid-feedback>
                         </b-form-group>
                         <b-form-group label="Password" label-for="password">
-                            <b-form-input id="password" type="text" v-model="form.password"
+                            <b-form-input id="password" type="password" v-model="form.password"
                                           placeholder="••••••"
                                           :state="this.error.has('password') ? false : null">
                             </b-form-input>

@@ -11,21 +11,17 @@
                     </b-alert>
                     <form @submit.prevent="onSubmit">
                         <input type="hidden" v-model="form.token"/>
-                        <b-form-group label="Token" label-for="token">
-                            <b-form-input id="token" type="text" v-model="form.token" disabled
-                                          :state="this.error.has('token') ? false : null">
-                            </b-form-input>
-                            <b-form-invalid-feedback>{{ this.error.get('token') }}</b-form-invalid-feedback>
-                        </b-form-group>
                         <b-form-group label="Password" label-for="password">
-                            <b-form-input id="password" type="text" v-model="form.password"
+                            <b-form-input id="password" type="password" v-model="form.password"
                                           placeholder="Enter password"
-                                          :state="this.error.has('password') ? false : null">
+                                          :state="(this.error.has('password') || this.error.has('token')) ? false : null">
                             </b-form-input>
-                            <b-form-invalid-feedback>{{ this.error.get('password') }}</b-form-invalid-feedback>
+                            <b-form-invalid-feedback>
+                                {{ this.error.get('password') || this.error.get('token') }}
+                            </b-form-invalid-feedback>
                         </b-form-group>
                         <b-form-group label="Password Confirmation" label-for="password-confirmation">
-                            <b-form-input id="password-confirmation" type="text" v-model="form.password_confirmation"
+                            <b-form-input id="password-confirmation" type="password" v-model="form.password_confirmation"
                                           placeholder="Enter password again"
                                           :state="this.error.has('password_confirmation') ? false : null">
                             </b-form-input>

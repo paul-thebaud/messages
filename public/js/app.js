@@ -40702,11 +40702,11 @@ __WEBPACK_IMPORTED_MODULE_1_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_2_vue_
 __WEBPACK_IMPORTED_MODULE_1_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_0_bootstrap_vue__["a" /* default */]);
 
 // Configure Axios.
-var BASE_URL = "http://localhost/";
+var BASE_URL = "https://messages.local.com";
 
 __WEBPACK_IMPORTED_MODULE_3_axios___default.a.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 __WEBPACK_IMPORTED_MODULE_3_axios___default.a.defaults.headers.common['X-CSRF-TOKEN'] = document.head.querySelector('meta[name="csrf-token"]').content;
-__WEBPACK_IMPORTED_MODULE_3_axios___default.a.defaults.baseURL = '' + BASE_URL;
+__WEBPACK_IMPORTED_MODULE_3_axios___default.a.defaults.baseURL = BASE_URL;
 if (null != window.localStorage.getItem('accessToken')) {
     __WEBPACK_IMPORTED_MODULE_3_axios___default.a.defaults.headers.common['Authorization'] = 'Bearer ' + window.localStorage.getItem('accessToken');
 }
@@ -53503,7 +53503,7 @@ var content = __webpack_require__(347);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(10)("e9eaebd0", content, false, {});
+var update = __webpack_require__(10)("4dc792b6", content, false, {});
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
@@ -53680,7 +53680,7 @@ var content = __webpack_require__(352);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(10)("6d6c4397", content, false, {});
+var update = __webpack_require__(10)("4230a96a", content, false, {});
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
@@ -54185,7 +54185,7 @@ var content = __webpack_require__(360);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(10)("46b9a087", content, false, {});
+var update = __webpack_require__(10)("54b32a14", content, false, {});
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
@@ -54311,7 +54311,7 @@ var content = __webpack_require__(363);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(10)("e25d4ab0", content, false, {});
+var update = __webpack_require__(10)("5299af35", content, false, {});
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
@@ -54470,7 +54470,7 @@ var render = function() {
                           _c("b-form-input", {
                             attrs: {
                               id: "email",
-                              type: "text",
+                              type: "email",
                               placeholder: "Enter email",
                               state: this.error.has("email") ? false : null
                             },
@@ -54499,7 +54499,7 @@ var render = function() {
                           _c("b-form-input", {
                             attrs: {
                               id: "password",
-                              type: "text",
+                              type: "password",
                               placeholder: "••••••",
                               state: this.error.has("password") ? false : null
                             },
@@ -54638,7 +54638,7 @@ var content = __webpack_require__(369);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(10)("e28a33dc", content, false, {});
+var update = __webpack_require__(10)("5eae5536", content, false, {});
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
@@ -54884,7 +54884,7 @@ var render = function() {
                           _c("b-form-input", {
                             attrs: {
                               id: "email",
-                              type: "text",
+                              type: "email",
                               placeholder: "Enter email",
                               state: this.error.has("email") ? false : null
                             },
@@ -54913,7 +54913,7 @@ var render = function() {
                           _c("b-form-input", {
                             attrs: {
                               id: "password",
-                              type: "text",
+                              type: "password",
                               placeholder: "••••••",
                               state: this.error.has("password") ? false : null
                             },
@@ -54945,7 +54945,7 @@ var render = function() {
                           _c("b-form-input", {
                             attrs: {
                               id: "password-confirmation",
-                              type: "text",
+                              type: "password",
                               placeholder: "••••••",
                               state: this.error.has("password_confirmation")
                                 ? false
@@ -55079,7 +55079,7 @@ var content = __webpack_require__(374);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(10)("1efe28de", content, false, {});
+var update = __webpack_require__(10)("64a4d0a4", content, false, {});
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
@@ -55240,7 +55240,7 @@ var render = function() {
                           _c("b-form-input", {
                             attrs: {
                               id: "email",
-                              type: "text",
+                              type: "email",
                               placeholder: "Enter email",
                               state: this.error.has("email") ? false : null
                             },
@@ -55368,7 +55368,7 @@ var content = __webpack_require__(379);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(10)("d7d87f86", content, false, {});
+var update = __webpack_require__(10)("3bb5266c", content, false, {});
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
@@ -55392,7 +55392,7 @@ exports = module.exports = __webpack_require__(7)(false);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -55406,10 +55406,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__helpers_api_ApiError__ = __webpack_require__(24);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_axios__ = __webpack_require__(19);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_axios__);
-//
-//
-//
-//
 //
 //
 //
@@ -55565,33 +55561,6 @@ var render = function() {
                       _vm._v(" "),
                       _c(
                         "b-form-group",
-                        { attrs: { label: "Token", "label-for": "token" } },
-                        [
-                          _c("b-form-input", {
-                            attrs: {
-                              id: "token",
-                              type: "text",
-                              disabled: "",
-                              state: this.error.has("token") ? false : null
-                            },
-                            model: {
-                              value: _vm.form.token,
-                              callback: function($$v) {
-                                _vm.$set(_vm.form, "token", $$v)
-                              },
-                              expression: "form.token"
-                            }
-                          }),
-                          _vm._v(" "),
-                          _c("b-form-invalid-feedback", [
-                            _vm._v(_vm._s(this.error.get("token")))
-                          ])
-                        ],
-                        1
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "b-form-group",
                         {
                           attrs: { label: "Password", "label-for": "password" }
                         },
@@ -55599,9 +55568,13 @@ var render = function() {
                           _c("b-form-input", {
                             attrs: {
                               id: "password",
-                              type: "text",
+                              type: "password",
                               placeholder: "Enter password",
-                              state: this.error.has("password") ? false : null
+                              state:
+                                this.error.has("password") ||
+                                this.error.has("token")
+                                  ? false
+                                  : null
                             },
                             model: {
                               value: _vm.form.password,
@@ -55613,7 +55586,14 @@ var render = function() {
                           }),
                           _vm._v(" "),
                           _c("b-form-invalid-feedback", [
-                            _vm._v(_vm._s(this.error.get("password")))
+                            _vm._v(
+                              "\n                            " +
+                                _vm._s(
+                                  this.error.get("password") ||
+                                    this.error.get("token")
+                                ) +
+                                "\n                        "
+                            )
                           ])
                         ],
                         1
@@ -55631,7 +55611,7 @@ var render = function() {
                           _c("b-form-input", {
                             attrs: {
                               id: "password-confirmation",
-                              type: "text",
+                              type: "password",
                               placeholder: "Enter password again",
                               state: this.error.has("password_confirmation")
                                 ? false
@@ -55764,7 +55744,7 @@ var content = __webpack_require__(384);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(10)("cb83d578", content, false, {});
+var update = __webpack_require__(10)("af90c25e", content, false, {});
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
@@ -55964,7 +55944,7 @@ var content = __webpack_require__(389);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(10)("28e17d10", content, false, {});
+var update = __webpack_require__(10)("35a1f446", content, false, {});
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
@@ -56110,7 +56090,7 @@ var content = __webpack_require__(393);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(10)("6921b24a", content, false, {});
+var update = __webpack_require__(10)("6be45a5d", content, false, {});
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
@@ -56311,7 +56291,7 @@ var content = __webpack_require__(398);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(10)("3c8071e8", content, false, {});
+var update = __webpack_require__(10)("37522159", content, false, {});
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags

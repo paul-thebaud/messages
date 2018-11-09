@@ -19,22 +19,22 @@
                         </b-form-group>
                         <b-form-group label="Email" label-for="email"
                                       description="We'll never share your email with anyone else.">
-                            <b-form-input id="email" type="text" v-model="form.email"
+                            <b-form-input id="email" type="email" v-model="form.email"
                                           placeholder="Enter email"
                                           :state="this.error.has('email') ? false : null">
                             </b-form-input>
                             <b-form-invalid-feedback>{{ this.error.get('email') }}</b-form-invalid-feedback>
                         </b-form-group>
                         <b-form-group label="Password" label-for="password">
-                            <b-form-input id="password" type="text" v-model="form.password"
+                            <b-form-input id="password" type="password" v-model="form.password"
                                           placeholder="••••••"
                                           :state="this.error.has('password') ? false : null">
                             </b-form-input>
                             <b-form-invalid-feedback>{{ this.error.get('password') }}</b-form-invalid-feedback>
                         </b-form-group>
                         <b-form-group label="Password Confirmation" label-for="password-confirmation">
-                            <b-form-input id="password-confirmation" type="text" v-model="form.password_confirmation"
-                                          placeholder="••••••"
+                            <b-form-input id="password-confirmation" type="password"
+                                          v-model="form.password_confirmation" placeholder="••••••"
                                           :state="this.error.has('password_confirmation') ? false : null">
                             </b-form-input>
                             <b-form-invalid-feedback>{{ this.error.get('password_confirmation') }}</b-form-invalid-feedback>

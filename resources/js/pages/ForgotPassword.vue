@@ -11,7 +11,7 @@
                     </b-alert>
                     <form @submit.prevent="onSubmit">
                         <b-form-group label="Email" label-for="email">
-                            <b-form-input id="email" type="text" v-model="form.email"
+                            <b-form-input id="email" type="email" v-model="form.email"
                                           placeholder="Enter email"
                                           :state="this.error.has('email') ? false : null">
                             </b-form-input>
