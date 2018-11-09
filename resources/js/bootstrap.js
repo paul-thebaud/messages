@@ -14,7 +14,7 @@ const BASE_URL = process.env.MIX_APP_URL;
 
 axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 axios.defaults.headers.common['X-CSRF-TOKEN']     = document.head.querySelector('meta[name="csrf-token"]').content;
-axios.defaults.baseURL                            = `${BASE_URL}`;
+axios.defaults.baseURL                            = BASE_URL;
 if (null != window.localStorage.getItem('accessToken')) {
     axios.defaults.headers.common['Authorization'] = 'Bearer ' + window.localStorage.getItem('accessToken');
 }
