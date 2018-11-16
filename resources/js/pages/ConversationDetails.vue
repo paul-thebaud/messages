@@ -1,10 +1,7 @@
 <template>
-    <div>
-        <p>
-            The conversations page.
-        </p>
-        <router-view></router-view>
-    </div>
+    <p>
+        The conversation details page.
+    </p>
 </template>
 
 <script>

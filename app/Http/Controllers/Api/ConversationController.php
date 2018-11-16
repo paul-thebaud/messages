@@ -9,6 +9,7 @@ use App\Notifications\ConversationDeleted;
 use App\Notifications\ConversationUpdated;
 use Exception;
 use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Notification;
@@ -22,12 +23,25 @@ class ConversationController extends AbstractController
      * @param Request $request The request.
      *
      * @return JsonResponse The response.
+     *
+     * @throws ValidationException If the request is invalid.
      */
     public function index(Request $request): JsonResponse
     {
+        $this->validate($request, [
+            'search' => 'sometimes|string',
+        ]);
         /** @todo Pagination? */
-        /** @todo Search? */
-        return response()->json($request->user()->conversations()->orderByDesc('updated_at')->get());
+        return response()->json(
+            $request->user()
+                ->conversations()
+                ->when($request->input('search'), function (Builder $query) use ($request) {
+                    $query->whereNotNull('name')
+                        ->where('name', 'like', sprintf('%%%s%%', $request->input('search')));
+                })
+                ->orderByDesc('updated_at')
+                ->get()
+        );
     }
 
     /**
