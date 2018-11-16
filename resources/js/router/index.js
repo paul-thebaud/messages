@@ -5,9 +5,10 @@ import Register from '../pages/guest/Register';
 import ForgotPassword from '../pages/guest/ForgotPassword';
 import ResetPassword from '../pages/guest/ResetPassword';
 import OAuth from '../pages/guest/OAuth';
-import Conversations from '../pages/Conversations';
-import Conversation from '../pages/Conversation';
-import ConversationDetails from '../pages/ConversationDetails';
+import Conversations from '../pages/conversations/Conversations';
+import Conversation from '../pages/conversations/Conversation';
+import ConversationDetails from '../pages/conversations/ConversationDetails';
+import NoSelectedConversation from '../pages/conversations/NoSelectedConversation';
 import Profile from '../pages/Profile';
 import Friends from '../pages/Friends';
 
@@ -24,7 +25,15 @@ const router = new VueRouter({
             },
             children: [
                 {
-                    path: ':id',
+                    path: '',
+                    name: 'NoSelectedConversation',
+                    component: NoSelectedConversation,
+                    meta: {
+                        auth: true
+                    }
+                },
+                {
+                    path: ':conversation_id',
                     name: 'Conversation',
                     component: Conversation,
                     meta: {
@@ -32,13 +41,13 @@ const router = new VueRouter({
                     }
                 },
                 {
-                    path: ':id/details',
+                    path: ':conversation_id/details',
                     name: 'ConversationDetails',
                     component: ConversationDetails,
                     meta: {
                         auth: true
                     }
-                },
+                }
             ]
         },
         {

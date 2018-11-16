@@ -48,7 +48,6 @@
         max-width: 80px;
         border-right: 1px solid $border-color;
         .sidebar-link {
-            transition: 250ms ease;
             text-align: center;
             vertical-align: middle;
             margin: 9px 9px 0 9px;

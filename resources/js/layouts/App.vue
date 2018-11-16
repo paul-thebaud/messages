@@ -1,7 +1,7 @@
 <template>
     <div id="app">
         <sidebar v-if="this.$store.getters['auth/isLogged']"></sidebar>
-        <div class="sidebar-wrapper" :class="{ 'sidebar-active': this.$store.getters['auth/isLogged'] }">
+        <div class="sidebar-wrapper">
             <router-view v-on:loading-toggle="loadingToggle"></router-view>
             <spinner v-if="loading"></spinner>
         </div>
@@ -49,9 +49,6 @@
         height: 100%;
         .sidebar-wrapper {
             height: 100%;
-            &.sidebar-active {
-                margin-left: 80px;
-            }
         }
     }
 </style>

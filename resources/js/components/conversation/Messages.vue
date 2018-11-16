@@ -1,12 +1,13 @@
 <template>
     <p>
-        The conversation page.
+        The messages component.
     </p>
 </template>
 
 <script>
     export default {
-        name: 'Conversation'
+        name: 'Messages',
+        props: ['conversation']
     };
 </script>
 

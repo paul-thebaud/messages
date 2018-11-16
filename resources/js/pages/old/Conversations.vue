@@ -25,7 +25,7 @@
 
 <script>
     import api from '../../helpers/api/index';
-    import ConversationList from '../../components/ConversationList';
+    import ConversationList from '../../components/old/ConversationList';
 
     export default {
         name: 'Conversations',
