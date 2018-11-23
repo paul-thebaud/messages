@@ -1,14 +1,16 @@
 <template>
-    <div id="app" class="h-100">
-        <nav-bar v-if="!loading"></nav-bar>
-        <router-view v-on:loading-toggle="loadingToggle"></router-view>
-        <spinner v-if="loading"></spinner>
+    <div id="app">
+        <sidebar v-if="this.$store.getters['auth/isLogged']"></sidebar>
+        <div class="sidebar-wrapper">
+            <router-view v-on:loading-toggle="loadingToggle"></router-view>
+            <spinner v-if="loading"></spinner>
+        </div>
     </div>
 </template>
 
 <script>
-    import NavBar from './NavBar';
     import Spinner from './Spinner';
+    import Sidebar from './Sidebar';
     import router from '../router';
 
     export default {
@@ -36,11 +38,17 @@
             }
         },
         components: {
-            NavBar,
-            Spinner
+            Spinner,
+            Sidebar
         }
     };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+    #app {
+        height: 100%;
+        .sidebar-wrapper {
+            height: 100%;
+        }
+    }
 </style>

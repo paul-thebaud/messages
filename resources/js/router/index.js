@@ -1,15 +1,21 @@
 import VueRouter from 'vue-router';
 import store from '../store';
-import Conversations from '../pages/Conversations';
-import Login from '../pages/Login';
-import Register from '../pages/Register';
-import ForgotPassword from '../pages/ForgotPassword';
-import ResetPassword from '../pages/ResetPassword';
-import OAuth from '../pages/OAuth';
+import Login from '../pages/guest/Login';
+import Register from '../pages/guest/Register';
+import ForgotPassword from '../pages/guest/ForgotPassword';
+import ResetPassword from '../pages/guest/ResetPassword';
+import OAuth from '../pages/guest/OAuth';
+import Conversations from '../pages/conversations/Conversations';
+import Conversation from '../pages/conversations/Conversation';
+import ConversationDetails from '../pages/conversations/ConversationDetails';
+import NoSelectedConversation from '../pages/conversations/NoSelectedConversation';
+import Profile from '../pages/Profile';
+import Friends from '../pages/Friends';
 
 const router = new VueRouter({
     mode: 'history',
     routes: [
+        { path: '/', redirect: '/conversations' },
         {
             path: '/conversations',
             name: 'Conversations',
@@ -17,7 +23,48 @@ const router = new VueRouter({
             meta: {
                 auth: true
             },
-            alias: '/'
+            children: [
+                {
+                    path: '',
+                    name: 'NoSelectedConversation',
+                    component: NoSelectedConversation,
+                    meta: {
+                        auth: true
+                    }
+                },
+                {
+                    path: ':conversation_id',
+                    name: 'Conversation',
+                    component: Conversation,
+                    meta: {
+                        auth: true
+                    }
+                },
+                {
+                    path: ':conversation_id/details',
+                    name: 'ConversationDetails',
+                    component: ConversationDetails,
+                    meta: {
+                        auth: true
+                    }
+                }
+            ]
+        },
+        {
+            path: '/profile',
+            name: 'Profile',
+            component: Profile,
+            meta: {
+                auth: true
+            }
+        },
+        {
+            path: '/friends',
+            name: 'Friends',
+            component: Friends,
+            meta: {
+                auth: true
+            }
         },
         {
             path: '/register',
