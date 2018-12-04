@@ -24,7 +24,7 @@ a {
 }
 
 .card, .dropdown-menu {
-  @extend .shadow;
+  @extend .shadow-sm;
   border: none;
 }
 

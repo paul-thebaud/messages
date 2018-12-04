@@ -9,18 +9,21 @@ const TYPES = {
 
 const state = {
     logged: !!window.localStorage.getItem('accessToken'),
-    user: null
+    user: null,
+    tokenId: window.localStorage.getItem('tokenId')
 };
 
 const mutations = {
-    [TYPES.LOGIN](state) {
-        state.logged = true;
+    [TYPES.LOGIN](state, tokenId) {
+        state.logged  = true;
+        state.tokenId = tokenId;
     },
     [TYPES.FETCH_USER](state, user) {
         state.user = user;
     },
     [TYPES.LOGOUT](state) {
-        state.logged = false;
+        state.logged  = false;
+        state.tokenId = null;
         window.localStorage.removeItem('accessToken');
         window.localStorage.removeItem('userId');
         window.localStorage.removeItem('tokenId');
@@ -30,7 +33,8 @@ const mutations = {
 
 const getters = {
     isLogged: state => state.logged,
-    user: state => state.user
+    user: state => state.user,
+    tokenId: state => state.tokenId,
 };
 
 const actions = {
@@ -39,6 +43,8 @@ const actions = {
             const userId = window.localStorage.getItem('userId');
             api.show('users', userId)
                 .then((user) => {
+                    console.log('Log');
+                    console.log(user);
                     commit(TYPES.FETCH_USER, user);
                     resolve(user);
                 })
@@ -53,7 +59,7 @@ const actions = {
         return new Promise((resolve, reject) => {
             api.store('tokens', credentials)
                 .then((data) => {
-                    commit(TYPES.LOGIN);
+                    commit(TYPES.LOGIN, data.token.id);
                     window.localStorage.setItem('accessToken', data.access_token);
                     window.localStorage.setItem('userId', data.token.user_id);
                     window.localStorage.setItem('tokenId', data.token.id);
@@ -69,10 +75,13 @@ const actions = {
         });
     },
 
-    logout({ commit }) {
+    logout({ commit, state }) {
         return new Promise((resolve) => {
-            commit(TYPES.LOGOUT);
-            resolve();
+            api.destroy('tokens', state.tokenId)
+                .finally(() => {
+                    commit(TYPES.LOGOUT);
+                    resolve();
+                });
         });
     }
 };
