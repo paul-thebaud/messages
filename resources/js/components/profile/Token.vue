@@ -3,7 +3,6 @@
         <div class="card-body">
             <div class="row">
                 <div class="col-sm-8">
-                    <code class="font-weight-bold text-dark">{{ id }}</code>
                     <code class="text-dark" style="white-space: pre-wrap;">{{ name }}</code>
                 </div>
                 <div class="col-sm-4 text-right">

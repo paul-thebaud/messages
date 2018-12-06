@@ -57,7 +57,7 @@
             border-right: 1px solid $border-color;
         }
         .conversation-view {
-            overflow-y: scroll;
+            overflow-y: hidden;
             height: 100%;
             width: 100%;
         }

@@ -20,15 +20,13 @@
 </template>
 
 <script>
-    import router from '../router/index';
-
     export default {
         name: 'Sidebar',
         methods: {
             logout() {
                 this.$store.dispatch('auth/logout')
                     .finally(() => {
-                        router.push({ name: 'Login' });
+                        this.$router.push({ name: 'Login' });
                     });
             }
         }

@@ -33,7 +33,6 @@
             ConversationList
         },
         data() {
-            console.log([...Array(45).keys()]);
             return {
                 conversations: {},
                 loading: true,

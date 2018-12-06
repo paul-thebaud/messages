@@ -43,8 +43,6 @@ const actions = {
             const userId = window.localStorage.getItem('userId');
             api.show('users', userId)
                 .then((user) => {
-                    console.log('Log');
-                    console.log(user);
                     commit(TYPES.FETCH_USER, user);
                     resolve(user);
                 })
@@ -78,6 +76,16 @@ const actions = {
     logout({ commit, state }) {
         return new Promise((resolve) => {
             api.destroy('tokens', state.tokenId)
+                .finally(() => {
+                    commit(TYPES.LOGOUT);
+                    resolve();
+                });
+        });
+    },
+
+    delete({ commit, state }) {
+        return new Promise((resolve) => {
+            api.destroy('users', state.user.id)
                 .finally(() => {
                     commit(TYPES.LOGOUT);
                     resolve();

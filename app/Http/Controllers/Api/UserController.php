@@ -86,9 +86,16 @@ class UserController extends AbstractController
 
         $this->validate($request, [
             'username' => 'required|string|min:4|max:60|unique:users,email,' . $user->id,
+            'password' => 'nullable|string|min:6|confirmed',
         ]);
 
-        $user->update($request->only('username'));
+        if (null !== $request->input('password')) {
+            $request->merge([
+                'password' => bcrypt($request->input('password')),
+            ]);
+        }
+
+        $user->update($request->only('username', 'password'));
 
         return response()->json('', JsonResponse::HTTP_NO_CONTENT);
     }
