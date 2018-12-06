@@ -18,25 +18,35 @@
                 </p>
             </div>
         </div>
-        <h4>Adding friends</h4>
-
+        <h4>Users</h4>
+        <div class="row">
+            <div v-for="user in users" class="col my-2">
+                <user :user="user" type="user" v-on:add-friend="addFriend"></user>
+            </div>
+        </div>
     </div>
 </template>
 
 <script>
     import api from '../helpers/api';
+    import User from '../components/friends/User';
 
     export default {
         name: 'Friends',
+        components: {
+            User
+        },
         data() {
             return {
                 userId: this.$store.getters['auth/user'].id,
                 friends: [],
+                users: [],
                 friend_requests: []
             };
         },
         mounted() {
             this.listFriends();
+            this.listUsers();
         },
         methods: {
             listFriends() {
@@ -44,6 +54,20 @@
                     .then((data) => {
                         this.friends         = data.friends;
                         this.friend_requests = data.friend_requests;
+                    });
+            },
+            listUsers() {
+                api.index('users')
+                    .then(users => {
+                        this.users = users;
+                    });
+            },
+            addFriend(user) {
+                api.store(`users/${this.userId}/friends`, {
+                    user_id: user.id
+                })
+                    .then(() => {
+                        console.log('ok')
                     });
             }
         }

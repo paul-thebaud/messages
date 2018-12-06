@@ -16,13 +16,19 @@ class UserController extends AbstractController
     /**
      * Fetch the users.
      *
+     * @param Request $request The request.
+     *
      * @return JsonResponse The response.
      */
-    public function index(): JsonResponse
+    public function index(Request $request): JsonResponse
     {
         /** @todo Pagination. */
         /** @todo Search. */
-        return response()->json(User::all());
+        return response()->json(
+            User::query()
+                ->where('id', '<>', $request->user()->id)
+                ->get()
+        );
     }
 
     /**

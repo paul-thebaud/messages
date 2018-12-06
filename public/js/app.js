@@ -53744,6 +53744,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 var TYPES = {
     LOGIN: 'LOGIN',
     FETCH_USER: 'FETCH_USER',
+    UPDATE: 'UPDATE',
     LOGOUT: 'LOGOUT'
 };
 
@@ -53758,6 +53759,8 @@ var mutations = (_mutations = {}, _defineProperty(_mutations, TYPES.LOGIN, funct
     state.tokenId = tokenId;
 }), _defineProperty(_mutations, TYPES.FETCH_USER, function (state, user) {
     state.user = user;
+}), _defineProperty(_mutations, TYPES.UPDATE, function (state, user) {
+    state.user.username = user.username;
 }), _defineProperty(_mutations, TYPES.LOGOUT, function (state) {
     state.logged = false;
     state.tokenId = null;
@@ -53824,9 +53827,22 @@ var actions = {
             });
         });
     },
-    delete: function _delete(_ref4) {
+    update: function update(_ref4, user) {
         var commit = _ref4.commit,
             state = _ref4.state;
+
+        return new Promise(function (resolve, reject) {
+            __WEBPACK_IMPORTED_MODULE_1__helpers_api__["a" /* default */].update('users', state.user.id, user).then(function () {
+                commit(TYPES.UPDATE, user);
+                resolve();
+            }).catch(function (error) {
+                return reject(error);
+            });
+        });
+    },
+    delete: function _delete(_ref5) {
+        var commit = _ref5.commit,
+            state = _ref5.state;
 
         return new Promise(function (resolve) {
             __WEBPACK_IMPORTED_MODULE_1__helpers_api__["a" /* default */].destroy('users', state.user.id).finally(function () {
@@ -57104,7 +57120,7 @@ exports = module.exports = __webpack_require__(4)(false);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -57115,8 +57131,7 @@ exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__helpers_api__ = __webpack_require__(25);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__helpers_api_ApiError__ = __webpack_require__(20);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__helpers_api_ApiError__ = __webpack_require__(20);
 //
 //
 //
@@ -57155,7 +57170,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-
 
 
 
@@ -57170,7 +57184,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 password: null,
                 password_confirmation: null
             },
-            error: new __WEBPACK_IMPORTED_MODULE_1__helpers_api_ApiError__["a" /* default */](),
+            error: new __WEBPACK_IMPORTED_MODULE_0__helpers_api_ApiError__["a" /* default */](),
             loading: false
         };
     },
@@ -57180,8 +57194,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var _this = this;
 
             this.loading = true;
-            __WEBPACK_IMPORTED_MODULE_0__helpers_api__["a" /* default */].update('users', this.form.id, this.form).then(function () {
-                return _this.error = new __WEBPACK_IMPORTED_MODULE_1__helpers_api_ApiError__["a" /* default */]();
+            this.$store.dispatch('auth/update', this.form).then(function () {
+                _this.error = new __WEBPACK_IMPORTED_MODULE_0__helpers_api_ApiError__["a" /* default */]();
             }).catch(function (error) {
                 return _this.error = error;
             }).finally(function () {
@@ -57926,6 +57940,8 @@ exports.push([module.i, "\n.friends[data-v-50808f9c] {\n  height: 100%;\n  margi
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__helpers_api__ = __webpack_require__(25);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_friends_User__ = __webpack_require__(472);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_friends_User___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__components_friends_User__);
 //
 //
 //
@@ -57951,20 +57967,30 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+
 
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     name: 'Friends',
+    components: {
+        User: __WEBPACK_IMPORTED_MODULE_1__components_friends_User___default.a
+    },
     data: function data() {
         return {
             userId: this.$store.getters['auth/user'].id,
             friends: [],
+            users: [],
             friend_requests: []
         };
     },
     mounted: function mounted() {
         this.listFriends();
+        this.listUsers();
     },
 
     methods: {
@@ -57974,6 +58000,20 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             __WEBPACK_IMPORTED_MODULE_0__helpers_api__["a" /* default */].index('users/' + this.userId + '/friends').then(function (data) {
                 _this.friends = data.friends;
                 _this.friend_requests = data.friend_requests;
+            });
+        },
+        listUsers: function listUsers() {
+            var _this2 = this;
+
+            __WEBPACK_IMPORTED_MODULE_0__helpers_api__["a" /* default */].index('users').then(function (users) {
+                _this2.users = users;
+            });
+        },
+        addFriend: function addFriend(user) {
+            __WEBPACK_IMPORTED_MODULE_0__helpers_api__["a" /* default */].store('users/' + this.userId + '/friends', {
+                user_id: user.id
+            }).then(function () {
+                console.log('ok');
             });
         }
     }
@@ -58020,7 +58060,25 @@ var render = function() {
       ])
     ]),
     _vm._v(" "),
-    _c("h4", [_vm._v("Adding friends")])
+    _c("h4", [_vm._v("Users")]),
+    _vm._v(" "),
+    _c(
+      "div",
+      { staticClass: "row" },
+      _vm._l(_vm.users, function(user) {
+        return _c(
+          "div",
+          { staticClass: "col my-2" },
+          [
+            _c("user", {
+              attrs: { user: user, type: "user" },
+              on: { "add-friend": _vm.addFriend }
+            })
+          ],
+          1
+        )
+      })
+    )
   ])
 }
 var staticRenderFns = []
@@ -58808,6 +58866,202 @@ exports.push([module.i, "\n.message-group[data-v-b72491ae] {\n  margin-top: 0.75
 
 // exports
 
+
+/***/ }),
+/* 472 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+function injectStyle (ssrContext) {
+  if (disposed) return
+  __webpack_require__(473)
+}
+var normalizeComponent = __webpack_require__(6)
+/* script */
+var __vue_script__ = __webpack_require__(475)
+/* template */
+var __vue_template__ = __webpack_require__(476)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = injectStyle
+/* scopeId */
+var __vue_scopeId__ = "data-v-c0949d20"
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/js/components/friends/User.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-c0949d20", Component.options)
+  } else {
+    hotAPI.reload("data-v-c0949d20", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 473 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(474);
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var update = __webpack_require__(5)("d735d9be", content, false, {});
+// Hot Module Replacement
+if(false) {
+ // When the styles change, update the <style> tags
+ if(!content.locals) {
+   module.hot.accept("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-c0949d20\",\"scoped\":true,\"hasInlineConfig\":true}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./User.vue", function() {
+     var newContent = require("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-c0949d20\",\"scoped\":true,\"hasInlineConfig\":true}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./User.vue");
+     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+     update(newContent);
+   });
+ }
+ // When the module is disposed, remove the <style> tags
+ module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 474 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(4)(false);
+// imports
+
+
+// module
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+
+// exports
+
+
+/***/ }),
+/* 475 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    name: 'User',
+    props: {
+        user: {
+            required: true,
+            type: Object,
+            props: {
+                id: {
+                    required: true,
+                    type: String
+                },
+                username: {
+                    required: true,
+                    type: String
+                }
+            }
+        },
+        type: {
+            required: true,
+            type: String
+        }
+    },
+    methods: {
+        addFriend: function addFriend() {
+            this.$emit('add-friend', this.user);
+        },
+        deleteFriend: function deleteFriend() {
+            this.$emit('delete-friend', this.user);
+        }
+    }
+});
+
+/***/ }),
+/* 476 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "card" }, [
+    _c("div", { staticClass: "p-2 text-center" }, [
+      _c("div", { staticClass: "pb-2" }, [
+        _c("b", [_vm._v(_vm._s(_vm.user.username))])
+      ]),
+      _vm._v(" "),
+      _vm.type === "user"
+        ? _c(
+            "button",
+            {
+              staticClass: "btn btn-primary btn-block",
+              attrs: { type: "button" },
+              on: { click: _vm.addFriend }
+            },
+            [_vm._v("\n            Add friend\n        ")]
+          )
+        : _vm._e(),
+      _vm._v(" "),
+      _vm.type === "friend"
+        ? _c(
+            "button",
+            {
+              staticClass: "btn btn-primary btn-block",
+              attrs: { type: "button" },
+              on: { click: _vm.deleteFriend }
+            },
+            [_vm._v("\n            Delete\n        ")]
+          )
+        : _vm._e()
+    ])
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-c0949d20", module.exports)
+  }
+}
 
 /***/ })
 /******/ ]);

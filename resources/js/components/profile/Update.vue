@@ -37,7 +37,6 @@
 </template>
 
 <script>
-    import api from '../../helpers/api';
     import ApiError from '../../helpers/api/ApiError';
 
     export default {
@@ -58,8 +57,10 @@
         methods: {
             updateUser() {
                 this.loading = true;
-                api.update('users', this.form.id, this.form)
-                    .then(() => this.error = new ApiError())
+                this.$store.dispatch('auth/update', this.form)
+                    .then(() => {
+                        this.error = new ApiError();
+                    })
                     .catch((error) => this.error = error)
                     .finally(() => this.loading = false);
             },

@@ -4,6 +4,7 @@ import api from '../helpers/api';
 const TYPES = {
     LOGIN: 'LOGIN',
     FETCH_USER: 'FETCH_USER',
+    UPDATE: 'UPDATE',
     LOGOUT: 'LOGOUT'
 };
 
@@ -21,6 +22,9 @@ const mutations = {
     [TYPES.FETCH_USER](state, user) {
         state.user = user;
     },
+    [TYPES.UPDATE](state, user) {
+        state.user.username = user.username;
+    },
     [TYPES.LOGOUT](state) {
         state.logged  = false;
         state.tokenId = null;
@@ -34,7 +38,7 @@ const mutations = {
 const getters = {
     isLogged: state => state.logged,
     user: state => state.user,
-    tokenId: state => state.tokenId,
+    tokenId: state => state.tokenId
 };
 
 const actions = {
@@ -80,6 +84,17 @@ const actions = {
                     commit(TYPES.LOGOUT);
                     resolve();
                 });
+        });
+    },
+
+    update({ commit, state }, user) {
+        return new Promise((resolve, reject) => {
+            api.update('users', state.user.id, user)
+                .then(() => {
+                    commit(TYPES.UPDATE, user);
+                    resolve();
+                })
+                .catch(error => reject(error));
         });
     },
 
