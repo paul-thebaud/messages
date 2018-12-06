@@ -48,6 +48,13 @@ class Message extends UuidModel
     ];
 
     /**
+     * {@inheritdoc}
+     */
+    protected $with = [
+        'user',
+    ];
+
+    /**
      * The conversation where the message was sent.
      *
      * @return BelongsTo The relation.

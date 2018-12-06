@@ -1,15 +1,18 @@
 <template>
     <div class="message-group" :class="{ 'is-author': isAuthor }">
-        <div class="author">
-            <small class="text-muted">{{ user.username }}</small>
-        </div>
-        <div class="messages">
-            <div v-for="message in messages" class="message">
-                {{ message.text }}
+        <img v-if="!isAuthor" :src="user.gravatar" class="gravatar"/>
+        <div class="message-group-wrapper">
+            <div class="author">
+                <small class="text-muted">{{ user.username }}</small>
             </div>
-        </div>
-        <div class="date">
-            <small class="text-muted">{{ createdAt }}</small>
+            <div class="messages">
+                <div v-for="message in messages" class="message">
+                    {{ message.text }}
+                </div>
+            </div>
+            <div class="date">
+                <small class="text-muted">{{ createdAt }}</small>
+            </div>
         </div>
     </div>
 </template>
@@ -43,6 +46,9 @@
 
     .message-group {
         margin-top: 0.75rem;
+        .message-group-wrapper {
+            margin-left: 45px;
+        }
         .author, .date {
             margin-left: 0.50rem;
         }
@@ -51,7 +57,7 @@
                 background-color: white;
                 padding: 0.25rem 0.75rem;
                 margin-bottom: 0.25rem;
-                width: max-content;
+                display: table;
                 border-radius: 0 10px 10px 0;
                 &:first-child {
                     border-radius: 10px 10px 10px 0;
@@ -87,6 +93,18 @@
                         border-radius: 10px;
                     }
                 }
+            }
+        }
+        &:not(.is-author) {
+            .gravatar {
+                width: 40px;
+                height: 40px;
+                border-radius: 50%;
+                float: left;
+                margin-top: 5px;
+            }
+            .message-group-wrapper {
+                margin-left: 45px;
             }
         }
     }

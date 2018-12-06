@@ -1,10 +1,13 @@
 <template>
     <div class="conversations">
         <div class="conversations-list">
-            <conversation-search></conversation-search>
+            <conversation-search v-on:search="onSearch"></conversation-search>
             <conversation-item v-for="conversation in orderedConversations"
                                :key="conversation.id" :conversation="conversation">
             </conversation-item>
+            <div v-if="conversations.length <= 0" class="text-muted text-center">
+                No conversation.
+            </div>
         </div>
         <div class="conversation-view">
             <router-view></router-view>
@@ -29,16 +32,18 @@
             }
         },
         data() {
-            const conversations = [...Array(45).keys()].map(value => {
-                return {
-                    id: value.toString(),
-                    name: 'Some name for this conversation',
-                    updated_at: new Date(+(new Date()) - Math.floor(Math.random()*100000000)).toISOString()
-                };
-            });
             return {
-                conversations
+                conversations: []
             };
+        },
+        mounted() {
+            this.onSearch();
+        },
+        methods: {
+            onSearch(search) {
+                this.$store.dispatch('conversation/index')
+                    .then(conversations => this.conversations = conversations);
+            }
         }
     };
 </script>

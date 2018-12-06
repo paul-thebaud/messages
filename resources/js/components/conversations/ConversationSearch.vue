@@ -11,8 +11,8 @@
     export default {
         name: 'ConversationSearch',
         methods: {
-            search() {
-
+            search(event) {
+                this.$emit('search', event.target.value);
             }
         }
     };

@@ -1,9 +1,9 @@
 <template>
     <div class="conversation">
         <div class="conversation__title">
-            {{ conversation.name }}
+            {{ conversation.name || 'Loading...' }}
         </div>
-        <messages class="conversation__messages"></messages>
+        <messages class="conversation__messages" :messages="messages"></messages>
         <message-form class="conversation__message-form"></message-form>
     </div>
 </template>
@@ -20,11 +20,31 @@
         },
         data() {
             return {
-                conversation: {
-                    id: this.$route.params.conversation_id,
-                    name: 'Some name for this conversation'
-                }
+                conversation: {},
+                messages: []
             };
+        },
+        mounted() {
+            this.$store.dispatch('conversation/show', this.$route.params.conversation_id)
+                .then(({ conversation, messages }) => {
+                    this.conversation = conversation;
+                    this.messages     = messages.reduce((newMessages, message) => {
+                        if (newMessages.length > 0 && newMessages[newMessages.length - 1].user.id === message.user_id) {
+                            newMessages[newMessages.length - 1].messages.push(message);
+                        } else {
+                            newMessages.push({
+                                user: message.user,
+                                messages: [
+                                    message
+                                ]
+                            });
+                        }
+                        return newMessages;
+                    }, []);
+                    const container = this.$el.querySelector(".conversation__messages");
+                    console.log(container.scrollHeight);
+                    container.scrollTop = container.scrollHeight;
+                });
         }
     };
 </script>

@@ -165,6 +165,7 @@ return [
          */
         Jenssegers\Agent\AgentServiceProvider::class,
         Torann\GeoIP\GeoIPServiceProvider::class,
+        Thomaswelton\LaravelGravatar\LaravelGravatarServiceProvider::class,
 
         /*
          * Application Service Providers...

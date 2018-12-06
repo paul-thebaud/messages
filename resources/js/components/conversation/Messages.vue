@@ -1,10 +1,9 @@
 <template>
     <div class="p-3">
-        <message-group :user="this.$store.getters['auth/user']"
-                       :messages="[
-                       {id: 123, text: 'Some content', created_at: '2018-12-06 12:00:12'},
-                       {id: 123, text: 'Some other content', created_at: '2018-12-06 12:00:12'}
-                       ]"
+        <message-group v-for="(message, index) in messages"
+                       :key="index"
+                       :user="message.user"
+                       :messages="message.messages"
         ></message-group>
     </div>
 </template>
@@ -14,7 +13,7 @@
 
     export default {
         name: 'Messages',
-        props: ['conversation'],
+        props: ['messages'],
         components: {
             MessageGroup
         }
