@@ -15,7 +15,9 @@ class EventServiceProvider extends ServiceProvider
     /**
      * {@inheritdoc}
      */
-    protected $listen = [];
+    protected $listen = [
+        'App\Events\MessageSent' => []
+    ];
 
     /**
      * {@inheritdoc}

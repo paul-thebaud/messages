@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Events\MessageSent;
 use App\Http\Controllers\AbstractController;
 use App\Models\Conversation;
 use App\Models\Message;
-use App\Notifications\MessageCreated;
 use App\Notifications\MessageDeleted;
 use Exception;
 use Illuminate\Auth\Access\AuthorizationException;
@@ -56,7 +56,7 @@ class MessageController extends AbstractController
         $message->conversation()->associate($conversation);
         $message->save();
 
-        Notification::send($conversation->users, new MessageCreated($message));
+        broadcast(new MessageSent($request->user(), $message,$conversation->id))->toOthers();
 
         return response()->json($message, JsonResponse::HTTP_CREATED);
     }

@@ -1,10 +1,10 @@
 <template>
-    <div class="conversation">
+    <div v-if="conversation !== null" class="conversation">
         <div class="conversation__title">
-            {{ conversation.name || 'Loading...' }}
+            {{ conversation.name }}
         </div>
         <messages class="conversation__messages" :messages="messages"></messages>
-        <message-form class="conversation__message-form"></message-form>
+        <message-form class="conversation__message-form" @messagesent='addMessage' :conversationId="conversation.id"></message-form>
     </div>
 </template>
 
@@ -20,7 +20,7 @@
         },
         data() {
             return {
-                conversation: {},
+                conversation: null,
                 messages: []
             };
         },
@@ -45,6 +45,15 @@
                     console.log(container.scrollHeight);
                     container.scrollTop = container.scrollHeight;
                 });
+        },
+        methods: {
+            addMessage(message) {
+                this.$store.dispatch('conversation/create', message)
+                    .then(({ conversation, message }) => {
+                        console.log(message);
+                    })
+                    .catch(()=>{console.log("error message not sent")});
+            },
         }
     };
 </script>

@@ -3,6 +3,7 @@ import Vue from 'vue';
 import VueRouter from 'vue-router';
 import VueBootstrap from 'bootstrap-vue';
 import axios from 'axios';
+import Echo from "laravel-echo";
 
 window.axios = axios;
 
@@ -18,3 +19,19 @@ axios.defaults.baseURL                            = BASE_URL;
 if (null != window.localStorage.getItem('accessToken')) {
     axios.defaults.headers.common['Authorization'] = 'Bearer ' + window.localStorage.getItem('accessToken');
 }
+
+
+window.Pusher = require('pusher-js');
+
+window.Echo = new Echo({
+    broadcaster: 'pusher',
+    key: 'websocketkey',
+    wsHost: window.location.hostname,
+    wsPort: 6001,
+    disableStats: true,
+    auth: {
+        headers: {
+            Authorization: 'Bearer ' + window.localStorage.getItem('accessToken')
+        },
+    },
+});
