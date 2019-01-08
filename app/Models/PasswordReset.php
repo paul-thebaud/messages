@@ -58,7 +58,7 @@ class PasswordReset extends Model
         self::creating(function (PasswordReset $passwordReset) {
             PasswordReset::query()->where('user_id', $passwordReset->user_id)->delete();
             $passwordReset->token     = str_random(100);
-            $passwordReset->expire_at = now()->addMinutes(15);
+            $passwordReset->expire_at = now()->addDay();
         });
     }
 

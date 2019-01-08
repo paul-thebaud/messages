@@ -54,7 +54,7 @@ class TokenController extends AbstractController
     }
 
     /**
-     * Fetch the conversations.
+     * Fetch the tokens.
      *
      * @param Request $request The request.
      *
