@@ -40708,7 +40708,7 @@ __WEBPACK_IMPORTED_MODULE_1_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_2_vue_
 __WEBPACK_IMPORTED_MODULE_1_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_0_bootstrap_vue__["a" /* default */]);
 
 // Configure Axios.
-var BASE_URL = Object({"MIX_PUSHER_APP_CLUSTER":"","MIX_PUSHER_APP_KEY":"websocketkey","NODE_ENV":"development"}).MIX_APP_URL;
+var BASE_URL = "http://127.0.0.1:8000";
 
 __WEBPACK_IMPORTED_MODULE_3_axios___default.a.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 __WEBPACK_IMPORTED_MODULE_3_axios___default.a.defaults.headers.common['X-CSRF-TOKEN'] = document.head.querySelector('meta[name="csrf-token"]').content;
@@ -62562,7 +62562,7 @@ var content = __webpack_require__(347);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(5)("ff5e5940", content, false, {});
+var update = __webpack_require__(5)("63067800", content, false, {});
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
@@ -62756,7 +62756,7 @@ var content = __webpack_require__(353);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(5)("2a7c34e5", content, false, {});
+var update = __webpack_require__(5)("bc634f76", content, false, {});
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
@@ -63965,8 +63965,7 @@ var TYPES = {
 
 var state = {
     conversations: [],
-    conversation: null,
-    messages: []
+    conversation: null
 };
 
 var mutations = (_mutations = {}, _defineProperty(_mutations, TYPES.FETCH, function (state, conversations) {
@@ -63977,8 +63976,6 @@ var mutations = (_mutations = {}, _defineProperty(_mutations, TYPES.FETCH, funct
 
     state.conversation = conversation;
     state.messages = messages;
-}), _defineProperty(_mutations, TYPES.CREATE, function (state, message) {
-    state.messages.push(message);
 }), _mutations);
 
 var getters = {
@@ -64018,16 +64015,6 @@ var actions = {
                     commit(TYPES.USE, { conversation: conversation, messages: messages });
                     resolve({ conversation: conversation, messages: messages });
                 });
-            });
-        });
-    },
-    create: function create(_ref4, message) {
-        var commit = _ref4.commit;
-
-        return new Promise(function (resolve) {
-            __WEBPACK_IMPORTED_MODULE_0__helpers_api__["a" /* default */].store('conversations/' + message.conversation_id + '/messages', message).then(function (conversation) {
-                commit(TYPES.CREATE, { message: message });
-                resolve({ conversation: conversation, message: message });
             });
         });
     }
@@ -64103,7 +64090,7 @@ var content = __webpack_require__(361);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(5)("03ff50c0", content, false, {});
+var update = __webpack_require__(5)("54d4e0fa", content, false, {});
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
@@ -64392,7 +64379,7 @@ var content = __webpack_require__(366);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(5)("583f27e7", content, false, {});
+var update = __webpack_require__(5)("414a2f66", content, false, {});
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
@@ -64785,7 +64772,7 @@ var content = __webpack_require__(371);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(5)("0ea7d11e", content, false, {});
+var update = __webpack_require__(5)("55af2d04", content, false, {});
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
@@ -65039,7 +65026,7 @@ var content = __webpack_require__(376);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(5)("32b9e9b6", content, false, {});
+var update = __webpack_require__(5)("35047910", content, false, {});
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
@@ -65370,7 +65357,7 @@ var content = __webpack_require__(381);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(5)("3530878c", content, false, {});
+var update = __webpack_require__(5)("3c3c4594", content, false, {});
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
@@ -65570,7 +65557,7 @@ var content = __webpack_require__(386);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(5)("3ff6daa9", content, false, {});
+var update = __webpack_require__(5)("77e04d03", content, false, {});
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
@@ -66024,7 +66011,7 @@ var content = __webpack_require__(392);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(5)("719e6bbc", content, false, {});
+var update = __webpack_require__(5)("26ce8cbc", content, false, {});
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
@@ -66175,7 +66162,7 @@ var content = __webpack_require__(397);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(5)("ddf908fa", content, false, {});
+var update = __webpack_require__(5)("7c37ea2e", content, false, {});
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
@@ -66271,7 +66258,11 @@ var render = function() {
         ]),
         _vm._v(" "),
         _c("small", { staticClass: "conversations-item__last_message" }, [
-          _vm._v("\n            The last message which was sended\n        ")
+          _vm._v(
+            "\n            " +
+              _vm._s(_vm.conversation.last_message || "No message") +
+              "\n        "
+          )
         ]),
         _vm._v(" "),
         _c("small", { staticClass: "conversations-item__last_update" }, [
@@ -66401,7 +66392,7 @@ var content = __webpack_require__(403);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(5)("19fd0652", content, false, {});
+var update = __webpack_require__(5)("2c4ee0b8", content, false, {});
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
@@ -66436,10 +66427,11 @@ exports.push([module.i, "\n.conversation[data-v-23c1232b] {\n  display: -webkit-
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_conversation_Messages__ = __webpack_require__(405);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_conversation_Messages___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__components_conversation_Messages__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_conversation_MessageForm__ = __webpack_require__(415);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_conversation_MessageForm___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__components_conversation_MessageForm__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__helpers_api__ = __webpack_require__(25);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_conversation_Messages__ = __webpack_require__(405);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_conversation_Messages___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__components_conversation_Messages__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_conversation_MessageForm__ = __webpack_require__(415);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_conversation_MessageForm___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__components_conversation_MessageForm__);
 //
 //
 //
@@ -66450,6 +66442,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+
 
 
 
@@ -66457,8 +66451,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony default export */ __webpack_exports__["default"] = ({
     name: 'Conversation',
     components: {
-        Messages: __WEBPACK_IMPORTED_MODULE_0__components_conversation_Messages___default.a,
-        MessageForm: __WEBPACK_IMPORTED_MODULE_1__components_conversation_MessageForm___default.a
+        Messages: __WEBPACK_IMPORTED_MODULE_1__components_conversation_Messages___default.a,
+        MessageForm: __WEBPACK_IMPORTED_MODULE_2__components_conversation_MessageForm___default.a
     },
     data: function data() {
         return {
@@ -66474,30 +66468,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 messages = _ref.messages;
 
             _this.conversation = conversation;
-            _this.messages = messages.reduce(function (newMessages, message) {
-                if (newMessages.length > 0 && newMessages[newMessages.length - 1].user.id === message.user_id) {
-                    newMessages[newMessages.length - 1].messages.push(message);
-                } else {
-                    newMessages.push({
-                        user: message.user,
-                        messages: [message]
-                    });
-                }
-                return newMessages;
-            }, []);
-            var container = _this.$el.querySelector(".conversation__messages");
-            console.log(container.scrollHeight);
-            container.scrollTop = container.scrollHeight;
+            _this.messages = messages;
         });
     },
 
     methods: {
         addMessage: function addMessage(message) {
-            this.$store.dispatch('conversation/create', message).then(function (_ref2) {
-                var conversation = _ref2.conversation,
-                    message = _ref2.message;
+            var _this2 = this;
 
-                console.log(message);
+            __WEBPACK_IMPORTED_MODULE_0__helpers_api__["a" /* default */].store('conversations/' + this.conversation.id + '/messages', message).then(function (message) {
+                _this2.messages.push(message);
             }).catch(function () {
                 console.log("error message not sent");
             });
@@ -66567,7 +66547,7 @@ var content = __webpack_require__(407);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(5)("4e778894", content, false, {});
+var update = __webpack_require__(5)("f4bce2d4", content, false, {});
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
@@ -66591,7 +66571,7 @@ exports = module.exports = __webpack_require__(4)(false);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -66619,9 +66599,40 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     name: 'Messages',
-    props: ['messages'],
+    props: ['messages', 'conversation'],
     components: {
         MessageGroup: __WEBPACK_IMPORTED_MODULE_0__MessageGroup___default.a
+    },
+    mounted: function mounted() {
+        this.scrollBottom();
+    },
+    updated: function updated() {
+        this.scrollBottom();
+    },
+    methods: {
+        scrollBottom: function scrollBottom() {
+            this.$el.scrollTop = this.$el.scrollHeight;
+        }
+    },
+    computed: {
+        messageGroups: function messageGroups() {
+            var _this = this;
+
+            return this.messages.reduce(function (messageGroups, message) {
+                if (messageGroups.length > 0 && messageGroups[messageGroups.length - 1].user.id === message.user_id) {
+                    messageGroups[messageGroups.length - 1].messages.push(message);
+                } else {
+                    var user = _this.conversation.users.find(function (user) {
+                        return message.user_id === user.id;
+                    });
+                    messageGroups.push({
+                        user: user,
+                        messages: [message]
+                    });
+                }
+                return messageGroups;
+            }, []);
+        }
     }
 });
 
@@ -66687,7 +66698,7 @@ var content = __webpack_require__(411);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(5)("55d758fe", content, false, {});
+var update = __webpack_require__(5)("47df8844", content, false, {});
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
@@ -66834,10 +66845,10 @@ var render = function() {
   return _c(
     "div",
     { staticClass: "p-3" },
-    _vm._l(_vm.messages, function(message, index) {
+    _vm._l(_vm.messageGroups, function(messageGroup, index) {
       return _c("message-group", {
         key: index,
-        attrs: { user: message.user, messages: message.messages }
+        attrs: { user: messageGroup.user, messages: messageGroup.messages }
       })
     })
   )
@@ -66914,7 +66925,7 @@ var content = __webpack_require__(417);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(5)("3db5b4b7", content, false, {});
+var update = __webpack_require__(5)("a5361452", content, false, {});
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
@@ -67081,7 +67092,7 @@ var render = function() {
           _vm._v(" "),
           _c("messages", {
             staticClass: "conversation__messages",
-            attrs: { messages: _vm.messages }
+            attrs: { messages: _vm.messages, conversation: _vm.conversation }
           }),
           _vm._v(" "),
           _c("message-form", {
@@ -67166,7 +67177,7 @@ var content = __webpack_require__(423);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(5)("4467aae0", content, false, {});
+var update = __webpack_require__(5)("48e471ba", content, false, {});
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
@@ -67294,7 +67305,7 @@ var content = __webpack_require__(428);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(5)("9005eb6a", content, false, {});
+var update = __webpack_require__(5)("2734c59e", content, false, {});
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
@@ -67440,7 +67451,7 @@ var content = __webpack_require__(433);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(5)("1fcbb331", content, false, {});
+var update = __webpack_require__(5)("d4ede504", content, false, {});
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
@@ -67572,7 +67583,7 @@ var content = __webpack_require__(437);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(5)("f25c27ea", content, false, {});
+var update = __webpack_require__(5)("0fe0bd31", content, false, {});
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
@@ -67901,7 +67912,7 @@ var content = __webpack_require__(442);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(5)("d57683ca", content, false, {});
+var update = __webpack_require__(5)("1e538f41", content, false, {});
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
@@ -68072,7 +68083,7 @@ var content = __webpack_require__(446);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(5)("04fec14b", content, false, {});
+var update = __webpack_require__(5)("50439936", content, false, {});
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
@@ -68380,7 +68391,7 @@ var content = __webpack_require__(453);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(5)("649a50fa", content, false, {});
+var update = __webpack_require__(5)("437031d0", content, false, {});
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
@@ -68557,7 +68568,7 @@ var content = __webpack_require__(457);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(5)("60af9f0a", content, false, {});
+var update = __webpack_require__(5)("d735d9be", content, false, {});
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
@@ -68825,7 +68836,7 @@ var content = __webpack_require__(463);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(5)("a18de0d4", content, false, {});
+var update = __webpack_require__(5)("6b869863", content, false, {});
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
@@ -68976,7 +68987,7 @@ var content = __webpack_require__(467);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(5)("51cf0b92", content, false, {});
+var update = __webpack_require__(5)("b13d3442", content, false, {});
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
@@ -69141,7 +69152,7 @@ var content = __webpack_require__(472);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(5)("d401f7d4", content, false, {});
+var update = __webpack_require__(5)("28dd433a", content, false, {});
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags

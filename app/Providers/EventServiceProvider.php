@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Events\MessageSent;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 
 /**
@@ -16,7 +17,7 @@ class EventServiceProvider extends ServiceProvider
      * {@inheritdoc}
      */
     protected $listen = [
-        'App\Events\MessageSent' => []
+        MessageSent::class => []
     ];
 
     /**

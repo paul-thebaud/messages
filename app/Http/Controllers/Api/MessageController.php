@@ -58,7 +58,10 @@ class MessageController extends AbstractController
 
         broadcast(new MessageSent($request->user(), $message,$conversation->id))->toOthers();
 
-        return response()->json($message, JsonResponse::HTTP_CREATED);
+        return response()->json($message->makeHidden([
+            'conversation',
+            'user',
+        ]), JsonResponse::HTTP_CREATED);
     }
 
     /**

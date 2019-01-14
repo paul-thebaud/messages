@@ -3,12 +3,14 @@
         <div class="conversation__title">
             {{ conversation.name }}
         </div>
-        <messages class="conversation__messages" :messages="messages"></messages>
-        <message-form class="conversation__message-form" @messagesent='addMessage' :conversationId="conversation.id"></message-form>
+        <messages class="conversation__messages" :messages="messages" :conversation="conversation"></messages>
+        <message-form class="conversation__message-form" @messagesent='addMessage'
+                      :conversationId="conversation.id"></message-form>
     </div>
 </template>
 
 <script>
+    import api from '../../helpers/api';
     import Messages from '../../components/conversation/Messages';
     import MessageForm from '../../components/conversation/MessageForm';
 
@@ -28,32 +30,19 @@
             this.$store.dispatch('conversation/show', this.$route.params.conversation_id)
                 .then(({ conversation, messages }) => {
                     this.conversation = conversation;
-                    this.messages     = messages.reduce((newMessages, message) => {
-                        if (newMessages.length > 0 && newMessages[newMessages.length - 1].user.id === message.user_id) {
-                            newMessages[newMessages.length - 1].messages.push(message);
-                        } else {
-                            newMessages.push({
-                                user: message.user,
-                                messages: [
-                                    message
-                                ]
-                            });
-                        }
-                        return newMessages;
-                    }, []);
-                    const container = this.$el.querySelector(".conversation__messages");
-                    console.log(container.scrollHeight);
-                    container.scrollTop = container.scrollHeight;
+                    this.messages     = messages;
                 });
         },
         methods: {
             addMessage(message) {
-                this.$store.dispatch('conversation/create', message)
-                    .then(({ conversation, message }) => {
-                        console.log(message);
+                api.store(`conversations/${this.conversation.id}/messages`, message)
+                    .then((message) => {
+                        this.messages.push(message);
                     })
-                    .catch(()=>{console.log("error message not sent")});
-            },
+                    .catch(() => {
+                        console.log("error message not sent");
+                    });
+            }
         }
     };
 </script>
@@ -65,6 +54,7 @@
         display: flex;
         flex-direction: column;
         height: 100%;
+
         &__title {
             text-align: center;
             font-size: 1.2em;
@@ -75,6 +65,7 @@
             background-color: white;
             border-bottom: 1px solid $border-color;
         }
+
         &__messages {
             height: 100%;
             overflow-y: scroll;

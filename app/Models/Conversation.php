@@ -60,6 +60,13 @@ class Conversation extends UuidModel
     ];
 
     /**
+     * {@inheritdoc}
+     */
+    protected $appends = [
+        'last_message',
+    ];
+
+    /**
      * The users of this conversation.
      *
      * @return BelongsToMany The relation.
@@ -80,5 +87,16 @@ class Conversation extends UuidModel
     public function messages(): HasMany
     {
         return $this->hasMany(Message::class);
+    }
+
+    /**
+     * Get the last message sent.
+     *
+     * @return string|null The last message content.
+     */
+    public function getLastMessageAttribute(): ?string
+    {
+        $message = $this->messages()->orderByDesc('created_at')->first();
+        return $message ? $message->text : null;
     }
 }

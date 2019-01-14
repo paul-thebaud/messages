@@ -57,7 +57,7 @@ class ConversationController extends AbstractController
     {
         $this->authorize('show', $conversation);
 
-        return response()->json($conversation);
+        return response()->json($conversation->load('users'));
     }
 
     /**

@@ -5,7 +5,7 @@
                 {{ conversation.name || 'Unnamed conversation' }}
             </strong>
             <small class="conversations-item__last_message">
-                The last message which was sended
+                {{ conversation.last_message || 'No message' }}
             </small>
             <small class="conversations-item__last_update">
                 Updated {{ moment(conversation.updated_at).fromNow() }}

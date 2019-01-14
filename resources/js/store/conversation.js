@@ -8,8 +8,7 @@ const TYPES = {
 
 const state = {
     conversations: [],
-    conversation: null,
-    messages: []
+    conversation: null
 };
 
 const mutations = {
@@ -19,9 +18,6 @@ const mutations = {
     [TYPES.USE](state, { conversation, messages }) {
         state.conversation = conversation;
         state.messages     = messages;
-    },
-    [TYPES.CREATE](state, message) {
-        state.messages.push(message);
     }
 };
 
@@ -55,16 +51,6 @@ const actions = {
                             commit(TYPES.USE, { conversation, messages });
                             resolve({ conversation, messages });
                         });
-                });
-        });
-    },
-
-    create({commit}, message){
-        return new Promise(resolve => {
-            api.store(`conversations/${message.conversation_id}/messages`,message)
-                .then((conversation) => {
-                    commit(TYPES.CREATE, { message });
-                    resolve({ conversation, message });
                 });
         });
     }
