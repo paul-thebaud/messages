@@ -28,9 +28,9 @@ const getters = {
 };
 
 const actions = {
-    index({ commit }) {
+    index({ commit }, search) {
         return new Promise(resolve => {
-            api.index('conversations')
+            api.index('conversations', search ? { search } : {})
                 .then((conversations) => {
                     conversations.forEach((conversation)=>{
                         Echo.join(`App.Conversation.${conversation.id}`)

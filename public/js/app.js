@@ -63991,11 +63991,11 @@ var getters = {
 };
 
 var actions = {
-    index: function index(_ref2) {
+    index: function index(_ref2, search) {
         var commit = _ref2.commit;
 
         return new Promise(function (resolve) {
-            __WEBPACK_IMPORTED_MODULE_0__helpers_api__["a" /* default */].index('conversations').then(function (conversations) {
+            __WEBPACK_IMPORTED_MODULE_0__helpers_api__["a" /* default */].index('conversations', search ? { search: search } : {}).then(function (conversations) {
                 conversations.forEach(function (conversation) {
                     Echo.join('App.Conversation.' + conversation.id).listen('newMessage', function () {
                         console.log('test');
@@ -65646,7 +65646,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         onSearch: function onSearch(search) {
             var _this = this;
 
-            this.$store.dispatch('conversation/index').then(function (conversations) {
+            this.$store.dispatch('conversation/index', search).then(function (conversations) {
                 return _this.conversations = conversations;
             });
         }
@@ -66046,6 +66046,7 @@ exports.push([module.i, "\n.conversations-search[data-v-551948d6] {\n  padding: 
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__helpers__ = __webpack_require__(478);
 //
 //
 //
@@ -66056,12 +66057,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 
+
+
 /* harmony default export */ __webpack_exports__["default"] = ({
     name: 'ConversationSearch',
     methods: {
-        search: function search(event) {
-            this.$emit('search', event.target.value);
-        }
+        search: Object(__WEBPACK_IMPORTED_MODULE_0__helpers__["a" /* debounce */])(function (search) {
+            console.log('debounced : ' + search);
+            this.$emit('search', search);
+        }, 450)
     }
 });
 
@@ -66454,25 +66458,33 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         Messages: __WEBPACK_IMPORTED_MODULE_1__components_conversation_Messages___default.a,
         MessageForm: __WEBPACK_IMPORTED_MODULE_2__components_conversation_MessageForm___default.a
     },
+    mounted: function mounted() {
+        this.initComponent(this.$route.params.conversation_id);
+    },
+    beforeRouteUpdate: function beforeRouteUpdate(to, from, next) {
+        this.initComponent(to.params.conversation_id);
+        next();
+    },
     data: function data() {
         return {
             conversation: null,
             messages: []
         };
     },
-    mounted: function mounted() {
-        var _this = this;
-
-        this.$store.dispatch('conversation/show', this.$route.params.conversation_id).then(function (_ref) {
-            var conversation = _ref.conversation,
-                messages = _ref.messages;
-
-            _this.conversation = conversation;
-            _this.messages = messages;
-        });
-    },
 
     methods: {
+        initComponent: function initComponent(conversationId) {
+            var _this = this;
+
+            console.log(conversationId);
+            this.$store.dispatch('conversation/show', conversationId).then(function (_ref) {
+                var conversation = _ref.conversation,
+                    messages = _ref.messages;
+
+                _this.conversation = conversation;
+                _this.messages = messages;
+            });
+        },
         addMessage: function addMessage(message) {
             var _this2 = this;
 
@@ -67087,7 +67099,11 @@ var render = function() {
         { staticClass: "conversation" },
         [
           _c("div", { staticClass: "conversation__title" }, [
-            _vm._v("\n        " + _vm._s(_vm.conversation.name) + "\n    ")
+            _vm._v(
+              "\n        " +
+                _vm._s(_vm.conversation.name || "Unnamed conversation") +
+                "\n    "
+            )
           ]),
           _vm._v(" "),
           _c("messages", {
@@ -69362,6 +69378,29 @@ if (false) {
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 477 */,
+/* 478 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (immutable) */ __webpack_exports__["a"] = debounce;
+function debounce(func, wait, immediate) {
+    var timeout = void 0;
+    return function () {
+        var context = this,
+            args = arguments;
+        var later = function later() {
+            timeout = null;
+            if (!immediate) func.apply(context, args);
+        };
+        var callNow = immediate && !timeout;
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
+        if (callNow) func.apply(context, args);
+    };
+}
 
 /***/ })
 /******/ ]);

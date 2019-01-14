@@ -41,7 +41,7 @@
         },
         methods: {
             onSearch(search) {
-                this.$store.dispatch('conversation/index')
+                this.$store.dispatch('conversation/index', search)
                     .then(conversations => this.conversations = conversations);
             }
         }

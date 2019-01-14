@@ -1,7 +1,7 @@
 <template>
     <div v-if="conversation !== null" class="conversation">
         <div class="conversation__title">
-            {{ conversation.name }}
+            {{ conversation.name || 'Unnamed conversation' }}
         </div>
         <messages class="conversation__messages" :messages="messages" :conversation="conversation"></messages>
         <message-form class="conversation__message-form" @messagesent='addMessage'
@@ -20,20 +20,28 @@
             Messages,
             MessageForm
         },
+        mounted() {
+            this.initComponent(this.$route.params.conversation_id);
+        },
+        beforeRouteUpdate(to, from, next) {
+            this.initComponent(to.params.conversation_id);
+            next();
+        },
         data() {
             return {
                 conversation: null,
                 messages: []
             };
         },
-        mounted() {
-            this.$store.dispatch('conversation/show', this.$route.params.conversation_id)
-                .then(({ conversation, messages }) => {
-                    this.conversation = conversation;
-                    this.messages     = messages;
-                });
-        },
         methods: {
+            initComponent(conversationId) {
+                console.log(conversationId);
+                this.$store.dispatch('conversation/show', conversationId)
+                    .then(({ conversation, messages }) => {
+                        this.conversation = conversation;
+                        this.messages     = messages;
+                    });
+            },
             addMessage(message) {
                 api.store(`conversations/${this.conversation.id}/messages`, message)
                     .then((message) => {

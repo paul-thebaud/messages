@@ -36,10 +36,15 @@ class ConversationController extends AbstractController
             $request->user()
                 ->conversations()
                 ->when($request->input('search'), function (Builder $query) use ($request) {
+                    $search = sprintf('%%%s%%', $request->input('search'));
                     $query->whereNotNull('name')
-                        ->where('name', 'like', sprintf('%%%s%%', $request->input('search')));
+                        ->where('name', 'like', $search)
+                        ->orWhereHas('messages', function (Builder $query) use ($search) {
+                            $query->where('text', 'like', $search);
+                        });
                 })
                 ->orderByDesc('updated_at')
+                ->groupBy('id')
                 ->get()
         );
     }
