@@ -45,7 +45,7 @@
         },
         computed: {
             createdAtDisplay() {
-                const date = moment(this.createdAt);
+                const date = moment.utc(this.createdAt);
                 return `Created the ${date.format('YYYY-MM-DD')} at ${date.format('h:mm')}`;
             }
         }

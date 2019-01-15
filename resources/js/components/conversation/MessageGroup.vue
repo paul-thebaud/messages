@@ -1,5 +1,5 @@
 <template>
-    <div class="message-group" :class="{ 'is-author': isAuthor }">
+    <li class="message-group" :class="{ 'is-author': isAuthor }">
         <img v-if="!isAuthor" :src="user.gravatar" class="gravatar"/>
         <div class="message-group-wrapper">
             <div class="author">
@@ -11,10 +11,10 @@
                 </div>
             </div>
             <div class="date">
-                <small class="text-muted">{{ createdAt }}</small>
+                <small class="text-muted">{{ lastMessageAt }}</small>
             </div>
         </div>
-    </div>
+    </li>
 </template>
 
 <script>
@@ -35,8 +35,12 @@
         data() {
             return {
                 isAuthor: this.user.id === this.$store.getters['auth/user'].id,
-                createdAt: moment(this.messages[this.messages.length - 1]).fromNow()
             };
+        },
+        computed: {
+            lastMessageAt: function () {
+                return moment.utc(this.messages[this.messages.length - 1].created_at).fromNow();
+            }
         }
     };
 </script>

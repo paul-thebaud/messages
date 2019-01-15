@@ -64,6 +64,7 @@ class Conversation extends UuidModel
      */
     protected $appends = [
         'last_message',
+        'has_unread',
     ];
 
     /**
@@ -98,5 +99,23 @@ class Conversation extends UuidModel
     {
         $message = $this->messages()->orderByDesc('created_at')->first();
         return $message ? $message->text : null;
+    }
+
+    /**
+     * Get the boolean which tells if the conversation has unread messages.
+     *
+     * @return string|null The last message content.
+     */
+    public function getHasUnreadAttribute(): ?string
+    {
+        // Find current user.
+        $user = request()->user();
+        if (!$user) {
+            return false;
+        }
+        /** @var Message $lastMessage */
+        $lastMessage = $this->messages()->orderByDesc('created_at')->first();
+        return $lastMessage->user_id !== $user->id
+            && $lastMessage->users()->where('id', $user->id)->doesntExist();
     }
 }

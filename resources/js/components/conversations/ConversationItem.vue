@@ -1,5 +1,6 @@
 <template>
-    <router-link class="conversations-item" :class="{ active: isActive }" :to="`/conversations/${conversation.id}`">
+    <router-link class="conversations-item" :class="{ unread: conversation.has_unread }"
+                 :to="`/conversations/${conversation.id}`">
         <div class="conversations-item__body">
             <strong class="conversations-item__name">
                 {{ conversation.name || 'Unnamed conversation' }}
@@ -8,7 +9,7 @@
                 {{ conversation.last_message || 'No message' }}
             </small>
             <small class="conversations-item__last_update">
-                Updated {{ moment(conversation.updated_at).fromNow() }}
+                Updated {{ moment.utc(conversation.updated_at).fromNow() }}
             </small>
         </div>
     </router-link>
@@ -22,11 +23,6 @@
         props: ['conversation'],
         data() {
             return { moment };
-        },
-        computed: {
-            isActive: function () {
-                return this.$route.params.conversation_id === this.conversation.id;
-            }
         }
     };
 </script>
@@ -36,23 +32,35 @@
 
     .conversations-item {
         text-decoration: none;
+
         &__body {
             transition: 250ms ease;
             color: $gray-900;
             padding: 5px 10px;
+
             &:hover {
                 background-color: $border-color;
             }
         }
+
         &__name, &__last_message, &__last_update {
             display: block;
         }
+
         &__last_message, &__last_update {
             color: $text-muted;
         }
-        &.active {
+
+        &.router-link-active {
             .conversations-item__body {
                 background-color: $border-color;
+            }
+        }
+
+        &.unread {
+            .conversations-item__last_message, .conversations-item__last_update {
+                font-weight: bold;
+                color: $gray-800;
             }
         }
     }

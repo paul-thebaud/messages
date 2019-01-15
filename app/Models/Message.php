@@ -48,6 +48,20 @@ class Message extends UuidModel
     ];
 
     /**
+     * {@inheritdoc}
+     */
+    protected $touches = [
+        'conversation',
+    ];
+
+    /**
+     * {@inheritdoc}
+     */
+    protected $appends = [
+        'user_ids',
+    ];
+
+    /**
      * The conversation where the message was sent.
      *
      * @return BelongsTo The relation.
@@ -77,5 +91,10 @@ class Message extends UuidModel
         return $this->belongsToMany(User::class)
             ->as('message_user')
             ->using(MessageUser::class);
+    }
+
+    public function getUserIdsAttribute(): array
+    {
+        return $this->users()->pluck('id')->toArray();
     }
 }

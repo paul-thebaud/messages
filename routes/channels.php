@@ -12,11 +12,12 @@
 */
 
 use App\Models\User;
-
-Broadcast::channel('chat', function ($user) {
-    return $user;
-});
+use Illuminate\Support\Facades\Broadcast;
 
 Broadcast::channel('App.Conversation.{id}', function (User $user, string $id) {
-    return $user->conversations()->where('id',$id)->exists();
+    return $user->conversations()->where('id', $id)->exists();
+});
+
+Broadcast::channel('App.Conversation.{id}.chat', function (User $user, string $id) {
+    return $user->conversations()->where('id', $id)->exists();
 });

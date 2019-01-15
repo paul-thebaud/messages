@@ -1,31 +1,67 @@
 <template>
-    <div class="p-3">
+    <ul class="p-3"
+        v-chat-scroll="{always: false, smooth: true, scrollonremoved:true}"
+        v-on:scroll.native="handleScroll">
         <message-group v-for="(messageGroup, index) in messageGroups"
                        :key="index"
                        :user="messageGroup.user"
                        :messages="messageGroup.messages"
         ></message-group>
-    </div>
+        <li v-if="typing" class="typing text-muted px-3">
+            &bull;&bull;&bull;
+        </li>
+    </ul>
 </template>
 
 <script>
     import MessageGroup from './MessageGroup';
+    import IsSomeoneTyping from '../../components/conversation/IsSomeoneTyping';
 
     export default {
         name: 'Messages',
         props: ['messages', 'conversation'],
         components: {
+            IsSomeoneTyping,
             MessageGroup
         },
-        mounted: function () {
-            this.scrollBottom();
+        data: function () {
+            return {
+                typing: false
+            };
         },
-        updated: function () {
-            this.scrollBottom();
+        destroyed () {
+            this.$el.removeEventListener('scroll', this.handleScroll);
+        },
+        mounted: function () {
+            Echo.join(`App.Conversation.${this.conversation.id}.chat`)
+                .listenForWhisper('typing', (event) => {
+                    //if (event.user_id === this.$store.getters['auth/user'].id) {
+                    //    return;
+                    //}
+                    this.typing = true;
+
+                    // Remove is typing indicator after 0.9s.
+                    setTimeout(() => {
+                        this.typing = false;
+                    }, 900);
+                });
+            this.$el.addEventListener('scroll', this.handleScroll);
+        },
+        updated() {
+            // We are not on bottom.
+            if (!this.isOnBottom()) {
+                return;
+            }
+            this.$emit('read-message');
         },
         methods: {
-            scrollBottom: function () {
-                this.$el.scrollTop = this.$el.scrollHeight;
+            isOnBottom() {
+                return (this.$el.scrollTop + this.$el.offsetHeight) === this.$el.scrollHeight;
+            },
+            handleScroll() {
+                if (this.isOnBottom()) {
+                    this.$emit('read-message');
+                }
             }
         },
         computed: {
@@ -51,5 +87,18 @@
     };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+    ul.p-3 {
+        list-style: none;
+        margin-bottom: 0;
+    }
+
+    .typing {
+        margin-left: 45px;
+        padding: 0.25rem 0.75rem;
+        background-color: white;
+        border-radius: 10px 10px 10px 10px;
+        margin-bottom: 0.25rem;
+        display: table;;
+    }
 </style>

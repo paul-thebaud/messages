@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Events\MessageSent;
+use App\Events\NewMessage;
 use App\Http\Controllers\AbstractController;
 use App\Models\Conversation;
 use App\Models\Message;
@@ -56,12 +56,14 @@ class MessageController extends AbstractController
         $message->conversation()->associate($conversation);
         $message->save();
 
-        broadcast(new MessageSent($request->user(), $message,$conversation->id))->toOthers();
-
-        return response()->json($message->makeHidden([
+        $message->makeHidden([
             'conversation',
             'user',
-        ]), JsonResponse::HTTP_CREATED);
+        ]);
+
+        event(new NewMessage($message));
+
+        return response()->json($message, JsonResponse::HTTP_CREATED);
     }
 
     /**

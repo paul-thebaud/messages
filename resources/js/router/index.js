@@ -10,7 +10,6 @@ import Conversation from '../pages/conversations/Conversation';
 import ConversationDetails from '../pages/conversations/ConversationDetails';
 import NoSelectedConversation from '../pages/conversations/NoSelectedConversation';
 import Profile from '../pages/Profile';
-import Friends from '../pages/Friends';
 
 const router = new VueRouter({
     mode: 'history',
@@ -54,14 +53,6 @@ const router = new VueRouter({
             path: '/profile',
             name: 'Profile',
             component: Profile,
-            meta: {
-                auth: true
-            }
-        },
-        {
-            path: '/friends',
-            name: 'Friends',
-            component: Friends,
             meta: {
                 auth: true
             }

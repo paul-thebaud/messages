@@ -1,21 +1,20 @@
 <template>
-    <form class="form-inline p-2">
+    <form class="form-inline p-2" @submit.prevent="sendMessage">
         <label class="sr-only" for="message-input">Name</label>
         <input type="text"
                class="flex-grow-1 form-control mr-sm-2"
                id="message-input"
                v-model="newMessage"
-               @keyup.enter="sendMessage"
                @keyup="sendTypingEvent"
                placeholder="Type your message..."/>
-        <button type="button" @click="sendMessage" class="btn btn-primary">Send</button>
+        <button type="submit" class="btn btn-primary">Send</button>
     </form>
 </template>
 
 <script>
     export default {
         name: 'MessageForm',
-        props: ['user','conversationId'],
+        props: ['conversationId'],
 
         data() {
             return {
@@ -25,12 +24,17 @@
 
         methods: {
             sendTypingEvent() {
-                Echo.join('chat')
-                    .whisper('typing', this.user);
+                Echo.join(`App.Conversation.${this.conversationId}.chat`)
+                    .whisper('typing', {
+                        user_id: this.$store.getters['auth/user'].id,
+                    });
             },
 
             sendMessage() {
-                this.$emit('messagesent', {
+                if (this.newMessage === '') {
+                    return;
+                }
+                this.$emit('add-message', {
                     text: this.newMessage,
                     conversation_id: this.conversationId
                 });

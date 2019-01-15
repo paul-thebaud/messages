@@ -32,10 +32,6 @@ const actions = {
         return new Promise(resolve => {
             api.index('conversations', search ? { search } : {})
                 .then((conversations) => {
-                    conversations.forEach((conversation)=>{
-                        Echo.join(`App.Conversation.${conversation.id}`)
-                            .listen('newMessage',()=>{console.log('test')});
-                    });
                     commit(TYPES.FETCH, conversations);
                     resolve(conversations);
                 });

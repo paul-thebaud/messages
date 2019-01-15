@@ -10,7 +10,7 @@
             </div>
         </div>
         <div class="conversation-view">
-            <router-view></router-view>
+            <router-view @read-conversation="readConversation"></router-view>
         </div>
     </div>
 </template>
@@ -42,7 +42,28 @@
         methods: {
             onSearch(search) {
                 this.$store.dispatch('conversation/index', search)
-                    .then(conversations => this.conversations = conversations);
+                    .then(conversations => {
+                        // Unregister from previous conversation listening.
+                        // TODO
+                        // Define new conversations.
+                        this.conversations = conversations;
+                        // Register for new conversations.
+                        this.conversations.forEach((conversation) => {
+                            Echo.private(`App.Conversation.${conversation.id}`)
+                                .listen('.newMessage', ({ message }) => {
+                                    conversation.updated_at   = moment.utc().format("YYYY-MM-DD HH:mm:ss");
+                                    conversation.has_unread   = true;
+                                    conversation.last_message = message.text;
+                                });
+                        });
+                    });
+            },
+            readConversation(conversationId) {
+                this.conversations.find((conversation) => {
+                    if (conversation.id === conversationId) {
+                        conversation.has_unread = false;
+                    }
+                });
             }
         }
     };
@@ -54,6 +75,7 @@
     .conversations {
         display: flex;
         height: 100%;
+
         .conversations-list {
             overflow-y: scroll;
             height: 100%;
@@ -61,6 +83,7 @@
             background-color: white;
             border-right: 1px solid $border-color;
         }
+
         .conversation-view {
             overflow-y: hidden;
             height: 100%;
