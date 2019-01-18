@@ -2,6 +2,11 @@
     <ul class="p-3"
         v-chat-scroll="{always: false, smooth: true, scrollonremoved:true}"
         v-on:scroll.native="handleScroll">
+        <li class="px-3 text-center text-muted pb-1">
+            <small>
+                Conversation created {{ moment.utc(conversation.created_at).fromNow() }}
+            </small>
+        </li>
         <message-group v-for="(messageGroup, index) in messageGroups"
                        :key="index"
                        :user="messageGroup.user"
@@ -14,6 +19,7 @@
 </template>
 
 <script>
+    import moment from 'moment';
     import MessageGroup from './MessageGroup';
     import IsSomeoneTyping from '../../components/conversation/IsSomeoneTyping';
 
@@ -26,21 +32,20 @@
         },
         data: function () {
             return {
-                typing: false
+                typing: false,
+                moment: moment
             };
         },
-        destroyed () {
+        destroyed() {
             this.$el.removeEventListener('scroll', this.handleScroll);
         },
         mounted: function () {
             Echo.join(`App.Conversation.${this.conversation.id}.chat`)
                 .listenForWhisper('typing', (event) => {
-                    //if (event.user_id === this.$store.getters['auth/user'].id) {
-                    //    return;
-                    //}
+                    if (event.user_id === this.$store.getters['auth/user'].id) {
+                        return;
+                    }
                     this.typing = true;
-
-                    // Remove is typing indicator after 0.9s.
                     setTimeout(() => {
                         this.typing = false;
                     }, 900);
@@ -55,13 +60,26 @@
             this.$emit('read-message');
         },
         methods: {
+            isOnTop() {
+                return this.$el.scrollTop === 0;
+            },
             isOnBottom() {
                 return (this.$el.scrollTop + this.$el.offsetHeight) === this.$el.scrollHeight;
             },
             handleScroll() {
+                if (this.isOnTop()) {
+                    this.$emit('load-messages', (added) => {
+                        if (added > 0) {
+                            this.$el.scrollTop = this.$el.offsetHeight;
+                        }
+                    });
+                }
                 if (this.isOnBottom()) {
                     this.$emit('read-message');
                 }
+            },
+            loadMessages() {
+                this.$emit('load-messages');
             }
         },
         computed: {

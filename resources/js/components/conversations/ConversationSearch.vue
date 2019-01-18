@@ -14,7 +14,6 @@
         name: 'ConversationSearch',
         methods: {
             search: debounce(function (search) {
-                console.log('debounced : ' + search);
                 this.$emit('search', search);
             }, 450)
         }

@@ -1,12 +1,20 @@
 <template>
     <div v-if="conversation !== null" class="conversation">
-        <div class="conversation__title">
-            {{ conversation.name || 'Unnamed conversation' }}
+        <div class="conversation__header">
+            <div class="title">
+                {{ conversation.name || 'Unnamed conversation' }}
+            </div>
+            <div class="details">
+                <b-btn variant="primary" size="sm" :to="`/conversations/${conversation.id}/details`">
+                    Details
+                </b-btn>
+            </div>
         </div>
         <messages class="conversation__messages"
                   :messages="messages"
                   :conversation="conversation"
                   @read-message="readMessage"
+                  @load-messages="loadMessages"
         ></messages>
         <message-form class="conversation__message-form"
                       :conversationId="conversation.id"
@@ -33,18 +41,23 @@
         mounted() {
             this.initComponent(this.$route.params.conversation_id);
         },
+        created() {
+        },
         data() {
             return {
                 conversation: null,
-                messages: []
+                messages: [],
+                messagesComponent: null
             };
         },
         methods: {
             initComponent(conversationId) {
-                this.$store.dispatch('conversation/show', conversationId)
-                    .then(({ conversation, messages }) => {
+                this.conversation = null;
+                this.messages     = [];
+                api.show('conversations', conversationId)
+                    .then((conversation) => {
                         this.conversation = conversation;
-                        this.messages     = messages;
+                        this.loadMessages();
                         Echo.private(`App.Conversation.${conversation.id}`)
                             .listen('.newMessage', ({ message }) => {
                                 if (message.user_id === this.$store.getters['auth/user'].id) {
@@ -76,6 +89,20 @@
                         lastMessage.user_ids.push(userId);
                         this.$emit('read-conversation', lastMessage.conversation_id);
                     });
+            },
+            loadMessages(callback = null) {
+                api
+                    .index(`conversations/${this.conversation.id}/messages`, {
+                        skip: this.messages.length
+                    })
+                    .then((messages) => {
+                        messages.forEach((message) => {
+                            this.messages.unshift(message);
+                        });
+                        if (callback) {
+                            callback(messages.length);
+                        }
+                    });
             }
         }
     };
@@ -89,15 +116,24 @@
         flex-direction: column;
         height: 100%;
 
-        &__title {
-            text-align: center;
-            font-size: 1.2em;
-            font-weight: bold;
+        &__header {
+            display: flex;
+            align-items: center;
             height: 50px;
-            line-height: 40px;
-            padding: 5px;
+            padding: 5px 15px;
             background-color: white;
             border-bottom: 1px solid $border-color;
+
+            .title {
+                font-size: 1.2em;
+                font-weight: bold;
+                line-height: 40px;
+                flex-grow: 1;
+            }
+
+            .details {
+                vertical-align: middle;
+            }
         }
 
         &__messages {

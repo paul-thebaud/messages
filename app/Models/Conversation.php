@@ -65,6 +65,7 @@ class Conversation extends UuidModel
     protected $appends = [
         'last_message',
         'has_unread',
+        'message_count',
     ];
 
     /**
@@ -87,7 +88,18 @@ class Conversation extends UuidModel
      */
     public function messages(): HasMany
     {
-        return $this->hasMany(Message::class);
+        return $this->hasMany(Message::class)
+            ->orderByDesc('created_at');
+    }
+
+    /**
+     * Get the last message sent.
+     *
+     * @return string|null The last message content.
+     */
+    public function getMessageCountAttribute(): ?string
+    {
+        return $this->messages()->count();
     }
 
     /**
@@ -115,6 +127,9 @@ class Conversation extends UuidModel
         }
         /** @var Message $lastMessage */
         $lastMessage = $this->messages()->orderByDesc('created_at')->first();
+        if (!$lastMessage) {
+            return false;
+        }
         return $lastMessage->user_id !== $user->id
             && $lastMessage->users()->where('id', $user->id)->doesntExist();
     }

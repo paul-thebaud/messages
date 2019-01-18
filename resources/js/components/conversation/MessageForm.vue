@@ -2,6 +2,7 @@
     <form class="form-inline p-2" @submit.prevent="sendMessage">
         <label class="sr-only" for="message-input">Name</label>
         <input type="text"
+               autocomplete="off"
                class="flex-grow-1 form-control mr-sm-2"
                id="message-input"
                v-model="newMessage"

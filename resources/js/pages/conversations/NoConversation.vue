@@ -2,16 +2,15 @@
     <div class="flex-wrapper">
         <div class="text-center">
             <h1>
-                No selected conversation.
+                No conversation.
             </h1>
-            <b-btn variant="primary" size="lg">Create a conversation</b-btn>
         </div>
     </div>
 </template>
 
 <script>
     export default {
-        name: 'NoSelectedConversation'
+        name: 'NoConversation',
     };
 </script>
 

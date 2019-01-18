@@ -3,13 +3,14 @@
                  :to="`/conversations/${conversation.id}`">
         <div class="conversations-item__body">
             <strong class="conversations-item__name">
-                {{ conversation.name || 'Unnamed conversation' }}
+                {{ name }}
             </strong>
             <small class="conversations-item__last_message">
                 {{ conversation.last_message || 'No message' }}
             </small>
             <small class="conversations-item__last_update">
-                Updated {{ moment.utc(conversation.updated_at).fromNow() }}
+                {{ conversation.message_count > 0 ? 'Updated' : 'Created' }} {{
+                moment.utc(conversation.updated_at).fromNow() }}
             </small>
         </div>
     </router-link>
@@ -23,6 +24,18 @@
         props: ['conversation'],
         data() {
             return { moment };
+        },
+        computed: {
+            name() {
+                let name = this.conversation.name;
+                if (!name) {
+                    name = this.conversation.users.map(function (user) {
+                        return user.username;
+                    }).join(', ');
+                }
+                const dots = name.length > 30 ? '...' : '';
+                return `${name.substr(0, 30)}${dots}`;
+            }
         }
     };
 </script>

@@ -35,6 +35,7 @@ class ConversationController extends AbstractController
         return response()->json(
             $request->user()
                 ->conversations()
+                ->with('users')
                 ->when($request->input('search'), function (Builder $query) use ($request) {
                     $search = sprintf('%%%s%%', $request->input('search'));
                     $query->whereNotNull('name')
@@ -108,8 +109,6 @@ class ConversationController extends AbstractController
         ]);
 
         $conversation->update($request->only('name'));
-
-        Notification::send($conversation->users, new ConversationUpdated($conversation));
 
         return response()->json('', JsonResponse::HTTP_NO_CONTENT);
     }

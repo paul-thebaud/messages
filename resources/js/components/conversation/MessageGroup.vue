@@ -32,12 +32,10 @@
                 type: Array
             }
         },
-        data() {
-            return {
-                isAuthor: this.user.id === this.$store.getters['auth/user'].id,
-            };
-        },
         computed: {
+            isAuthor: function () {
+                return this.user.id === this.$store.getters['auth/user'].id;
+            },
             lastMessageAt: function () {
                 return moment.utc(this.messages[this.messages.length - 1].created_at).fromNow();
             }

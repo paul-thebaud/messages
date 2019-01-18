@@ -1,7 +1,7 @@
 <template>
     <div id="app">
-        <sidebar v-if="this.$store.getters['auth/isLogged']"></sidebar>
-        <div class="sidebar-wrapper">
+        <navbar v-if="this.$store.getters['auth/isLogged']"></navbar>
+        <div class="navbar-wrapper">
             <router-view v-if="!initialLoading" v-on:loading-toggle="loadingToggle"></router-view>
             <spinner v-if="loading"></spinner>
         </div>
@@ -10,7 +10,7 @@
 
 <script>
     import Spinner from './Spinner';
-    import Sidebar from './Sidebar';
+    import Navbar from './Navbar';
     import router from '../router';
 
     export default {
@@ -42,7 +42,7 @@
         },
         components: {
             Spinner,
-            Sidebar
+            Navbar
         }
     };
 </script>
@@ -50,7 +50,8 @@
 <style lang="scss" scoped>
     #app {
         height: 100%;
-        .sidebar-wrapper {
+        .navbar-wrapper {
+            padding-top: 55px;
             height: 100%;
         }
     }

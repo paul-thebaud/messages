@@ -2,15 +2,23 @@
     <div class="conversations">
         <div class="conversations-list">
             <conversation-search v-on:search="onSearch"></conversation-search>
-            <conversation-item v-for="conversation in orderedConversations"
-                               :key="conversation.id" :conversation="conversation">
-            </conversation-item>
+            <div class="flex-grow-1">
+                <conversation-item v-for="conversation in orderedConversations"
+                                   :key="conversation.id" :conversation="conversation">
+                </conversation-item>
+            </div>
             <div v-if="conversations.length <= 0" class="text-muted text-center">
                 No conversation.
             </div>
+            <div class="conversations-list-create">
+                <b-btn variant="primary" size="sm" to="/conversations/create" block>Create</b-btn>
+            </div>
         </div>
         <div class="conversation-view">
-            <router-view @read-conversation="readConversation"></router-view>
+            <router-view @create-conversation="createConversation"
+                         @update-conversation="updateConversation"
+                         @read-conversation="readConversation"
+            ></router-view>
         </div>
     </div>
 </template>
@@ -37,10 +45,14 @@
             };
         },
         mounted() {
-            this.onSearch();
+            this.onSearch(null, () => {
+                if (this.$router.currentRoute.name === 'NoConversation' && this.conversations.length > 0) {
+                    this.$router.push(`/conversations/${this.conversations[0].id}`);
+                }
+            });
         },
         methods: {
-            onSearch(search) {
+            onSearch(search, callback) {
                 this.$store.dispatch('conversation/index', search)
                     .then(conversations => {
                         // Unregister from previous conversation listening.
@@ -52,16 +64,33 @@
                             Echo.private(`App.Conversation.${conversation.id}`)
                                 .listen('.newMessage', ({ message }) => {
                                     conversation.updated_at   = moment.utc().format("YYYY-MM-DD HH:mm:ss");
-                                    conversation.has_unread   = true;
+                                    conversation.has_unread   = message.user_id !== this.$store.getters['auth/user'].id;
                                     conversation.last_message = message.text;
+                                    conversation.message_count++;
                                 });
                         });
+                        if (callback) {
+                            callback();
+                        }
                     });
             },
+            createConversation(conversation) {
+                this.conversations.push(conversation);
+                this.$router.push(`/conversations/${conversation.id}/details`);
+            },
+            updateConversation(updatedConversation) {
+                this.conversations.forEach((conversation) => {
+                    if (conversation.id === updatedConversation.id) {
+                        conversation.name = updatedConversation.name;
+                        return false;
+                    }
+                });
+            },
             readConversation(conversationId) {
-                this.conversations.find((conversation) => {
+                this.conversations.forEach((conversation) => {
                     if (conversation.id === conversationId) {
                         conversation.has_unread = false;
+                        return false;
                     }
                 });
             }
@@ -77,11 +106,17 @@
         height: 100%;
 
         .conversations-list {
+            display: flex;
+            flex-direction: column;
             overflow-y: scroll;
             height: 100%;
             min-width: 250px;
             background-color: white;
             border-right: 1px solid $border-color;
+
+            .conversations-list-create {
+                padding: 10px;
+            }
         }
 
         .conversation-view {

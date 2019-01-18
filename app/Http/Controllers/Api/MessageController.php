@@ -19,17 +19,28 @@ class MessageController extends AbstractController
     /**
      * Fetch the messages from a conversation.
      *
+     * @param Request      $request      The request.
      * @param Conversation $conversation The conversation to use.
      *
      * @return JsonResponse The response.
      *
      * @throws AuthorizationException If the user cannot perform this action.
+     * @throws ValidationException If the request is invalid.
      */
-    public function index(Conversation $conversation): JsonResponse
+    public function index(Request $request, Conversation $conversation): JsonResponse
     {
         $this->authorize('show', $conversation);
+
+        $this->validate($request, [
+            'skip' => 'nullable|integer|min:0'
+        ]);
+
+        $query = $conversation->messages()
+            ->skip($request->input('skip', 0))
+            ->take(20);
+
         /** @todo Pagination. */
-        return response()->json($conversation->messages()->get());
+        return response()->json($query->get());
     }
 
     /**

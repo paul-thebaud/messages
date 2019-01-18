@@ -6,6 +6,7 @@ use App\Http\Controllers\AbstractController;
 use App\Models\User;
 use App\Notifications\VerifyEmail;
 use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -19,14 +20,22 @@ class UserController extends AbstractController
      * @param Request $request The request.
      *
      * @return JsonResponse The response.
+     *
+     * @throws ValidationException If the request is invalid.
      */
     public function index(Request $request): JsonResponse
     {
+        $this->validate($request, [
+            'search' => 'sometimes|string',
+        ]);
         /** @todo Pagination. */
         /** @todo Search. */
         return response()->json(
             User::query()
                 ->where('id', '<>', $request->user()->id)
+                ->when($request->input('search'), function (Builder $query) use ($request) {
+                    $query->where('username', 'like', sprintf('%%%s%%', $request->input('search')));
+                })
                 ->get()
         );
     }
