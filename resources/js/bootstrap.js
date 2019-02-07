@@ -3,14 +3,17 @@ import Vue from 'vue';
 import VueRouter from 'vue-router';
 import VueBootstrap from 'bootstrap-vue';
 import VueChatScroll from 'vue-chat-scroll';
-import axios from 'axios';
+import GiphyClient from 'giphy-js-sdk-core';
 import Echo from 'laravel-echo';
+import axios from 'axios';
 
 window.axios = axios;
 
 Vue.use(VueRouter);
 Vue.use(VueBootstrap);
 Vue.use(VueChatScroll);
+
+window.giphyClient = GiphyClient(process.env.MIX_GIPHY_KEY);
 
 // Configure Axios.
 const BASE_URL = process.env.MIX_APP_URL;
@@ -21,7 +24,6 @@ axios.defaults.baseURL                            = BASE_URL;
 if (null != window.localStorage.getItem('accessToken')) {
     axios.defaults.headers.common['Authorization'] = 'Bearer ' + window.localStorage.getItem('accessToken');
 }
-
 
 window.Pusher = require('pusher-js');
 

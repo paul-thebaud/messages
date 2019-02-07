@@ -11,6 +11,7 @@
                        :key="index"
                        :user="messageGroup.user"
                        :messages="messageGroup.messages"
+                       @image-loaded="imageLoaded"
         ></message-group>
         <li v-if="typing" class="typing text-muted px-3">
             &bull;&bull;&bull;
@@ -80,6 +81,11 @@
             },
             loadMessages() {
                 this.$emit('load-messages');
+            },
+            imageLoaded() {
+                if ((this.$el.scrollHeight - (this.$el.offsetHeight + this.$el.scrollTop)) <= 200) {
+                    this.$el.scrollTop = this.$el.scrollHeight;
+                }
             }
         },
         computed: {

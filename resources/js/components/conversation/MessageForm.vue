@@ -8,6 +8,7 @@
                v-model="newMessage"
                @keyup="sendTypingEvent"
                placeholder="Type your message..."/>
+        <button type="button" class="btn btn-unicorn mr-sm-2" @click="sendUnicorn">🦄</button>
         <button type="submit" class="btn btn-primary">Send</button>
     </form>
 </template>
@@ -20,14 +21,29 @@
         data() {
             return {
                 newMessage: ''
-            }
+            };
         },
 
         methods: {
             sendTypingEvent() {
                 Echo.join(`App.Conversation.${this.conversationId}.chat`)
                     .whisper('typing', {
-                        user_id: this.$store.getters['auth/user'].id,
+                        user_id: this.$store.getters['auth/user'].id
+                    });
+            },
+
+            sendUnicorn() {
+                window.giphyClient.random('gifs', {
+                    tag: 'unicorn'
+                })
+                    .then(response => {
+                        this.$emit('add-message', {
+                            text: response.data.images.fixed_height_downsampled.gif_url,
+                            conversation_id: this.conversationId
+                        });
+                    })
+                    .catch(error => {
+                        console.log(error);
                     });
             },
 
@@ -40,7 +56,7 @@
                     conversation_id: this.conversationId
                 });
 
-                this.newMessage = ''
+                this.newMessage = '';
             }
         }
     };
@@ -52,5 +68,9 @@
     .form-inline {
         background-color: white;
         border-top: 1px solid $border-color;
+
+        .btn-unicorn {
+            border: 1px solid #ced4da;
+        }
     }
 </style>

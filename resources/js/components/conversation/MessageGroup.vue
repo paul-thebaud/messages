@@ -6,7 +6,7 @@
                 <small class="text-muted">{{ user.username }}</small>
             </div>
             <div class="messages">
-                <message v-for="message in messages" :key="message.id" :message="message" class="message"/>
+                <message v-for="message in messages" :key="message.id" :message="message" @image-loaded="imageLoaded"/>
             </div>
             <div class="date">
                 <small class="text-muted">{{ lastMessageAt }}</small>
@@ -34,6 +34,11 @@
         components: {
             Message
         },
+        methods: {
+            imageLoaded() {
+                this.$emit('image-loaded');
+            },
+        },
         computed: {
             isAuthor: function () {
                 return this.user.id === this.$store.getters['auth/user'].id;
@@ -41,11 +46,11 @@
             lastMessageAt: function () {
                 return moment.utc(this.messages[this.messages.length - 1].created_at).fromNow();
             }
-        }
+        },
     };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
     @import '../../../scss/variables';
 
     .message-group {
@@ -59,60 +64,11 @@
             margin-left: 0.50rem;
         }
 
-        .messages {
-            .message {
-                background-color: white;
-                padding: 0.25rem 0.75rem;
-                margin-bottom: 0.25rem;
-                display: table;
-                border-radius: 0 10px 10px 0;
-
-                &:first-child {
-                    border-radius: 10px 10px 10px 0;
-                }
-
-                &:last-child {
-                    border-radius: 0 10px 10px 10px;
-                    margin-bottom: 0;
-                }
-
-                &:only-child {
-                    border-radius: 10px;
-                }
-            }
-        }
-
         &.is-author {
             text-align: right;
 
             .author, .date {
                 margin-right: 0.50rem;
-            }
-
-            .messages {
-                .message {
-                    margin-left: auto;
-                    margin-right: 0;
-                    border-radius: 10px 0 0 10px;
-                    background-color: $blue;
-                    color: white;
-
-                    a.linkified {
-                        color: white !important;
-                    }
-
-                    &:first-child {
-                        border-radius: 10px 10px 0 10px;
-                    }
-
-                    &:last-child {
-                        border-radius: 10px 0 10px 10px;
-                    }
-
-                    &:only-child {
-                        border-radius: 10px;
-                    }
-                }
             }
         }
 

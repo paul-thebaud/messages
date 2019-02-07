@@ -2,7 +2,7 @@
     <div v-if="conversation !== null" class="conversation">
         <div class="conversation__header">
             <div class="title">
-                {{ conversation.name || 'Unnamed conversation' }}
+                {{ name }}
             </div>
             <div class="details">
                 <b-btn variant="primary" size="sm" :to="`/conversations/${conversation.id}/details`">
@@ -103,6 +103,18 @@
                             callback(messages.length);
                         }
                     });
+            }
+        },
+        computed: {
+            name() {
+                let name = this.conversation.name;
+                if (!name) {
+                    name = this.conversation.users.map(function (user) {
+                        return user.username;
+                    }).join(', ');
+                }
+                const dots = name.length > 30 ? '...' : '';
+                return `${name.substr(0, 30)}${dots}`;
             }
         }
     };
