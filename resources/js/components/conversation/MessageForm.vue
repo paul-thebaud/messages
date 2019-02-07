@@ -8,23 +8,53 @@
                v-model="newMessage"
                @keyup="sendTypingEvent"
                placeholder="Type your message..."/>
-        <button type="button" class="btn btn-unicorn mr-sm-2" @click="sendUnicorn">🦄</button>
+        <button type="button" class="btn btn-emoji mr-sm-2" @click="sendUnicorn">🦄</button>
+        <div :class="{ displayed: displayEmojiPicker }"
+             class="emoji-picker-wrapper"
+        >
+            <picker color="#3490DC"
+                    @select="addEmoji"
+                    v-click-outside="closeEmojiPicker"
+            ></picker>
+        </div>
+        <button type="button" class="btn btn-emoji mr-sm-2" @click="openEmojiPicker">😀</button>
         <button type="submit" class="btn btn-primary">Send</button>
     </form>
 </template>
 
 <script>
+    import { Picker } from 'emoji-mart-vue';
+
     export default {
         name: 'MessageForm',
         props: ['conversationId'],
-
+        components: {
+            Picker
+        },
         data() {
             return {
+                displayEmojiPicker: false,
                 newMessage: ''
             };
         },
-
         methods: {
+            openEmojiPicker() {
+                setTimeout(() => {
+                    this.displayEmojiPicker = true;
+                }, 100);
+            },
+
+            closeEmojiPicker() {
+                if (this.displayEmojiPicker) {
+                    console.log('hide');
+                    this.displayEmojiPicker = false;
+                }
+            },
+
+            addEmoji(emoji) {
+                this.newMessage += emoji.native;
+            },
+
             sendTypingEvent() {
                 Echo.join(`App.Conversation.${this.conversationId}.chat`)
                     .whisper('typing', {
@@ -69,8 +99,23 @@
         background-color: white;
         border-top: 1px solid $border-color;
 
-        .btn-unicorn {
-            border: 1px solid #ced4da;
+        .btn-emoji {
+            border: 1px solid #CED4DA;
+        }
+
+        .emoji-picker-wrapper {
+            display: none;
+            position: absolute;
+            right: 5px;
+            bottom: 60px;
+
+            .emoji-mart {
+                font-family: "Nunito", sans-serif !important;
+            }
+
+            &.displayed {
+                display: block;
+            }
         }
     }
 </style>
