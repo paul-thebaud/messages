@@ -23,7 +23,10 @@
 </template>
 
 <script>
+    import EmojiConverter from 'emoji-js';
     import { Picker } from 'emoji-mart-vue';
+
+    const emojiConverter = new EmojiConverter();
 
     export default {
         name: 'MessageForm',
@@ -36,6 +39,11 @@
                 displayEmojiPicker: false,
                 newMessage: ''
             };
+        },
+        watch: {
+            newMessage(message) {
+                this.newMessage = emojiConverter.replace_unified(emojiConverter.replace_colons(message));
+            }
         },
         methods: {
             openEmojiPicker() {
