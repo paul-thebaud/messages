@@ -2,7 +2,7 @@ import 'bootstrap-vue';
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 import VueBootstrap from 'bootstrap-vue';
-import VueChatScroll from 'vue-chat-scroll'
+import VueChatScroll from 'vue-chat-scroll';
 import axios from 'axios';
 import Echo from 'laravel-echo';
 
@@ -34,6 +34,6 @@ window.Echo = new Echo({
     auth: {
         headers: {
             Authorization: 'Bearer ' + window.localStorage.getItem('accessToken')
-        },
-    },
+        }
+    }
 });

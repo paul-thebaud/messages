@@ -6,9 +6,7 @@
                 <small class="text-muted">{{ user.username }}</small>
             </div>
             <div class="messages">
-                <div v-for="message in messages" class="message">
-                    {{ message.text }}
-                </div>
+                <message v-for="message in messages" :key="message.id" :message="message" class="message"/>
             </div>
             <div class="date">
                 <small class="text-muted">{{ lastMessageAt }}</small>
@@ -19,6 +17,7 @@
 
 <script>
     import moment from 'moment';
+    import Message from './Message';
 
     export default {
         name: 'MessageGroup',
@@ -31,6 +30,9 @@
                 required: true,
                 type: Array
             }
+        },
+        components: {
+            Message
         },
         computed: {
             isAuthor: function () {
@@ -48,12 +50,15 @@
 
     .message-group {
         margin-top: 0.75rem;
+
         .message-group-wrapper {
             margin-left: 45px;
         }
+
         .author, .date {
             margin-left: 0.50rem;
         }
+
         .messages {
             .message {
                 background-color: white;
@@ -61,23 +66,33 @@
                 margin-bottom: 0.25rem;
                 display: table;
                 border-radius: 0 10px 10px 0;
+
+                a {
+                    color: white !important;
+                }
+
                 &:first-child {
                     border-radius: 10px 10px 10px 0;
                 }
+
                 &:last-child {
                     border-radius: 0 10px 10px 10px;
                     margin-bottom: 0;
                 }
+
                 &:only-child {
                     border-radius: 10px;
                 }
             }
         }
+
         &.is-author {
             text-align: right;
+
             .author, .date {
                 margin-right: 0.50rem;
             }
+
             .messages {
                 .message {
                     margin-left: auto;
@@ -85,18 +100,26 @@
                     border-radius: 10px 0 0 10px;
                     background-color: $blue;
                     color: white;
+
+                    a {
+                        color: white !important;
+                    }
+
                     &:first-child {
                         border-radius: 10px 10px 0 10px;
                     }
+
                     &:last-child {
                         border-radius: 10px 0 10px 10px;
                     }
+
                     &:only-child {
                         border-radius: 10px;
                     }
                 }
             }
         }
+
         &:not(.is-author) {
             .gravatar {
                 width: 40px;
@@ -105,6 +128,7 @@
                 float: left;
                 margin-top: 5px;
             }
+
             .message-group-wrapper {
                 margin-left: 45px;
             }
