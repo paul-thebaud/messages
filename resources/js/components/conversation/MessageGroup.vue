@@ -45,7 +45,7 @@
     };
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
     @import '../../../scss/variables';
 
     .message-group {
@@ -66,10 +66,6 @@
                 margin-bottom: 0.25rem;
                 display: table;
                 border-radius: 0 10px 10px 0;
-
-                a {
-                    color: white !important;
-                }
 
                 &:first-child {
                     border-radius: 10px 10px 10px 0;
@@ -101,7 +97,7 @@
                     background-color: $blue;
                     color: white;
 
-                    a {
+                    a.linkified {
                         color: white !important;
                     }
 

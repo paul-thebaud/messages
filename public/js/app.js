@@ -67477,7 +67477,7 @@ var __vue_template_functional__ = false
 /* styles */
 var __vue_styles__ = injectStyle
 /* scopeId */
-var __vue_scopeId__ = "data-v-b72491ae"
+var __vue_scopeId__ = null
 /* moduleIdentifier (server only) */
 var __vue_module_identifier__ = null
 var Component = normalizeComponent(
@@ -67520,13 +67520,13 @@ var content = __webpack_require__(418);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(5)("47df8844", content, false, {});
+var update = __webpack_require__(5)("355ee212", content, false, {});
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
  if(!content.locals) {
-   module.hot.accept("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-b72491ae\",\"scoped\":true,\"hasInlineConfig\":true}!../../../../node_modules/sass-loader/lib/loader.js!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./MessageGroup.vue", function() {
-     var newContent = require("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-b72491ae\",\"scoped\":true,\"hasInlineConfig\":true}!../../../../node_modules/sass-loader/lib/loader.js!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./MessageGroup.vue");
+   module.hot.accept("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-b72491ae\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../node_modules/sass-loader/lib/loader.js!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./MessageGroup.vue", function() {
+     var newContent = require("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-b72491ae\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../node_modules/sass-loader/lib/loader.js!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./MessageGroup.vue");
      if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
      update(newContent);
    });
@@ -67544,7 +67544,7 @@ exports = module.exports = __webpack_require__(4)(false);
 exports.push([module.i, "@import url(https://fonts.googleapis.com/css?family=Nunito);", ""]);
 
 // module
-exports.push([module.i, "\n.message-group[data-v-b72491ae] {\n  margin-top: 0.75rem;\n}\n.message-group .message-group-wrapper[data-v-b72491ae] {\n    margin-left: 45px;\n}\n.message-group .author[data-v-b72491ae], .message-group .date[data-v-b72491ae] {\n    margin-left: 0.50rem;\n}\n.message-group .messages .message[data-v-b72491ae] {\n    background-color: white;\n    padding: 0.25rem 0.75rem;\n    margin-bottom: 0.25rem;\n    display: table;\n    border-radius: 0 10px 10px 0;\n}\n.message-group .messages .message a[data-v-b72491ae] {\n      color: white !important;\n}\n.message-group .messages .message[data-v-b72491ae]:first-child {\n      border-radius: 10px 10px 10px 0;\n}\n.message-group .messages .message[data-v-b72491ae]:last-child {\n      border-radius: 0 10px 10px 10px;\n      margin-bottom: 0;\n}\n.message-group .messages .message[data-v-b72491ae]:only-child {\n      border-radius: 10px;\n}\n.message-group.is-author[data-v-b72491ae] {\n    text-align: right;\n}\n.message-group.is-author .author[data-v-b72491ae], .message-group.is-author .date[data-v-b72491ae] {\n      margin-right: 0.50rem;\n}\n.message-group.is-author .messages .message[data-v-b72491ae] {\n      margin-left: auto;\n      margin-right: 0;\n      border-radius: 10px 0 0 10px;\n      background-color: #3490DC;\n      color: white;\n}\n.message-group.is-author .messages .message a[data-v-b72491ae] {\n        color: white !important;\n}\n.message-group.is-author .messages .message[data-v-b72491ae]:first-child {\n        border-radius: 10px 10px 0 10px;\n}\n.message-group.is-author .messages .message[data-v-b72491ae]:last-child {\n        border-radius: 10px 0 10px 10px;\n}\n.message-group.is-author .messages .message[data-v-b72491ae]:only-child {\n        border-radius: 10px;\n}\n.message-group:not(.is-author) .gravatar[data-v-b72491ae] {\n    width: 40px;\n    height: 40px;\n    border-radius: 50%;\n    float: left;\n    margin-top: 5px;\n}\n.message-group:not(.is-author) .message-group-wrapper[data-v-b72491ae] {\n    margin-left: 45px;\n}\n", ""]);
+exports.push([module.i, "\n.message-group {\n  margin-top: 0.75rem;\n}\n.message-group .message-group-wrapper {\n    margin-left: 45px;\n}\n.message-group .author, .message-group .date {\n    margin-left: 0.50rem;\n}\n.message-group .messages .message {\n    background-color: white;\n    padding: 0.25rem 0.75rem;\n    margin-bottom: 0.25rem;\n    display: table;\n    border-radius: 0 10px 10px 0;\n}\n.message-group .messages .message:first-child {\n      border-radius: 10px 10px 10px 0;\n}\n.message-group .messages .message:last-child {\n      border-radius: 0 10px 10px 10px;\n      margin-bottom: 0;\n}\n.message-group .messages .message:only-child {\n      border-radius: 10px;\n}\n.message-group.is-author {\n    text-align: right;\n}\n.message-group.is-author .author, .message-group.is-author .date {\n      margin-right: 0.50rem;\n}\n.message-group.is-author .messages .message {\n      margin-left: auto;\n      margin-right: 0;\n      border-radius: 10px 0 0 10px;\n      background-color: #3490DC;\n      color: white;\n}\n.message-group.is-author .messages .message a.linkified {\n        color: white !important;\n}\n.message-group.is-author .messages .message:first-child {\n        border-radius: 10px 10px 0 10px;\n}\n.message-group.is-author .messages .message:last-child {\n        border-radius: 10px 0 10px 10px;\n}\n.message-group.is-author .messages .message:only-child {\n        border-radius: 10px;\n}\n.message-group:not(.is-author) .gravatar {\n    width: 40px;\n    height: 40px;\n    border-radius: 50%;\n    float: left;\n    margin-top: 5px;\n}\n.message-group:not(.is-author) .message-group-wrapper {\n    margin-left: 45px;\n}\n", ""]);
 
 // exports
 
