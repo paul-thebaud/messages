@@ -41,3 +41,4 @@ RUN php artisan migrate
 RUN php artisan passport:install
 
 EXPOSE 9000
+EXPOSE 6001
