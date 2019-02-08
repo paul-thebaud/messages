@@ -235,6 +235,9 @@ pipeline {
                     stage('launch'){
                       sh "sudo docker exec messages${BRANCH_NAME} nohup php artisan queue:work --tries=3 &"
                     }
+                    stage('launch'){
+                      sh "sudo docker exec messages${BRANCH_NAME} nohup php artisan websockets:serve &"
+                    }
                 }
             }
         }
