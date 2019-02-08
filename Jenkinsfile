@@ -18,9 +18,9 @@ pipeline {
             sh 'composer install'
           }
         }
-        stage('Yarn') {
+        stage('npm') {
           steps {
-            sh 'yarn install'
+            sh 'npm install'
           }
         }
         stage('Necessary folders') {
