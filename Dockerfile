@@ -26,7 +26,7 @@ RUN php composer.phar install --no-scripts \
 
 RUN yarn install
 
-RUN yarn build
+RUN yarn production
 
 RUN chown -R www-data:www-data \
         /var/www/storage \
