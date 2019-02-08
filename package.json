@@ -26,6 +26,7 @@
         "jsdom-global": "^3.0.2",
         "laravel-mix": "^2.0",
         "linkifyjs": "^2.1.7",
+        "lodash": "^4.17.11",
         "mocha": "^5.2.0",
         "mocha-webpack": "^1.1.0",
         "moment": "^2.22.2",
