@@ -26,6 +26,8 @@ RUN php composer.phar install --no-scripts \
 
 RUN yarn install
 
+RUN yarn build
+
 RUN chown -R www-data:www-data \
         /var/www/storage \
         /var/www/bootstrap/cache

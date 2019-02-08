@@ -37,7 +37,8 @@
         "vue-router": "^3.0.1",
         "vue-select": "^2.5.1",
         "vue-test-utils": "^1.0.0-beta.11",
-        "vuex": "^3.0.1"
+        "vuex": "^3.0.1",
+        "prettier": "1.14.0"
     },
     "resolutions": {
         "prettier": "1.14.0"
