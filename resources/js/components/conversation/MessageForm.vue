@@ -8,7 +8,6 @@
                v-model="newMessage"
                @keyup="sendTypingEvent"
                placeholder="Type your message..."/>
-        <button type="button" class="btn btn-emoji mr-sm-2" @click="sendUnicorn">🦄</button>
         <div :class="{ displayed: displayEmojiPicker }"
              class="emoji-picker-wrapper"
         >
@@ -17,14 +16,37 @@
                     v-click-outside="closeEmojiPicker"
             ></picker>
         </div>
-        <button type="button" class="btn btn-emoji mr-sm-2" @click="openEmojiPicker">😀</button>
-        <button type="submit" class="btn btn-primary">Send</button>
+        <button type="button"
+                class="btn btn-emoji mr-sm-2"
+                @click="sendUnicorn"
+                v-b-tooltip.hover
+                title="🦄 Random Unicorn GIF 🦄"
+        >
+            <emoticon-kiss-icon fillColor="#6c757d"/>
+        </button>
+        <button type="button"
+                class="btn btn-emoji mr-sm-2"
+                @click="openEmojiPicker"
+                v-b-tooltip.hover
+                title="Emoji"
+        >
+            <emoticon-icon fillColor="#6c757d"/>
+        </button>
+        <button type="submit"
+                class="btn btn-primary"
+                :disabled="newMessage === ''"
+        >
+            <send-icon/>
+        </button>
     </form>
 </template>
 
 <script>
     import EmojiConverter from 'emoji-js';
     import { Picker } from 'emoji-mart-vue';
+    import EmoticonIcon from 'vue-material-design-icons/Emoticon';
+    import EmoticonKissIcon from 'vue-material-design-icons/EmoticonKiss';
+    import SendIcon from 'vue-material-design-icons/Send';
 
     const emojiConverter = new EmojiConverter();
 
@@ -32,7 +54,10 @@
         name: 'MessageForm',
         props: ['conversationId'],
         components: {
-            Picker
+            EmoticonIcon,
+            EmoticonKissIcon,
+            SendIcon,
+            Picker,
         },
         data() {
             return {

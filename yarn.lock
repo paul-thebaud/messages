@@ -7396,6 +7396,11 @@ vue-loader@^13.7.1:
     vue-style-loader "^3.0.0"
     vue-template-es2015-compiler "^1.6.0"
 
+vue-material-design-icons@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/vue-material-design-icons/-/vue-material-design-icons-3.0.0.tgz#db387aa604e12523180d17db315126f6311d3e13"
+  integrity sha512-Y9dLUDuU0X3BjdeYjaHaWQ1UX4LMKT1kPIGApVhJmIs+HKY6xf57JLuba82YK+8iRlkJ/QYXbSV9oLrugn6M3w==
+
 vue-router@^3.0.1:
   version "3.0.2"
   resolved "https://registry.yarnpkg.com/vue-router/-/vue-router-3.0.2.tgz#dedc67afe6c4e2bc25682c8b1c2a8c0d7c7e56be"

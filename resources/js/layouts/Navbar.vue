@@ -5,18 +5,25 @@
                 Messages
             </router-link>
         </div>
-        <router-link class="btn btn-primary mr-2" to="/profile">
-            Profile
+        <router-link class="btn btn-primary mr-2" to="/profile" v-b-tooltip.hover title="Profile">
+            <account-icon/>
         </router-link>
-        <a href="#" class="btn btn-danger" @click.prevent="logout">
-            Logout
+        <a href="#" class="btn btn-danger" @click.prevent="logout" v-b-tooltip.hover title="Logout">
+            <logout-icon/>
         </a>
     </div>
 </template>
 
 <script>
+    import AccountIcon from 'vue-material-design-icons/Account';
+    import LogoutIcon from 'vue-material-design-icons/Logout';
+
     export default {
         name: 'Sidebar',
+        components: {
+            AccountIcon,
+            LogoutIcon,
+        },
         methods: {
             logout() {
                 this.$store.dispatch('auth/logout')
