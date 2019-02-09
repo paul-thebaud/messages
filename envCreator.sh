@@ -99,7 +99,7 @@ do
     esac
 done
 
-if [[ ${mandatory} -ne 17 ]]
+if [[ ${mandatory} -ne 18 ]]
 then
     echo "Missing argument. $mandatory";
     echo "All arguments are mandatory.";
