@@ -6,13 +6,21 @@
                     <code class="text-dark" style="white-space: pre-wrap;">{{ name }}</code>
                 </div>
                 <div class="col-sm-4 text-right">
-                    <p v-if="this.$store.getters['auth/tokenId'] === id" class="text-success">
-                        Token for this session
-                    </p>
                     <p>
                         {{ createdAtDisplay }}
                     </p>
-                    <b-btn variant="danger" class="mt-2" v-on:click="deleteToken">Delete</b-btn>
+                    <b-btn variant="danger"
+                           @click="deleteToken"
+                           v-b-tooltip.hover
+                           title="Delete this token"
+                    >
+                        <trash-can-icon/>
+                    </b-btn>
+                    <p v-if="this.$store.getters['auth/tokenId'] === id"
+                       class="mt-3 mb-0 text-success"
+                    >
+                        Token for this session
+                    </p>
                 </div>
             </div>
         </div>
@@ -21,6 +29,7 @@
 
 <script>
     import moment from 'moment';
+    import TrashCanIcon from 'vue-material-design-icons/TrashCan';
 
     export default {
         name: 'Token',
@@ -37,6 +46,9 @@
                 required: true,
                 type: String
             }
+        },
+        components: {
+            TrashCanIcon
         },
         methods: {
             deleteToken() {
