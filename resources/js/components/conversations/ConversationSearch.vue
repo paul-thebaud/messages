@@ -15,7 +15,7 @@
         methods: {
             search: debounce(function (search) {
                 this.$emit('search', search);
-            }, 450)
+            }, 200)
         }
     };
 </script>

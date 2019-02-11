@@ -89926,7 +89926,7 @@ exports = module.exports = __webpack_require__(5)(false);
 exports.push([module.i, "@import url(https://fonts.googleapis.com/css?family=Nunito);", ""]);
 
 // module
-exports.push([module.i, "\n.conversations[data-v-580ee358] {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  height: 100%;\n}\n.conversations .conversations-list[data-v-580ee358] {\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    -webkit-box-orient: vertical;\n    -webkit-box-direction: normal;\n        -ms-flex-direction: column;\n            flex-direction: column;\n    overflow-y: scroll;\n    height: 100%;\n    min-width: 250px;\n    background-color: white;\n    border-right: 1px solid #E9ECEF;\n}\n.conversations .conversations-list .conversations-list-create[data-v-580ee358] {\n      padding: 10px;\n}\n.conversations .conversation-view[data-v-580ee358] {\n    overflow-y: hidden;\n    height: 100%;\n    width: 100%;\n}\n", ""]);
+exports.push([module.i, "\n.conversations[data-v-580ee358] {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  height: 100%;\n}\n.conversations .conversations-list[data-v-580ee358] {\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    -webkit-box-orient: vertical;\n    -webkit-box-direction: normal;\n        -ms-flex-direction: column;\n            flex-direction: column;\n    overflow-y: scroll;\n    overflow-x: hidden;\n    height: 100%;\n    min-width: 250px;\n    background-color: white;\n    border-right: 1px solid #E9ECEF;\n}\n.conversations .conversations-list .conversations-list-create[data-v-580ee358] {\n      padding: 10px;\n}\n.conversations .conversation-view[data-v-580ee358] {\n    overflow-y: hidden;\n    height: 100%;\n    width: 100%;\n}\n", ""]);
 
 // exports
 
@@ -89981,49 +89981,48 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     computed: {
         orderedConversations: function orderedConversations() {
-            return this.conversations.sort(function (a, b) {
+            return this.filteredConversations.sort(function (a, b) {
                 return __WEBPACK_IMPORTED_MODULE_0_moment___default()(a.updated_at).isAfter(b.updated_at) ? -1 : 1;
             });
         }
     },
     data: function data() {
         return {
-            conversations: []
+            conversations: [],
+            filteredConversations: []
         };
     },
     mounted: function mounted() {
         var _this = this;
 
-        this.onSearch(null, function () {
+        this.$store.dispatch('conversation/index').then(function (conversations) {
+            // Unregister from previous conversation listening.
+            // TODO
+            // Define new conversations.
+            _this.conversations = conversations;
+            // Register for new conversations.
+            _this.conversations.forEach(function (conversation) {
+                Echo.private('App.Conversation.' + conversation.id).listen('.newMessage', function (_ref) {
+                    var message = _ref.message;
+
+                    conversation.updated_at = __WEBPACK_IMPORTED_MODULE_0_moment___default.a.utc().format("YYYY-MM-DD HH:mm:ss");
+                    conversation.has_unread = message.user_id !== _this.$store.getters['auth/user'].id;
+                    conversation.last_message = message.text;
+                    conversation.message_count++;
+                });
+            });
             if (_this.$router.currentRoute.name === 'NoConversation' && _this.conversations.length > 0) {
                 _this.$router.push('/conversations/' + _this.conversations[0].id);
             }
+            _this.filteredConversations = _this.conversations;
         });
     },
 
     methods: {
-        onSearch: function onSearch(search, callback) {
-            var _this2 = this;
-
-            this.$store.dispatch('conversation/index', search).then(function (conversations) {
-                // Unregister from previous conversation listening.
-                // TODO
-                // Define new conversations.
-                _this2.conversations = conversations;
-                // Register for new conversations.
-                _this2.conversations.forEach(function (conversation) {
-                    Echo.private('App.Conversation.' + conversation.id).listen('.newMessage', function (_ref) {
-                        var message = _ref.message;
-
-                        conversation.updated_at = __WEBPACK_IMPORTED_MODULE_0_moment___default.a.utc().format("YYYY-MM-DD HH:mm:ss");
-                        conversation.has_unread = message.user_id !== _this2.$store.getters['auth/user'].id;
-                        conversation.last_message = message.text;
-                        conversation.message_count++;
-                    });
-                });
-                if (callback) {
-                    callback();
-                }
+        onSearch: function onSearch(search) {
+            var lowerSearch = (search || '').toLowerCase();
+            this.filteredConversations = this.conversations.filter(function (conversation) {
+                return (conversation.name || '').toLowerCase().indexOf(lowerSearch) >= 0;
             });
         },
         createConversation: function createConversation(conversation) {
@@ -90440,7 +90439,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     methods: {
         search: Object(__WEBPACK_IMPORTED_MODULE_0__helpers__["a" /* debounce */])(function (search) {
             this.$emit('search', search);
-        }, 450)
+        }, 200)
     }
 });
 
@@ -90714,20 +90713,22 @@ var render = function() {
         _c(
           "div",
           { staticClass: "flex-grow-1" },
-          _vm._l(_vm.orderedConversations, function(conversation) {
-            return _c("conversation-item", {
-              key: conversation.id,
-              attrs: { conversation: conversation }
+          [
+            _vm.filteredConversations.length <= 0
+              ? _c("div", { staticClass: "text-muted text-center" }, [
+                  _vm._v("\n                No conversation.\n            ")
+                ])
+              : _vm._e(),
+            _vm._v(" "),
+            _vm._l(_vm.orderedConversations, function(conversation) {
+              return _c("conversation-item", {
+                key: conversation.id,
+                attrs: { conversation: conversation }
+              })
             })
-          }),
-          1
+          ],
+          2
         ),
-        _vm._v(" "),
-        _vm.conversations.length <= 0
-          ? _c("div", { staticClass: "text-muted text-center" }, [
-              _vm._v("\n            No conversation.\n        ")
-            ])
-          : _vm._e(),
         _vm._v(" "),
         _c(
           "div",
