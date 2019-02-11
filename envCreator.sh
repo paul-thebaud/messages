@@ -28,7 +28,7 @@ declare -A ENVVARIABLES
 
 mandatory=0;
 
-while getopts h:n:d:u:a:b:c:e:f:g:i:j:k:l:m:o:p:q:r: option
+while getopts h:n:d:u:a:b:c:e:f:g:i:j:k:l:m:o:p:q:r:s: option
 do
     case "${option}"
     in
