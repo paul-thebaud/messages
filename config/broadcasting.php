@@ -37,10 +37,9 @@ return [
             'app_id' => env('PUSHER_APP_ID'),
             'options' => [
                 'cluster' => env('PUSHER_APP_CLUSTER'),
-                'encrypted' => false,
-                'host' => 'localhost',
-                'port' => 6001,
-                'scheme' => 'http'
+                'host' => env('MIX_WSS_HOST'),
+                'port' => env('WS_PORT'),
+                'scheme' => env('WS_SCHEME')
             ],
         ],
 

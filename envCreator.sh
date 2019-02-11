@@ -1,6 +1,6 @@
 #!/bin/bash
 
-usage="$(basename "$0") [-h] [-n value] [-d value] [-u value] [-a value] [-b value] [-c value] [-e value] [-f value] [-g value] [-i value] [-j value] [-k value] [-l value] [-m value] [-o value] [-p value] [-q value] -- program to generate a .env file for laravel
+usage="$(basename "$0") [-h] [-n value] [-d value] [-u value] [-a value] [-b value] [-c value] [-e value] [-f value] [-g value] [-i value] [-j value] [-k value] [-l value] [-m value] [-o value] [-p value] [-q value] [-r value] [-s value] -- program to generate a .env file for laravel
 
 where:
     - h  Show this help text
@@ -20,13 +20,15 @@ where:
     - m  Set the facebook id client
     - o  Set the facebook secret
     - p  Set the google client id
-    - q  Set the google secret"
+    - q  Set the google secret
+    - r  Set the WebSocket Port
+    - s  Set the app url ws"
 
 declare -A ENVVARIABLES
 
 mandatory=0;
 
-while getopts h:n:d:u:a:b:c:e:f:g:i:j:k:l:m:o:p:q: option
+while getopts h:n:d:u:a:b:c:e:f:g:i:j:k:l:m:o:p:q:r:s: option
 do
     case "${option}"
     in
@@ -84,6 +86,12 @@ do
     q) mandatory=$((mandatory+1))
         ENVVARIABLES[GOOGLE_SECRET]=${OPTARG}
         ;;
+    r) mandatory=$((mandatory+1))
+        ENVVARIABLES[MIX_WS_PORT]=${OPTARG}
+        ;;
+    s) mandatory=$((mandatory+1))
+        ENVVARIABLES[MIX_WS_HOST]=${OPTARG}
+        ;;
     :)
         echo "L'option $OPTARG requiert un argument"
         exit 1
@@ -95,7 +103,7 @@ do
     esac
 done
 
-if [[ ${mandatory} -ne 17 ]]
+if [[ ${mandatory} -ne 19 ]]
 then
     echo "Missing argument. $mandatory";
     echo "All arguments are mandatory.";
@@ -123,9 +131,9 @@ ENVVARIABLES[QUEUE_DRIVER]=database
 
 ENVVARIABLES[MAIL_DRIVER]=smtp
 
-ENVVARIABLES[PUSHER_APP_ID]=
-ENVVARIABLES[PUSHER_APP_KEY]=
-ENVVARIABLES[PUSHER_APP_SECRET]=
+ENVVARIABLES[PUSHER_APP_ID]=testapp
+ENVVARIABLES[PUSHER_APP_KEY]=websocketkey
+ENVVARIABLES[PUSHER_APP_SECRET]=somethingsecret
 ENVVARIABLES[PUSHER_APP_CLUSTER]=mt1
 
 ENVVARIABLES[MIX_PUSHER_APP_KEY]=\"\$\{PUSHER_APP_KEY\}\"
@@ -135,6 +143,14 @@ ENVVARIABLES[MIX_APP_URL]=${ENVVARIABLES[APP_URL]}
 
 ENVVARIABLES[GOOGLE_REDIRECT]=\$\{APP_URL\}/oauth/google
 ENVVARIABLES[FACEBOOK_REDIRECT]=\$\{APP_URL\}/oauth/facebook
+
+ENVVARIABLES[WS_PORT]=443
+ENVVARIABLES[WS_SCHEME]=https
+
+ENVVARIABLES[MIX_WS_PORT]=443
+ENVVARIABLES[MIX_WS_ENCRYPTION]=true
+
+ENVVARIABLES[MIX_GIPHY_KEY]=DCR4KePhrDdunhBugp5rfThDMDtZcEWb
 
 echo "Generating .env file";
 

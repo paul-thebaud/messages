@@ -26,7 +26,7 @@ RUN php composer.phar install --no-scripts \
 
 RUN yarn install
 
-RUN yarn build
+RUN yarn production
 
 RUN chown -R www-data:www-data \
         /var/www/storage \
@@ -41,3 +41,4 @@ RUN php artisan migrate
 RUN php artisan passport:install
 
 EXPOSE 9000
+EXPOSE 6001
