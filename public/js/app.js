@@ -91465,7 +91465,7 @@ exports = module.exports = __webpack_require__(5)(false);
 exports.push([module.i, "@import url(https://fonts.googleapis.com/css?family=Nunito);", ""]);
 
 // module
-exports.push([module.i, "\n.message {\n  background-color: white;\n  padding: 0.25rem 0.75rem;\n  margin-bottom: 0.25rem;\n  display: table;\n  border-radius: 0 10px 10px 0;\n}\n.message img {\n    max-width: 100%;\n    border-radius: 0 10px 10px 0;\n}\n.message:first-child, .message:first-child img {\n    border-radius: 10px 10px 10px 0;\n}\n.message:last-child, .message:last-child img {\n    border-radius: 0 10px 10px 10px;\n    margin-bottom: 0;\n}\n.message:only-child, .message:only-child img {\n    border-radius: 10px;\n}\n.is-author .message {\n  margin-left: auto;\n  margin-right: 0;\n  border-radius: 10px 0 0 10px;\n  background-color: #3490DC;\n  color: white;\n}\n.is-author .message img {\n    border-radius: 10px 0 0 10px;\n}\n.is-author .message a.linkified {\n    color: white !important;\n}\n.is-author .message:first-child, .is-author .message:first-child img {\n    border-radius: 10px 10px 0 10px;\n}\n.is-author .message:last-child, .is-author .message:last-child img {\n    border-radius: 10px 0 10px 10px;\n}\n.is-author .message:only-child, .is-author .message:only-child img {\n    border-radius: 10px;\n}\n.message.gif {\n  padding: 0;\n}\n", ""]);
+exports.push([module.i, "\n.message {\n  background-color: white;\n  padding: 0.25rem 0.75rem;\n  margin-bottom: 0.25rem;\n  display: table;\n  border-radius: 0 10px 10px 0;\n}\n.message img {\n    max-width: 100%;\n    border-radius: 0 10px 10px 0;\n}\n.message:first-child, .message:first-child img {\n    border-radius: 10px 10px 10px 0;\n}\n.message:last-child, .message:last-child img {\n    border-radius: 0 10px 10px 10px;\n    margin-bottom: 0;\n}\n.message:only-child, .message:only-child img {\n    border-radius: 10px;\n}\n.message.gif {\n    padding: 0;\n    height: 200px;\n}\n.message.gif.loaded {\n      height: auto;\n}\n.is-author .message {\n  margin-left: auto;\n  margin-right: 0;\n  border-radius: 10px 0 0 10px;\n  background-color: #3490DC;\n  color: white;\n}\n.is-author .message img {\n    border-radius: 10px 0 0 10px;\n}\n.is-author .message a.linkified {\n    color: white !important;\n}\n.is-author .message:first-child, .is-author .message:first-child img {\n    border-radius: 10px 10px 0 10px;\n}\n.is-author .message:last-child, .is-author .message:last-child img {\n    border-radius: 10px 0 10px 10px;\n}\n.is-author .message:only-child, .is-author .message:only-child img {\n    border-radius: 10px;\n}\n", ""]);
 
 // exports
 
@@ -91503,8 +91503,15 @@ var emojiConverter = new __WEBPACK_IMPORTED_MODULE_0_emoji_js___default.a();
             type: Object
         }
     },
+    data: function data() {
+        return {
+            imageIsLoaded: false
+        };
+    },
+
     methods: {
         imageLoaded: function imageLoaded() {
+            this.imageIsLoaded = true;
             this.$emit('image-loaded');
         }
     },
@@ -92565,12 +92572,16 @@ var render = function() {
         staticClass: "message",
         domProps: { innerHTML: _vm._s(_vm.htmlContent) }
       })
-    : _c("div", { staticClass: "message gif" }, [
-        _c("img", {
-          attrs: { src: this.message.text, alt: "Gif from Giphy" },
-          on: { load: _vm.imageLoaded }
-        })
-      ])
+    : _c(
+        "div",
+        { staticClass: "message gif", class: { loaded: _vm.imageIsLoaded } },
+        [
+          _c("img", {
+            attrs: { src: this.message.text, alt: "Gif from Giphy" },
+            on: { load: _vm.imageLoaded }
+          })
+        ]
+      )
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -92965,6 +92976,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_vue_material_design_icons_EmoticonKiss___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_vue_material_design_icons_EmoticonKiss__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_vue_material_design_icons_Send__ = __webpack_require__(471);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_vue_material_design_icons_Send___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_vue_material_design_icons_Send__);
+//
 //
 //
 //
@@ -99677,7 +99689,7 @@ var render = function() {
                 expression: "closeEmojiPicker"
               }
             ],
-            attrs: { color: "#3490DC" },
+            attrs: { color: "#3490DC", title: "Emoji power 🦄" },
             on: { select: _vm.addEmoji }
           })
         ],
