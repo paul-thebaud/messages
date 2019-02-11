@@ -88436,7 +88436,7 @@ exports = module.exports = __webpack_require__(5)(false);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -88485,6 +88485,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
 
 
 
@@ -88495,7 +88498,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         return {
             form: { driver: 'password', email: '', password: '' },
             error: new __WEBPACK_IMPORTED_MODULE_1__helpers_api_ApiError__["a" /* default */](),
-            loading: false
+            loading: false,
+            verified: Object.hasOwnProperty.call(this.$route.query, 'verified')
         };
     },
 
@@ -88532,6 +88536,16 @@ var render = function() {
         _c("strong", [_vm._v("Messages")]),
         _vm._v(", please enter your credentials to continue typing!\n    ")
       ]),
+      _vm._v(" "),
+      _c(
+        "b-alert",
+        { attrs: { show: _vm.verified, variant: "success", dismissible: "" } },
+        [
+          _vm._v(
+            "\n        Email address verified! Enter your credentials to start using Messages.\n    "
+          )
+        ]
+      ),
       _vm._v(" "),
       _c(
         "form",

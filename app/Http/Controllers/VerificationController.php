@@ -28,6 +28,6 @@ class VerificationController extends AbstractController
             abort(401);
         }
         $user->markEmailAsVerified();
-        return redirect()->route('index', ['any' => '', 'verified' => true]);
+        return redirect('/login?verified', RedirectResponse::HTTP_FOUND);
     }
 }
