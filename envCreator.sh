@@ -1,6 +1,6 @@
 #!/bin/bash
 
-usage="$(basename "$0") [-h] [-n value] [-d value] [-u value] [-a value] [-b value] [-c value] [-e value] [-f value] [-g value] [-i value] [-j value] [-k value] [-l value] [-m value] [-o value] [-p value] [-q value] [-r value] -- program to generate a .env file for laravel
+usage="$(basename "$0") [-h] [-n value] [-d value] [-u value] [-a value] [-b value] [-c value] [-e value] [-f value] [-g value] [-i value] [-j value] [-k value] [-l value] [-m value] [-o value] [-p value] [-q value] [-r value] [-s value] -- program to generate a .env file for laravel
 
 where:
     - h  Show this help text
@@ -21,7 +21,8 @@ where:
     - o  Set the facebook secret
     - p  Set the google client id
     - q  Set the google secret
-    - r  Set the WebSocket Port"
+    - r  Set the WebSocket Port
+    - s  Set the app url ws"
 
 declare -A ENVVARIABLES
 
@@ -88,6 +89,9 @@ do
     r) mandatory=$((mandatory+1))
         ENVVARIABLES[MIX_WS_PORT]=${OPTARG}
         ;;
+    s) mandatory=$((mandatory+1))
+        ENVVARIABLES[MIX_WSS_HOST]=${OPTARG}
+        ;;
     :)
         echo "L'option $OPTARG requiert un argument"
         exit 1
@@ -99,7 +103,7 @@ do
     esac
 done
 
-if [[ ${mandatory} -ne 18 ]]
+if [[ ${mandatory} -ne 19 ]]
 then
     echo "Missing argument. $mandatory";
     echo "All arguments are mandatory.";
@@ -145,7 +149,6 @@ ENVVARIABLES[WS_SCHEME]=https
 
 ENVVARIABLES[MIX_WS_HOST]=localhost
 ENVVARIABLES[MIX_WS_PORT]=6001
-ENVVARIABLES[MIX_WSS_HOST]="socket.${ENVVARIABLES[APP_NAME]}"
 ENVVARIABLES[MIX_WSS_PORT]=443
 ENVVARIABLES[MIX_WS_ENCRYPTION]=true
 
