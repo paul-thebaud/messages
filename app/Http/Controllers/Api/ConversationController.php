@@ -45,7 +45,6 @@ class ConversationController extends AbstractController
                         });
                 })
                 ->orderByDesc('updated_at')
-                ->groupBy('id')
                 ->get()
         );
     }
