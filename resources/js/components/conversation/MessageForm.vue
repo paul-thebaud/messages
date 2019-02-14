@@ -14,8 +14,9 @@
             <picker color="#3490DC"
                     @select="addEmoji"
                     v-click-outside="closeEmojiPicker"
-                    title="Emoji power 🦄"
+                    title="Emoji power"
                     :native="true"
+                    emoji="unicorn_face"
             ></picker>
         </div>
         <button type="button"
@@ -44,13 +45,10 @@
 </template>
 
 <script>
-    import EmojiConverter from 'emoji-js';
     import { Picker } from 'emoji-mart-vue';
     import EmoticonIcon from 'vue-material-design-icons/Emoticon';
     import EmoticonKissIcon from 'vue-material-design-icons/EmoticonKiss';
     import SendIcon from 'vue-material-design-icons/Send';
-
-    const emojiConverter = new EmojiConverter();
 
     export default {
         name: 'MessageForm',

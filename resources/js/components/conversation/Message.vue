@@ -6,12 +6,9 @@
 </template>
 
 <script>
-    import EmojiConverter from 'emoji-js';
     import linkify from 'linkifyjs/string';
 
     const GIPHY_URL_PATTERN = new RegExp('^https:\\/\\/media[0-9]+.giphy\\.com\\/media\\/[a-zA-Z0-9]+\\/200_d\\.gif$');
-
-    const emojiConverter = new EmojiConverter();
 
     export default {
         name: 'Message',
