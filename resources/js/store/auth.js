@@ -79,7 +79,7 @@ const actions = {
 
     logout({ commit, state }) {
         return new Promise((resolve) => {
-            api.destroy('tokens', state.tokenId)
+            axios.delete(`/api/tokens/${state.tokenId}`)
                 .finally(() => {
                     commit(TYPES.LOGOUT);
                     resolve();

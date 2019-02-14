@@ -85597,7 +85597,7 @@ var actions = {
             state = _ref3.state;
 
         return new Promise(function (resolve) {
-            __WEBPACK_IMPORTED_MODULE_1__helpers_api__["a" /* default */].destroy('tokens', state.tokenId).finally(function () {
+            __WEBPACK_IMPORTED_MODULE_0_axios___default.a.delete('/api/tokens/' + state.tokenId).finally(function () {
                 commit(TYPES.LOGOUT);
                 resolve();
             });
