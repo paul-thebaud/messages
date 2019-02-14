@@ -34,7 +34,7 @@
         },
         computed: {
             htmlContent() {
-                return emojiConverter.replace_unified(emojiConverter.replace_colons(linkify(this.message.text)));
+                return linkify(this.message.text);
             },
             isGif() {
                 return GIPHY_URL_PATTERN.test(this.message.text);

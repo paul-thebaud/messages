@@ -67,11 +67,6 @@
                 newMessage: ''
             };
         },
-        watch: {
-            newMessage(message) {
-                this.newMessage = emojiConverter.replace_unified(emojiConverter.replace_colons(message));
-            }
-        },
         methods: {
             openEmojiPicker() {
                 setTimeout(() => {
@@ -81,7 +76,6 @@
 
             closeEmojiPicker() {
                 if (this.displayEmojiPicker) {
-                    console.log('hide');
                     this.displayEmojiPicker = false;
                 }
             },

@@ -91519,7 +91519,7 @@ var emojiConverter = new __WEBPACK_IMPORTED_MODULE_0_emoji_js___default.a();
     },
     computed: {
         htmlContent: function htmlContent() {
-            return emojiConverter.replace_unified(emojiConverter.replace_colons(__WEBPACK_IMPORTED_MODULE_1_linkifyjs_string___default()(this.message.text)));
+            return __WEBPACK_IMPORTED_MODULE_1_linkifyjs_string___default()(this.message.text);
         },
         isGif: function isGif() {
             return GIPHY_URL_PATTERN.test(this.message.text);
@@ -93048,11 +93048,6 @@ var emojiConverter = new __WEBPACK_IMPORTED_MODULE_0_emoji_js___default.a();
         };
     },
 
-    watch: {
-        newMessage: function newMessage(message) {
-            this.newMessage = emojiConverter.replace_unified(emojiConverter.replace_colons(message));
-        }
-    },
     methods: {
         openEmojiPicker: function openEmojiPicker() {
             var _this = this;
@@ -93063,7 +93058,6 @@ var emojiConverter = new __WEBPACK_IMPORTED_MODULE_0_emoji_js___default.a();
         },
         closeEmojiPicker: function closeEmojiPicker() {
             if (this.displayEmojiPicker) {
-                console.log('hide');
                 this.displayEmojiPicker = false;
             }
         },
