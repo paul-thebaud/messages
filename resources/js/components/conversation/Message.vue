@@ -1,6 +1,6 @@
 <template>
     <div v-if="!isGif" class="message" v-html="htmlContent"></div>
-    <div v-else class="message gif">
+    <div v-else class="message gif" :class="{ loaded: imageIsLoaded }">
         <img :src="this.message.text" alt="Gif from Giphy" @load="imageLoaded"/>
     </div>
 </template>
@@ -21,10 +21,16 @@
                 type: Object
             }
         },
+        data() {
+            return {
+                imageIsLoaded: false
+            };
+        },
         methods: {
             imageLoaded() {
+                this.imageIsLoaded = true;
                 this.$emit('image-loaded');
-            },
+            }
         },
         computed: {
             htmlContent() {
@@ -64,6 +70,14 @@
         &:only-child, &:only-child img {
             border-radius: 10px;
         }
+
+        &.gif {
+            padding: 0;
+            height: 200px;
+            &.loaded {
+                height: auto;
+            }
+        }
     }
 
     .is-author {
@@ -94,9 +108,5 @@
                 border-radius: 10px;
             }
         }
-    }
-
-    .message.gif {
-        padding: 0;
     }
 </style>

@@ -3,6 +3,9 @@
         <p class="card-text">
             Welcome back on <strong>Messages</strong>, please enter your credentials to continue typing!
         </p>
+        <b-alert :show="verified" variant="success" dismissible>
+            Email address verified! Enter your credentials to start using Messages.
+        </b-alert>
         <form @submit.prevent="login">
             <b-form-group label="Email" label-for="email">
                 <b-form-input id="email" type="email" v-model="form.email"
@@ -44,7 +47,8 @@
             return {
                 form: { driver: 'password', email: '', password: '' },
                 error: new ApiError(),
-                loading: false
+                loading: false,
+                verified: Object.hasOwnProperty.call(this.$route.query, 'verified')
             };
         },
         methods: {

@@ -14,6 +14,7 @@
             <picker color="#3490DC"
                     @select="addEmoji"
                     v-click-outside="closeEmojiPicker"
+                    title="Emoji power 🦄"
             ></picker>
         </div>
         <button type="button"

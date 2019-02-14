@@ -24,15 +24,24 @@
                     <b-form-invalid-feedback>{{ this.error.get('password_confirmation') }}</b-form-invalid-feedback>
                 </b-form-group>
                 <div>
-                    <button type="button" @click="deleteUser" class="btn btn-danger float-right">
+                    <b-btn variant="danger" class="float-right" v-b-modal.delete-modal>
                         Delete my account and all my data
-                    </button>
-                    <button type="submit" class="btn btn-primary" :disabled="this.loading">
+                    </b-btn>
+                    <b-btn type="submit" variant="primary" :disabled="this.loading">
                         Update your profile
-                    </button>
+                    </b-btn>
                 </div>
             </form>
         </div>
+        <b-modal id="delete-modal"
+                 title="Account deletion"
+                 ok-variant="danger"
+                 ok-title="Delete my account"
+                 @ok="deleteUser">
+            <p class="my-4">
+                Are you sure you want to delete all your data?
+            </p>
+        </b-modal>
     </div>
 </template>
 
