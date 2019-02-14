@@ -62386,8 +62386,9 @@ window.Pusher = __webpack_require__(371);
 window.Echo = new __WEBPACK_IMPORTED_MODULE_5_laravel_echo__["a" /* default */]({
     broadcaster: 'pusher',
     key: "websocketkey",
-    wsHost: window.location.hostname,
-    wsPort: 6001,
+    wsHost: Object({"MIX_APP_URL":"http://127.0.0.1:8000","MIX_GIPHY_KEY":"DCR4KePhrDdunhBugp5rfThDMDtZcEWb","MIX_PUSHER_APP_KEY":"websocketkey","MIX_PUSHER_APP_CLUSTER":"mt1","NODE_ENV":"development"}).MIX_WS_HOST,
+    wsPort: Object({"MIX_APP_URL":"http://127.0.0.1:8000","MIX_GIPHY_KEY":"DCR4KePhrDdunhBugp5rfThDMDtZcEWb","MIX_PUSHER_APP_KEY":"websocketkey","MIX_PUSHER_APP_CLUSTER":"mt1","NODE_ENV":"development"}).MIX_WS_PORT,
+    encrypted: Object({"MIX_APP_URL":"http://127.0.0.1:8000","MIX_GIPHY_KEY":"DCR4KePhrDdunhBugp5rfThDMDtZcEWb","MIX_PUSHER_APP_KEY":"websocketkey","MIX_PUSHER_APP_CLUSTER":"mt1","NODE_ENV":"development"}).MIX_WS_ENCRYPTION,
     disableStats: true,
     auth: {
         headers: {
@@ -93021,6 +93022,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 
 
@@ -99690,7 +99692,7 @@ var render = function() {
                 expression: "closeEmojiPicker"
               }
             ],
-            attrs: { color: "#3490DC", title: "Emoji power 🦄" },
+            attrs: { color: "#3490DC", title: "Emoji power 🦄", native: true },
             on: { select: _vm.addEmoji }
           })
         ],

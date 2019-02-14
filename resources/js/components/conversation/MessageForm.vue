@@ -15,6 +15,7 @@
                     @select="addEmoji"
                     v-click-outside="closeEmojiPicker"
                     title="Emoji power 🦄"
+                    :native="true"
             ></picker>
         </div>
         <button type="button"
