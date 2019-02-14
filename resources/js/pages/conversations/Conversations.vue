@@ -113,6 +113,7 @@
             overflow-x: hidden;
             height: 100%;
             min-width: 250px;
+            max-width: 250px;
             background-color: white;
             border-right: 1px solid $border-color;
 

@@ -49,6 +49,7 @@
         margin-bottom: 0.25rem;
         display: table;
         border-radius: 0 10px 10px 0;
+        word-break: break-all;
 
         img {
             max-width: 100%;
