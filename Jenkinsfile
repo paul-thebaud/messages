@@ -18,9 +18,9 @@ pipeline {
             sh 'composer install'
           }
         }
-        stage('Yarn') {
+        stage('npm') {
           steps {
-            sh 'yarn install'
+            sh 'npm install'
           }
         }
         stage('Necessary folders') {
@@ -58,15 +58,15 @@ pipeline {
         script{
             if(env.BRANCH_NAME == "release"){
                 stage('release'){
-                    sh './envCreator.sh -n "Messages Release" -d true -u https://release.messages.killian.ovh -a $JENKINS_MESSAGES_OVH_DATABASE_HOST -b $JENKINS_MESSAGES_OVH_DATABASE_PORT -c $JENKINS_MESSAGES_OVH_DATABASE_RELEASE_NAME -e $JENKINS_MESSAGES_OVH_DATABASE_USERNAME -f $JENKINS_MESSAGES_OVH_DATABASE_PASSWORD -g $JENKINS_MESSAGES_OVH_MAIL_HOST -i $JENKINS_MESSAGES_OVH_MAIL_PORT -j $JENKINS_MESSAGES_OVH_MAIL_USERNAME -k $JENKINS_MESSAGES_OVH_MAIL_PASSWORD -l $JENKINS_MESSAGES_OVH_MAIL_ENCRYPTION -m $JENKINS_MESSAGES_OVH_FACEBOOK_CLIENT_ID -o $JENKINS_MESSAGES_OVH_FACEBOOK_SECRET -p $JENKINS_MESSAGES_OVH_GOOGLE_CLIENT_ID -q $JENKINS_MESSAGES_OVH_GOOGLE_SECRET'
+                    sh './envCreator.sh -n "Messages Release" -d true -u https://release.messages.killian.ovh -a $JENKINS_MESSAGES_OVH_DATABASE_HOST -b $JENKINS_MESSAGES_OVH_DATABASE_PORT -c $JENKINS_MESSAGES_OVH_DATABASE_RELEASE_NAME -e $JENKINS_MESSAGES_OVH_DATABASE_USERNAME -f $JENKINS_MESSAGES_OVH_DATABASE_PASSWORD -g $JENKINS_MESSAGES_OVH_MAIL_HOST -i $JENKINS_MESSAGES_OVH_MAIL_PORT -j $JENKINS_MESSAGES_OVH_MAIL_USERNAME -k $JENKINS_MESSAGES_OVH_MAIL_PASSWORD -l $JENKINS_MESSAGES_OVH_MAIL_ENCRYPTION -m $JENKINS_MESSAGES_OVH_FACEBOOK_CLIENT_ID -o $JENKINS_MESSAGES_OVH_FACEBOOK_SECRET -p $JENKINS_MESSAGES_OVH_GOOGLE_CLIENT_ID -q $JENKINS_MESSAGES_OVH_GOOGLE_SECRET -r 10022 -s socket.release.messages.killian.ovh'
                 }
             }else if(env.BRANCH_NAME == "master"){
                 stage('master'){
-                    sh './envCreator.sh -n "Messages" -d true -u https://messages.killian.ovh -a $JENKINS_MESSAGES_OVH_DATABASE_HOST -b $JENKINS_MESSAGES_OVH_DATABASE_PORT -c $JENKINS_MESSAGES_OVH_DATABASE_MASTER_NAME -e $JENKINS_MESSAGES_OVH_DATABASE_USERNAME -f $JENKINS_MESSAGES_OVH_DATABASE_PASSWORD -g $JENKINS_MESSAGES_OVH_MAIL_HOST -i $JENKINS_MESSAGES_OVH_MAIL_PORT -j $JENKINS_MESSAGES_OVH_MAIL_USERNAME -k $JENKINS_MESSAGES_OVH_MAIL_PASSWORD -l $JENKINS_MESSAGES_OVH_MAIL_ENCRYPTION -m $JENKINS_MESSAGES_OVH_FACEBOOK_CLIENT_ID -o $JENKINS_MESSAGES_OVH_FACEBOOK_SECRET -p $JENKINS_MESSAGES_OVH_GOOGLE_CLIENT_ID -q $JENKINS_MESSAGES_OVH_GOOGLE_SECRET'
+                    sh './envCreator.sh -n "Messages" -d true -u https://messages.killian.ovh -a $JENKINS_MESSAGES_OVH_DATABASE_HOST -b $JENKINS_MESSAGES_OVH_DATABASE_PORT -c $JENKINS_MESSAGES_OVH_DATABASE_MASTER_NAME -e $JENKINS_MESSAGES_OVH_DATABASE_USERNAME -f $JENKINS_MESSAGES_OVH_DATABASE_PASSWORD -g $JENKINS_MESSAGES_OVH_MAIL_HOST -i $JENKINS_MESSAGES_OVH_MAIL_PORT -j $JENKINS_MESSAGES_OVH_MAIL_USERNAME -k $JENKINS_MESSAGES_OVH_MAIL_PASSWORD -l $JENKINS_MESSAGES_OVH_MAIL_ENCRYPTION -m $JENKINS_MESSAGES_OVH_FACEBOOK_CLIENT_ID -o $JENKINS_MESSAGES_OVH_FACEBOOK_SECRET -p $JENKINS_MESSAGES_OVH_GOOGLE_CLIENT_ID -q $JENKINS_MESSAGES_OVH_GOOGLE_SECRET -r 10023 -s socket.messages.killian.ovh'
                 }
             } else {
                 stage('dev'){
-                    sh './envCreator.sh -n "Messages Dev" -d true -u https://dev.messages.killian.ovh -a $JENKINS_MESSAGES_OVH_DATABASE_HOST -b $JENKINS_MESSAGES_OVH_DATABASE_PORT -c $JENKINS_MESSAGES_OVH_DATABASE_DEV_NAME -e $JENKINS_MESSAGES_OVH_DATABASE_USERNAME -f $JENKINS_MESSAGES_OVH_DATABASE_PASSWORD -g $JENKINS_MESSAGES_OVH_MAIL_HOST -i $JENKINS_MESSAGES_OVH_MAIL_PORT -j $JENKINS_MESSAGES_OVH_MAIL_USERNAME -k $JENKINS_MESSAGES_OVH_MAIL_PASSWORD -l $JENKINS_MESSAGES_OVH_MAIL_ENCRYPTION -m $JENKINS_MESSAGES_OVH_FACEBOOK_CLIENT_ID -o $JENKINS_MESSAGES_OVH_FACEBOOK_SECRET -p $JENKINS_MESSAGES_OVH_GOOGLE_CLIENT_ID -q $JENKINS_MESSAGES_OVH_GOOGLE_SECRET'
+                    sh './envCreator.sh -n "Messages Dev" -d true -u https://dev.messages.killian.ovh -a $JENKINS_MESSAGES_OVH_DATABASE_HOST -b $JENKINS_MESSAGES_OVH_DATABASE_PORT -c $JENKINS_MESSAGES_OVH_DATABASE_DEV_NAME -e $JENKINS_MESSAGES_OVH_DATABASE_USERNAME -f $JENKINS_MESSAGES_OVH_DATABASE_PASSWORD -g $JENKINS_MESSAGES_OVH_MAIL_HOST -i $JENKINS_MESSAGES_OVH_MAIL_PORT -j $JENKINS_MESSAGES_OVH_MAIL_USERNAME -k $JENKINS_MESSAGES_OVH_MAIL_PASSWORD -l $JENKINS_MESSAGES_OVH_MAIL_ENCRYPTION -m $JENKINS_MESSAGES_OVH_FACEBOOK_CLIENT_ID -o $JENKINS_MESSAGES_OVH_FACEBOOK_SECRET -p $JENKINS_MESSAGES_OVH_GOOGLE_CLIENT_ID -q $JENKINS_MESSAGES_OVH_GOOGLE_SECRET -r 10021 -s socket.dev.messages.killian.ovh'
                 }
             }
         }
@@ -188,17 +188,17 @@ pipeline {
             script{
                 if(env.BRANCH_NAME == "dev"){
                     stage('dev'){
-                        sh "sudo docker run -p 10011:9000 --name=messages${BRANCH_NAME} --restart=always -d killianh/messages:${GIT_COMMIT}"
+                        sh "sudo docker run -p 10011:9000 -p 10021:6001 --name=messages${BRANCH_NAME} --restart=always -d killianh/messages:${GIT_COMMIT}"
                     }
                 }
                 if(env.BRANCH_NAME == "release"){
                     stage('release'){
-                        sh "sudo docker run -p 10012:9000 --name=messages${BRANCH_NAME} --restart=always -d killianh/messages:${GIT_COMMIT}"
+                        sh "sudo docker run -p 10012:9000 -p 10022:6001 --name=messages${BRANCH_NAME} --restart=always -d killianh/messages:${GIT_COMMIT}"
                     }
                 }
                 if(env.BRANCH_NAME == "master"){
                     stage('master'){
-                        sh "sudo docker run -p 10013:9000 --name=messages${BRANCH_NAME} --restart=always -d killianh/messages:${GIT_COMMIT}"
+                        sh "sudo docker run -p 10013:9000 -p 10023:6001 --name=messages${BRANCH_NAME} --restart=always -d killianh/messages:${GIT_COMMIT}"
                     }
                 }
             }
@@ -234,6 +234,9 @@ pipeline {
                 if(env.BRANCH_NAME == "release" || env.BRANCH_NAME == "dev" || env.BRANCH_NAME == "master"){
                     stage('launch'){
                       sh "sudo docker exec messages${BRANCH_NAME} nohup php artisan queue:work --tries=3 &"
+                    }
+                    stage('launch'){
+                      sh "sudo docker exec messages${BRANCH_NAME} nohup php artisan websockets:serve &"
                     }
                 }
             }

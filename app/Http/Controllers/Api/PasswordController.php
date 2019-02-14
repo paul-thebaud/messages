@@ -63,7 +63,7 @@ class PasswordController extends AbstractController
 
         if (null === $passwordReset) {
             throw ValidationException::withMessages([
-                'token' => ['Invalid or expired token given'],
+                'token' => ['Expired reset link, please request a new link.'],
             ]);
         }
 

@@ -4,23 +4,30 @@ import api from '../helpers/api';
 const TYPES = {
     LOGIN: 'LOGIN',
     FETCH_USER: 'FETCH_USER',
+    UPDATE: 'UPDATE',
     LOGOUT: 'LOGOUT'
 };
 
 const state = {
     logged: !!window.localStorage.getItem('accessToken'),
-    user: null
+    user: null,
+    tokenId: window.localStorage.getItem('tokenId')
 };
 
 const mutations = {
-    [TYPES.LOGIN](state) {
-        state.logged = true;
+    [TYPES.LOGIN](state, tokenId) {
+        state.logged  = true;
+        state.tokenId = tokenId;
     },
     [TYPES.FETCH_USER](state, user) {
         state.user = user;
     },
+    [TYPES.UPDATE](state, user) {
+        state.user.username = user.username;
+    },
     [TYPES.LOGOUT](state) {
-        state.logged = false;
+        state.logged  = false;
+        state.tokenId = null;
         window.localStorage.removeItem('accessToken');
         window.localStorage.removeItem('userId');
         window.localStorage.removeItem('tokenId');
@@ -30,7 +37,8 @@ const mutations = {
 
 const getters = {
     isLogged: state => state.logged,
-    user: state => state.user
+    user: state => state.user,
+    tokenId: state => state.tokenId
 };
 
 const actions = {
@@ -53,7 +61,7 @@ const actions = {
         return new Promise((resolve, reject) => {
             api.store('tokens', credentials)
                 .then((data) => {
-                    commit(TYPES.LOGIN);
+                    commit(TYPES.LOGIN, data.token.id);
                     window.localStorage.setItem('accessToken', data.access_token);
                     window.localStorage.setItem('userId', data.token.user_id);
                     window.localStorage.setItem('tokenId', data.token.id);
@@ -69,10 +77,34 @@ const actions = {
         });
     },
 
-    logout({ commit }) {
+    logout({ commit, state }) {
         return new Promise((resolve) => {
-            commit(TYPES.LOGOUT);
-            resolve();
+            axios.delete(`/api/tokens/${state.tokenId}`)
+                .finally(() => {
+                    commit(TYPES.LOGOUT);
+                    resolve();
+                });
+        });
+    },
+
+    update({ commit, state }, user) {
+        return new Promise((resolve, reject) => {
+            api.update('users', state.user.id, user)
+                .then(() => {
+                    commit(TYPES.UPDATE, user);
+                    resolve();
+                })
+                .catch(error => reject(error));
+        });
+    },
+
+    delete({ commit, state }) {
+        return new Promise((resolve) => {
+            api.destroy('users', state.user.id)
+                .finally(() => {
+                    commit(TYPES.LOGOUT);
+                    resolve();
+                });
         });
     }
 };

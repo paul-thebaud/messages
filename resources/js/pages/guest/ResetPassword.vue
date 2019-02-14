@@ -32,6 +32,9 @@
         <router-link to="/login">
             <small>Go to the login page</small>
         </router-link>
+        <router-link to="/password/forgot" class="float-right">
+            <small>Expired reset link? Request a new one</small>
+        </router-link>
     </floating-card>
 </template>
 

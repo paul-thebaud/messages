@@ -1,7 +1,7 @@
 <template>
     <div class="flex-wrapper">
         <div class="text-center col-md-6">
-            <form @submit.prevent="update">
+            <form @submit.prevent="create">
                 <b-form-group>
                     <b-form-input id="name" type="text" v-model="conversation.name"
                                   placeholder="Enter conversation's name"
@@ -10,22 +10,9 @@
                     <b-form-invalid-feedback>{{ this.error.get('name') }}</b-form-invalid-feedback>
                 </b-form-group>
                 <b-form-group>
-                    <b-btn type="submit" variant="primary" :disabled="loading" block>Update</b-btn>
+                    <b-btn type="submit" variant="primary" :disabled="loading" block>Create</b-btn>
                 </b-form-group>
             </form>
-            <div class="row">
-                <div v-for="user in conversation.users"
-                     :key="user.id"
-                     class="col-sm-6">
-                    <b-btn variant="primary"
-                           v-b-tooltip.hover
-                           title="Remove this user"
-                           class="mb-2"
-                           block>
-                        {{ user.username }}
-                    </b-btn>
-                </div>
-            </div>
         </div>
     </div>
 </template>
@@ -36,29 +23,26 @@
     import ApiError from '../../helpers/api/ApiError';
 
     export default {
-        name: 'ConversationDetails',
+        name: 'ConversationCreate',
         components: {
             VueSelect
         },
         data() {
             return {
                 conversation: {
+                    type: 'group',
                     name: null
                 },
                 error: new ApiError(),
                 loading: false
             };
         },
-        mounted() {
-            api.show('conversations', this.$route.params.conversation_id)
-                .then(conversation => this.conversation = conversation);
-        },
         methods: {
-            update() {
+            create() {
                 this.loading = true;
-                api.update('conversations', this.conversation.id, this.conversation)
-                    .then(() => {
-                        this.$emit('update-conversation', this.conversation);
+                api.store('conversations', this.conversation)
+                    .then(conversation => {
+                        this.$emit('create-conversation', conversation);
                     })
                     .catch(error => {
                         this.error = error;

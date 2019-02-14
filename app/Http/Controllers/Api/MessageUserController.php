@@ -38,8 +38,6 @@ class MessageUserController extends AbstractController
 
         $message->users()->attach($user);
 
-        Notification::send($conversation->users, new MessageRead($message, $user));
-
         return response()->json($message, JsonResponse::HTTP_CREATED);
     }
 }

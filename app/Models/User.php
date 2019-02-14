@@ -17,6 +17,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Auth\Access\Authorizable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
+use Thomaswelton\LaravelGravatar\Facades\Gravatar;
 
 /**
  * Class User.
@@ -60,6 +61,7 @@ class User extends UuidModel implements
      * {@inheritdoc}
      */
     protected $hidden = [
+        'email',
         'password',
     ];
 
@@ -73,6 +75,13 @@ class User extends UuidModel implements
     ];
 
     /**
+     * {@inheritdoc}
+     */
+    protected $appends = [
+        'gravatar',
+    ];
+
+    /**
      * Override for mail sending.
      *
      * @return string The name attribute.
@@ -80,6 +89,16 @@ class User extends UuidModel implements
     public function getNameAttribute(): string
     {
         return $this->username;
+    }
+
+    /**
+     * Add the gravatar URL.
+     *
+     * @return string The gravatar image URL.
+     */
+    public function getGravatarAttribute(): string
+    {
+        return Gravatar::src($this->email);
     }
 
     /**

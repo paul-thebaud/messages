@@ -8,9 +8,9 @@ import OAuth from '../pages/guest/OAuth';
 import Conversations from '../pages/conversations/Conversations';
 import Conversation from '../pages/conversations/Conversation';
 import ConversationDetails from '../pages/conversations/ConversationDetails';
-import NoSelectedConversation from '../pages/conversations/NoSelectedConversation';
+import NoConversation from '../pages/conversations/NoConversation';
 import Profile from '../pages/Profile';
-import Friends from '../pages/Friends';
+import ConversationCreate from '../pages/conversations/ConversationCreate';
 
 const router = new VueRouter({
     mode: 'history',
@@ -26,8 +26,16 @@ const router = new VueRouter({
             children: [
                 {
                     path: '',
-                    name: 'NoSelectedConversation',
-                    component: NoSelectedConversation,
+                    name: 'NoConversation',
+                    component: NoConversation,
+                    meta: {
+                        auth: true
+                    }
+                },
+                {
+                    path: 'create',
+                    name: 'ConversationCreate',
+                    component: ConversationCreate,
                     meta: {
                         auth: true
                     }
@@ -54,14 +62,6 @@ const router = new VueRouter({
             path: '/profile',
             name: 'Profile',
             component: Profile,
-            meta: {
-                auth: true
-            }
-        },
-        {
-            path: '/friends',
-            name: 'Friends',
-            component: Friends,
             meta: {
                 auth: true
             }

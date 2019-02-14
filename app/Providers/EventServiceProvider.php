@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Events\NewMessage;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 
 /**
@@ -15,7 +16,9 @@ class EventServiceProvider extends ServiceProvider
     /**
      * {@inheritdoc}
      */
-    protected $listen = [];
+    protected $listen = [
+        NewMessage::class => []
+    ];
 
     /**
      * {@inheritdoc}

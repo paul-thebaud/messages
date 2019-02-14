@@ -8,12 +8,14 @@
 </template>
 
 <script>
+    import { debounce } from '../../helpers';
+
     export default {
         name: 'ConversationSearch',
         methods: {
-            search() {
-
-            }
+            search: debounce(function (search) {
+                this.$emit('search', search);
+            }, 200)
         }
     };
 </script>
@@ -21,6 +23,7 @@
 <style lang="scss" scoped>
     .conversations-search {
         padding: 10px;
+
         &__input {
         }
     }

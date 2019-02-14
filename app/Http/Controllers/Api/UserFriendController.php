@@ -7,6 +7,8 @@ use App\Models\User;
 use App\Notifications\FriendRequestAccepted;
 use App\Notifications\FriendRequestCreated;
 use App\Notifications\FriendRequestDeleted;
+use Hootlex\Friendships\Models\Friendship;
+use Hootlex\Friendships\Status;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -36,24 +38,27 @@ class UserFriendController extends AbstractController
     /**
      * Create a link between a user and a user.
      *
-     * @param User $requester The user who send the request.
-     * @param User $recipient The user who received the request.
+     * @param Request $request The request.
+     * @param User    $user    The user who send the request.
      *
      * @return JsonResponse The response.
      *
      * @throws AuthorizationException If the user cannot perform this action.
      */
-    public function store(User $requester, User $recipient): JsonResponse
+    public function store(Request $request, User $user): JsonResponse
     {
-        $this->authorize('update', $requester);
+        $this->authorize('update', $user);
 
-        if ($requester->isFriendWith($recipient) || $requester->hasSentFriendRequestTo($recipient)) {
+        /** @var User $recipient */
+        $recipient = User::query()->findOrFail($request->input('user_id'));
+
+        if ($user->is($recipient) || $user->isFriendWith($recipient) || $user->hasSentFriendRequestTo($recipient)) {
             abort(JsonResponse::HTTP_UNPROCESSABLE_ENTITY);
         }
 
-        $requester->befriend($recipient);
+        $user->befriend($recipient);
 
-        $recipient->notify(new FriendRequestCreated($requester, $recipient));
+        $recipient->notify(new FriendRequestCreated($user, $recipient));
 
         return response()->json('', JsonResponse::HTTP_CREATED);
     }
@@ -61,9 +66,9 @@ class UserFriendController extends AbstractController
     /**
      * Update a friend request.
      *
-     * @param Request $request   The request.
-     * @param User    $recipient The user who received the request.
-     * @param User    $requester The user who send the request.
+     * @param Request    $request    The request.
+     * @param User       $user       The user who received the request.
+     * @param Friendship $friendship The friendship to update.
      *
      * @return JsonResponse The response.
      *
@@ -71,23 +76,22 @@ class UserFriendController extends AbstractController
      *
      * @throws AuthorizationException If the user cannot perform this action.
      */
-    public function update(Request $request, User $recipient, User $requester): JsonResponse
+    public function update(Request $request, User $user, Friendship $friendship): JsonResponse
     {
-        $this->authorize('update', $recipient);
+        $this->authorize('update', $user);
 
         $this->validate($request, [
-            'accept' => 'required|boolean'
+            'status' => sprintf('required|in:%s,%s', Status::ACCEPTED, Status::DENIED)
         ]);
 
-        if ($recipient->hasFriendRequestFrom($requester)) {
+        if ($user->is($friendship->recipient()->first())) {
             abort(JsonResponse::HTTP_UNPROCESSABLE_ENTITY);
         }
 
-        if ($request->input('accept')) {
-            $recipient->acceptFriendRequest($requester);
-            $requester->notify(new FriendRequestAccepted($requester, $recipient));
-        } else {
-            $recipient->denyFriendRequest($requester);
+        $friendship->update(['status' => $request->input('status')]);
+        if ($friendship->status === Status::ACCEPTED) {
+            $sender = $friendship->sender()->first();
+            $sender->notify(new FriendRequestAccepted($sender, $user));
         }
 
         return response()->json('', JsonResponse::HTTP_NO_CONTENT);
@@ -96,23 +100,19 @@ class UserFriendController extends AbstractController
     /**
      * Delete the request or the friendship with a user.
      *
-     * @param User $requester The user who want to remove from his friend the other user.
-     * @param User $recipient The user to remove from friends.
+     * @param User       $user       The user who want to remove from his friend the other user.
+     * @param Friendship $friendship The friendship to update.
      *
      * @return JsonResponse The response.
      *
      * @throws AuthorizationException If the user cannot perform this action.
      */
-    public function destroy(User $requester, User $recipient): JsonResponse
+    public function destroy(User $user, Friendship $friendship): JsonResponse
     {
-        $this->authorize('update', $requester);
+        $this->authorize('update', $user);
 
-        if (!$requester->hasSentFriendRequestTo($recipient) && !$requester->isFriendWith($recipient)) {
-            abort(JsonResponse::HTTP_UNPROCESSABLE_ENTITY);
-        }
-
-        $requester->unfriend($recipient);
-        $recipient->notify(new FriendRequestDeleted($requester, $recipient));
+        // TODO.
+        $user->notify(new FriendRequestDeleted($user, $user));
 
         return response()->json('', JsonResponse::HTTP_NO_CONTENT);
     }

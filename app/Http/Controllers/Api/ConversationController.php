@@ -35,9 +35,14 @@ class ConversationController extends AbstractController
         return response()->json(
             $request->user()
                 ->conversations()
+                ->with('users')
                 ->when($request->input('search'), function (Builder $query) use ($request) {
+                    $search = sprintf('%%%s%%', $request->input('search'));
                     $query->whereNotNull('name')
-                        ->where('name', 'like', sprintf('%%%s%%', $request->input('search')));
+                        ->where('name', 'like', $search)
+                        ->orWhereHas('messages', function (Builder $query) use ($search) {
+                            $query->where('text', 'like', $search);
+                        });
                 })
                 ->orderByDesc('updated_at')
                 ->get()
@@ -57,7 +62,7 @@ class ConversationController extends AbstractController
     {
         $this->authorize('show', $conversation);
 
-        return response()->json($conversation);
+        return response()->json($conversation->load('users'));
     }
 
     /**
@@ -103,8 +108,6 @@ class ConversationController extends AbstractController
         ]);
 
         $conversation->update($request->only('name'));
-
-        Notification::send($conversation->users, new ConversationUpdated($conversation));
 
         return response()->json('', JsonResponse::HTTP_NO_CONTENT);
     }

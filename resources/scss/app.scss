@@ -20,11 +20,12 @@ a {
 .btn {
   @extend .shadow-sm;
   font-weight: bold;
+  vertical-align: middle;
   border: none;
 }
 
 .card, .dropdown-menu {
-  @extend .shadow;
+  @extend .shadow-sm;
   border: none;
 }
 
@@ -43,4 +44,14 @@ a {
 
 .invalid-feedback {
   font-style: italic;
+}
+
+.material-design-icon {
+  height: 1.2em !important;
+  width: 1.2em !important;
+}
+
+.material-design-icon > .material-design-icon__svg {
+  height: 1.2em !important;
+  width: 1.2em !important;
 }

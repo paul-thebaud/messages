@@ -26,6 +26,8 @@ RUN php composer.phar install --no-scripts \
 
 RUN yarn install
 
+RUN yarn production
+
 RUN chown -R www-data:www-data \
         /var/www/storage \
         /var/www/bootstrap/cache
@@ -39,3 +41,4 @@ RUN php artisan migrate
 RUN php artisan passport:install
 
 EXPOSE 9000
+EXPOSE 6001
