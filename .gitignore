@@ -15,3 +15,7 @@ yarn-error.log
 
 .DS_Store
 *.old
+
+public/css/app\.css
+
+public/js/app\.js

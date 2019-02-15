@@ -18,9 +18,9 @@ pipeline {
             sh 'composer install'
           }
         }
-        stage('npm') {
+        stage('yarn') {
           steps {
-            sh 'npm install'
+            sh 'yarn install'
           }
         }
         stage('Necessary folders') {
@@ -84,7 +84,7 @@ pipeline {
     }
     stage('Units Test JS') {
       steps {
-        sh 'npm test'
+        sh 'yarn test'
       }
     }
     stage('SonarQube Test') {
