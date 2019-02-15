@@ -1,5 +1,9 @@
 <template>
-    <floating-card title="Login">
+    <floating-card>
+        <app-title/>
+        <h4 class="card-title">
+            Login
+        </h4>
         <p class="card-text">
             Welcome back on <strong>Messages</strong>, please enter your credentials to continue typing!
         </p>

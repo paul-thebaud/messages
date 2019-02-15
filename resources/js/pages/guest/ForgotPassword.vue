@@ -1,5 +1,9 @@
 <template>
-    <floating-card title="Forgot my password">
+    <floating-card>
+        <app-title/>
+        <h4 class="card-title">
+            Forgot my password
+        </h4>
         <p class="card-text">
             Give us your email address, we will send you an email to reset your password.
         </p>
