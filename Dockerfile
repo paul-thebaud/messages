@@ -35,15 +35,6 @@ RUN php artisan migrate
 RUN php artisan passport:install
 
 #################################################
-#                     CMD                       #
-#################################################
-
-#Queue Worker
-CMD nohup php artisan queue:work --tries=3 &
-#WebSocket
-CMD nohup php artisan websockets:serve &
-
-#################################################
 #                    Expose                     #
 #################################################
 

@@ -228,6 +228,20 @@ pipeline {
             }
         }
     }
+    stage('Worker') {
+        steps {
+            script{
+                if(env.BRANCH_NAME == "release" || env.BRANCH_NAME == "dev" || env.BRANCH_NAME == "master"){
+                    stage('launch'){
+                      sh "sudo docker exec messages${BRANCH_NAME} nohup php artisan queue:work --tries=3 &"
+                    }
+                    stage('launch'){
+                      sh "sudo docker exec messages${BRANCH_NAME} nohup php artisan websockets:serve &"
+                    }
+                }
+            }
+        }
+    }
   }
   post {
     always {
