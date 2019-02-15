@@ -2,6 +2,7 @@
 
 namespace App\Models\Pivots;
 
+use App\Models\Conversation;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -41,7 +42,7 @@ class ConversationUser extends Pivot
      * {@inheritdoc}
      */
     protected $attributes = [
-        'role' => self::ROLE_USER,
+        'role' => self::ROLE_ADMIN,
     ];
 
     /**
