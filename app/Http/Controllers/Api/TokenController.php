@@ -10,10 +10,13 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
+use Jenssegers\Agent\Facades\Agent;
 use Laravel\Passport\Token;
 use Laravel\Socialite\AbstractUser;
 use Laravel\Socialite\Facades\Socialite;
 use Laravel\Socialite\Two\AbstractProvider;
+use Torann\GeoIP\Facades\GeoIP;
+use Torann\GeoIP\Location;
 
 /**
  * Class TokenController.
@@ -51,7 +54,7 @@ class TokenController extends AbstractController
     }
 
     /**
-     * Fetch the conversations.
+     * Fetch the tokens.
      *
      * @param Request $request The request.
      *
@@ -128,13 +131,19 @@ class TokenController extends AbstractController
             }
         }
 
+        /** @var Location $location */
+        $location = GeoIP::getLocation();
+
         // Create the token and save the used driver and
         // current user agent in the token's name.
         $token = $user->createToken(
             $request->input('name', sprintf(
-                "Token generated with %s grant\nUser agent: %s",
+                "Token generated with %s grant\nLocation: %s\nDevice: %s\nPlatform: %s\nBrowser: %s\n",
                 $request->input('driver'),
-                $request->userAgent()
+                sprintf('%s - %s, %s', $location['ip'], $location['city'], $location['country']),
+                $this->getAgentInformation('device'),
+                $this->getAgentInformation('platform'),
+                $this->getAgentInformation('browser')
             ))
         );
         return response()->json([
@@ -159,5 +168,11 @@ class TokenController extends AbstractController
         $token->delete();
 
         return response()->json('', JsonResponse::HTTP_NO_CONTENT);
+    }
+
+    private function getAgentInformation(string $part): string
+    {
+        $device = Agent::{$part}();
+        return empty($device) ? 'Unknown' : sprintf('%s %s', $device, Agent::version($device));
     }
 }

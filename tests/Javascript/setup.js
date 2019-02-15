@@ -1,1 +1,2 @@
-require('jsdom-global')();
+require('jsdom-global')()
+window.Date = Date;

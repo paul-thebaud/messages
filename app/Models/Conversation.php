@@ -60,6 +60,15 @@ class Conversation extends UuidModel
     ];
 
     /**
+     * {@inheritdoc}
+     */
+    protected $appends = [
+        'last_message',
+        'has_unread',
+        'message_count',
+    ];
+
+    /**
      * The users of this conversation.
      *
      * @return BelongsToMany The relation.
@@ -79,6 +88,49 @@ class Conversation extends UuidModel
      */
     public function messages(): HasMany
     {
-        return $this->hasMany(Message::class);
+        return $this->hasMany(Message::class)
+            ->orderByDesc('created_at');
+    }
+
+    /**
+     * Get the last message sent.
+     *
+     * @return string|null The last message content.
+     */
+    public function getMessageCountAttribute(): ?string
+    {
+        return $this->messages()->count();
+    }
+
+    /**
+     * Get the last message sent.
+     *
+     * @return string|null The last message content.
+     */
+    public function getLastMessageAttribute(): ?string
+    {
+        $message = $this->messages()->orderByDesc('created_at')->first();
+        return $message ? $message->text : null;
+    }
+
+    /**
+     * Get the boolean which tells if the conversation has unread messages.
+     *
+     * @return string|null The last message content.
+     */
+    public function getHasUnreadAttribute(): ?string
+    {
+        // Find current user.
+        $user = request()->user();
+        if (!$user) {
+            return false;
+        }
+        /** @var Message $lastMessage */
+        $lastMessage = $this->messages()->orderByDesc('created_at')->first();
+        if (!$lastMessage) {
+            return false;
+        }
+        return $lastMessage->user_id !== $user->id
+            && $lastMessage->users()->where('id', $user->id)->doesntExist();
     }
 }

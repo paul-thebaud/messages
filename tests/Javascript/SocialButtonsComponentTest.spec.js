@@ -1,6 +1,6 @@
 import {mount} from 'vue-test-utils';
 import expect from 'expect';
-import SocialButtons from '../../resources/js/components/SocialButtons.vue';
+import SocialButtons from '../../resources/js/components/common/SocialButtons.vue';
 
 describe('Social Buttons', () => {
     let component;

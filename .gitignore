@@ -13,4 +13,9 @@ yarn-error.log
 .env
 .phpunit.result.cache
 
+.DS_Store
 *.old
+
+public/css/app\.css
+
+public/js/app\.js

@@ -1,0 +1,57 @@
+@import 'variables';
+// Bootstrap
+@import '~bootstrap/scss/bootstrap';
+
+html, body {
+  overflow: hidden;
+  margin: 0;
+  padding:0;
+  position:absolute;
+  bottom:0;
+  top:0;
+  right:0;
+  left:0;
+}
+
+a {
+  transition: 250ms ease;
+}
+
+.btn {
+  @extend .shadow-sm;
+  font-weight: bold;
+  vertical-align: middle;
+  border: none;
+}
+
+.card, .dropdown-menu {
+  @extend .shadow-sm;
+  border: none;
+}
+
+.alert {
+  @extend .shadow-sm;
+  border: none;
+}
+
+.form-control {
+  @extend .shadow-sm;
+}
+
+.navbar {
+  border-bottom: 1px solid $border-color;
+}
+
+.invalid-feedback {
+  font-style: italic;
+}
+
+.material-design-icon {
+  height: 1.2em !important;
+  width: 1.2em !important;
+}
+
+.material-design-icon > .material-design-icon__svg {
+  height: 1.2em !important;
+  width: 1.2em !important;
+}

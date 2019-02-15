@@ -9,6 +9,7 @@ use App\Notifications\ConversationDeleted;
 use App\Notifications\ConversationUpdated;
 use Exception;
 use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Notification;
@@ -22,12 +23,30 @@ class ConversationController extends AbstractController
      * @param Request $request The request.
      *
      * @return JsonResponse The response.
+     *
+     * @throws ValidationException If the request is invalid.
      */
     public function index(Request $request): JsonResponse
     {
+        $this->validate($request, [
+            'search' => 'sometimes|string',
+        ]);
         /** @todo Pagination? */
-        /** @todo Search? */
-        return response()->json($request->user()->conversations()->orderByDesc('updated_at')->get());
+        return response()->json(
+            $request->user()
+                ->conversations()
+                ->with('users')
+                ->when($request->input('search'), function (Builder $query) use ($request) {
+                    $search = sprintf('%%%s%%', $request->input('search'));
+                    $query->whereNotNull('name')
+                        ->where('name', 'like', $search)
+                        ->orWhereHas('messages', function (Builder $query) use ($search) {
+                            $query->where('text', 'like', $search);
+                        });
+                })
+                ->orderByDesc('updated_at')
+                ->get()
+        );
     }
 
     /**
@@ -43,7 +62,7 @@ class ConversationController extends AbstractController
     {
         $this->authorize('show', $conversation);
 
-        return response()->json($conversation);
+        return response()->json($conversation->load('users'));
     }
 
     /**
@@ -89,8 +108,6 @@ class ConversationController extends AbstractController
         ]);
 
         $conversation->update($request->only('name'));
-
-        Notification::send($conversation->users, new ConversationUpdated($conversation));
 
         return response()->json('', JsonResponse::HTTP_NO_CONTENT);
     }

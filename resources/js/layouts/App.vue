@@ -1,19 +1,22 @@
 <template>
-    <div id="app" class="h-100">
-        <nav-bar v-if="!loading"></nav-bar>
-        <router-view v-on:loading-toggle="loadingToggle"></router-view>
-        <spinner v-if="loading"></spinner>
+    <div id="app">
+        <navbar v-if="this.$store.getters['auth/isLogged']"></navbar>
+        <div class="navbar-wrapper">
+            <router-view v-if="!initialLoading" v-on:loading-toggle="loadingToggle"></router-view>
+            <spinner v-if="loading"></spinner>
+        </div>
     </div>
 </template>
 
 <script>
-    import NavBar from './NavBar';
     import Spinner from './Spinner';
+    import Navbar from './Navbar';
     import router from '../router';
 
     export default {
         mounted() {
             if (!this.$store.getters['auth/isLogged']) {
+                this.initialLoading = false;
                 this.loadingToggle();
                 return;
             }
@@ -22,11 +25,13 @@
                     router.push({ name: 'Login' });
                 })
                 .finally(() => {
+                    this.initialLoading = false;
                     this.loadingToggle();
                 });
         },
         data() {
             return {
+                initialLoading: true,
                 loading: true
             };
         },
@@ -36,11 +41,18 @@
             }
         },
         components: {
-            NavBar,
-            Spinner
+            Spinner,
+            Navbar
         }
     };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+    #app {
+        height: 100%;
+        .navbar-wrapper {
+            padding-top: 55px;
+            height: 100%;
+        }
+    }
 </style>
