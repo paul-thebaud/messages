@@ -3,7 +3,7 @@ FROM php:fpm-alpine
 #################################################
 #               Install depedencies             #
 #################################################
-RUN apk add libpng-dev
+RUN apk add libpng-dev wget
 RUN docker-php-ext-install pdo pdo_mysql mbstring gd bcmath
 
 #################################################
