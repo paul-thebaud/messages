@@ -36,16 +36,16 @@ class RemoveConversation extends Notification implements ShouldQueue
     }
 
     /**
-     * Get the array representation of the notification.
+     * Get the broadcast representation of the notification.
      *
      * @param  mixed $notifiable
      *
-     * @return array
+     * @return BroadcastMessage
      */
-    public function toArray($notifiable)
+    public function toBroadcast($notifiable)
     {
-        return [
+        return new BroadcastMessage([
             'conversation' => $this->conversation
-        ];
+        ]);
     }
 }
