@@ -1,44 +1,52 @@
-FROM php:fpm
+FROM php:fpm-alpine
 
-RUN apt-get update && apt-get install -my wget gnupg openssl zip unzip git
-RUN curl -sL https://deb.nodesource.com/setup_9.x | bash -
-RUN apt-get install -y nodejs libpng-dev
-
-RUN apt remove cmdtest
-RUN apt remove yarn
-RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
-RUN echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
-RUN apt-get update && apt-get install yarn
-
-RUN apt-get update -y && apt-get install -y npm
-
-COPY . /var/www
-
-WORKDIR /var/www
-
-RUN chmod +x composerinstall.sh
-
+#################################################
+#               Install depedencies             #
+#################################################
 RUN docker-php-ext-install pdo pdo_mysql mbstring gd bcmath
 
-RUN ./composerinstall.sh
-RUN php composer.phar install --no-scripts \
-    && rm composer.phar
+#################################################
+#                   Workdir                     #
+#################################################
 
-RUN yarn install
-
-RUN yarn production
-
+COPY . /var/www
+WORKDIR /var/www
 RUN chown -R www-data:www-data \
         /var/www/storage \
         /var/www/bootstrap/cache
 
+#################################################
+#                   Composer                    #
+#################################################
+
+RUN chmod +x composerinstall.sh
+RUN ./composerinstall.sh
+RUN php composer.phar install --no-scripts \
+    && rm composer.phar
 RUN rm composerinstall.sh
 
+#################################################
+#                   Artisan                     #
+#################################################
+
 RUN php artisan key:generate
-
 RUN php artisan migrate
-
 RUN php artisan passport:install
 
+#################################################
+#                     CMD                       #
+#################################################
+
+#Queue Worker
+CMD nohup php artisan queue:work --tries=3 &
+#WebSocket
+CMD nohup php artisan websockets:serve &
+
+#################################################
+#                    Expose                     #
+#################################################
+
+#FPM
 EXPOSE 9000
+#WebSocket
 EXPOSE 6001

@@ -18,9 +18,9 @@ pipeline {
             sh 'composer install'
           }
         }
-        stage('npm') {
+        stage('yarn') {
           steps {
-            sh 'npm install'
+            sh 'yarn install'
           }
         }
         stage('Necessary folders') {
@@ -84,7 +84,7 @@ pipeline {
     }
     stage('Units Test JS') {
       steps {
-        sh 'npm test'
+        sh 'yarn test'
       }
     }
     stage('SonarQube Test') {
@@ -223,20 +223,6 @@ pipeline {
                     stage('master'){
                         sh "yarn production"
                         sh "scp -r ./public root@172.17.0.1:/var/www/messages/${BRANCH_NAME}"
-                    }
-                }
-            }
-        }
-    }
-    stage('Worker') {
-        steps {
-            script{
-                if(env.BRANCH_NAME == "release" || env.BRANCH_NAME == "dev" || env.BRANCH_NAME == "master"){
-                    stage('launch'){
-                      sh "sudo docker exec messages${BRANCH_NAME} nohup php artisan queue:work --tries=3 &"
-                    }
-                    stage('launch'){
-                      sh "sudo docker exec messages${BRANCH_NAME} nohup php artisan websockets:serve &"
                     }
                 }
             }
