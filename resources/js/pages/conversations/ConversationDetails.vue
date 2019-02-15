@@ -10,6 +10,23 @@
                     <b-form-invalid-feedback>{{ this.error.get('name') }}</b-form-invalid-feedback>
                 </b-form-group>
                 <b-form-group>
+                    <v-select multiple label="username" :filterable="false" :options="options" @search="onSearch" v-model="selectedUsers">
+                        <template slot="no-options">
+                            type to search users...
+                        </template>
+                        <template slot="option" slot-scope="option">
+                            <div class="d-center">
+                                {{ option.username }}
+                            </div>
+                        </template>
+                        <template slot="selected-option" slot-scope="option">
+                            <div class="selected d-center">
+                                {{ option.username }}
+                            </div>
+                        </template>
+                    </v-select>
+                </b-form-group>
+                <b-form-group>
                     <b-btn type="submit" variant="primary" :disabled="loading" block>Update</b-btn>
                 </b-form-group>
             </form>
@@ -31,31 +48,47 @@
 </template>
 
 <script>
+    import _ from 'lodash';
     import VueSelect from 'vue-select';
     import api from '../../helpers/api';
     import ApiError from '../../helpers/api/ApiError';
+    import diff from 'diff-arrays-of-objects';
 
     export default {
         name: 'ConversationDetails',
         components: {
-            VueSelect
+            "v-select": VueSelect
         },
         data() {
             return {
+                options: [],
                 conversation: {
-                    name: null
+                    name: null,
+                    users: []
                 },
+                selectedUsers: [],
+                previousUsers: [],
                 error: new ApiError(),
                 loading: false
             };
         },
         mounted() {
             api.show('conversations', this.$route.params.conversation_id)
-                .then(conversation => this.conversation = conversation);
+                .then(conversation => {
+                    this.conversation = conversation;
+                    this.selectedUsers = Array.from(this.conversation.users);
+                });
         },
         methods: {
             update() {
                 this.loading = true;
+                const updatedUsers = diff(this.conversation.users,this.selectedUsers,'id');
+                updatedUsers.added.forEach((user) => {
+                    api.post(`conversations/${this.conversation.id}/users`,{user_id: user.id});
+                });
+                updatedUsers.removed.forEach((user) => {
+                    api.destroy(`conversations/${this.conversation.id}/users`,{user_id: user.id});
+                });
                 api.update('conversations', this.conversation.id, this.conversation)
                     .then(() => {
                         this.$emit('update-conversation', this.conversation);
@@ -66,7 +99,18 @@
                     .finally(() => {
                         this.loading = false;
                     });
-            }
+            },
+            onSearch(search, loading) {
+                loading(true);
+                this.search(loading, search, this);
+            },
+            search: _.debounce((loading, search, vm) => {
+                    api.index('users',{search: search}).then(users => {
+                    vm.options = users;
+                        //res.json().then(json => (vm.options = json.items));
+                    loading(false);
+                });
+            }, 350)
         }
     };
 </script>
