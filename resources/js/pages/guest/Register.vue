@@ -1,5 +1,9 @@
 <template>
-    <floating-card title="Register">
+    <floating-card>
+        <app-title/>
+        <h4 class="card-title">
+            Register
+        </h4>
         <p class="card-text">
             Welcome on <strong>Messages</strong>, please enter your information before starting typing!
         </p>
