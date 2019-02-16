@@ -40,7 +40,9 @@
             }
         },
         data() {
+            const user = this.$store.getters['auth/user'];
             return {
+                userId: user.id,
                 conversations: [],
                 filteredConversations: []
             };
@@ -62,6 +64,17 @@
                                 conversation.message_count++;
                             });
                     });
+
+                    Echo.private('App.User.' + this.userId)
+                        .notification((notification) => {
+                            if(notification.type === "removeConversation"){
+                                this.conversations.splice(this.conversations.indexOf(notification.value()),1);
+                            }
+                            if(notification.type === "newConversation"){
+                                this.conversations.push(notification.data());
+                            }
+                        });
+
                     if (this.$router.currentRoute.name === 'NoConversation' && this.conversations.length > 0) {
                         this.$router.push(`/conversations/${this.conversations[0].id}`);
                     }
