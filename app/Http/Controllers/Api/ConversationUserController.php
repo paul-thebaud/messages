@@ -63,7 +63,8 @@ class ConversationUserController extends AbstractController
             abort(JsonResponse::HTTP_UNPROCESSABLE_ENTITY);
         }
 
-        $conversation->users()->attach($user,
+        $conversation->users()->attach(
+            $user,
             [
                 'role'=>ConversationUser::ROLE_ADMIN,
                 'nickname'=>$request->input('nickname')
