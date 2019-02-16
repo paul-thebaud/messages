@@ -46,9 +46,7 @@ class ConversationUserController extends AbstractController
     public function store(Request $request, Conversation $conversation): JsonResponse
     {
         $this->validate($request, [
-            'user_id' => [
-                'required|string|uuid'
-            ]
+            'user_id' => 'required|string|uuid'
         ]);
         /** @var User $user */
         $user = User::query()->findOrFail($request->input('user_id'));
@@ -65,7 +63,7 @@ class ConversationUserController extends AbstractController
             abort(JsonResponse::HTTP_UNPROCESSABLE_ENTITY);
         }
 
-        $conversation->users()->attach($user, $request->only('nickname', 'role'));
+        $conversation->users()->attach($user, ['role'=>ConversationUser::ROLE_ADMIN,'nickname'=>$request->input('nickname')]);
 
         $user->notify(new NewConversation($conversation));
 
