@@ -84,10 +84,10 @@
                 this.loading = true;
                 const updatedUsers = diff(this.conversation.users,this.selectedUsers,'id');
                 updatedUsers.added.forEach((user) => {
-                    api.post(`conversations/${this.conversation.id}/users`,{user_id: user.id});
+                    api.store(`conversations/${this.conversation.id}/users`,{user_id: user.id});
                 });
                 updatedUsers.removed.forEach((user) => {
-                    api.destroy(`conversations/${this.conversation.id}/users`,{user_id: user.id});
+                    api.destroy(`conversations/${this.conversation.id}/users`,user.id);
                 });
                 api.update('conversations', this.conversation.id, this.conversation)
                     .then(() => {
