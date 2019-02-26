@@ -84,13 +84,11 @@
                 const updatedUsers = diff(this.conversation.users,this.selectedUsers,'id');
                 updatedUsers.added.forEach((user) => {
                     api.store(`conversations/${this.conversation.id}/users`,{user_id: user.id});
-                    this.conversation.users.push(user);
                 });
                 updatedUsers.removed.forEach((user) => {
                     api.destroy(`conversations/${this.conversation.id}/users`,user.id);
-                    this.conversation.users.splice(user,1);
                 });
-                this.selectedUsers = this.conversation.users;
+                this.conversation.users = Array.from(this.selectedUsers);
                 api.update('conversations', this.conversation.id, this.conversation)
                     .then(() => {
                         this.$emit('update-conversation', this.conversation);

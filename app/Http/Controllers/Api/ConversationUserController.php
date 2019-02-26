@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Events\ConversationEvent;
 use App\Http\Controllers\AbstractController;
 use App\Models\Conversation;
 use App\Models\Pivots\ConversationUser;
@@ -71,7 +72,7 @@ class ConversationUserController extends AbstractController
             ]
         );
 
-        broadcast(new \App\Events\ConversationEvent($user,$conversation,"add"));
+        broadcast(new ConversationEvent($user,$conversation,"add"));
 
         return response()->json('', JsonResponse::HTTP_CREATED);
     }
@@ -93,7 +94,7 @@ class ConversationUserController extends AbstractController
 
         $conversation->users()->detach($user->id);
 
-        broadcast(new \App\Events\ConversationEvent($user,$conversation,"remove"));
+        broadcast(new ConversationEvent($user,$conversation,"remove"));
 
         return response()->json('', JsonResponse::HTTP_NO_CONTENT);
     }

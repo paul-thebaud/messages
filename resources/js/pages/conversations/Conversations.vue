@@ -70,6 +70,9 @@
                             console.log(notification);
                             if(notification.type === "remove"){
                                 this.conversations.splice(this.conversations.indexOf(notification.conversation),1);
+                                if(this.$route.params.conversation_id === notification.conversation.id){
+                                    this.$router.push({ name: 'Conversations' });
+                                }
                             }
                             if(notification.type === "add"){
                                 this.conversations.push(notification.conversation);

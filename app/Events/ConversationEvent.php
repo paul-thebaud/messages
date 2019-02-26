@@ -6,13 +6,11 @@ use App\Models\Conversation;
 use App\Models\User;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Broadcasting\PrivateChannel;
-use Illuminate\Foundation\Events\Dispatchable;
-use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
 class ConversationEvent implements ShouldBroadcast
 {
-    use Dispatchable, InteractsWithSockets, SerializesModels;
+    use SerializesModels;
     public $user;
     public $conversation;
     public $type;
@@ -24,7 +22,7 @@ class ConversationEvent implements ShouldBroadcast
      * @param Conversation $conversation
      * @param string $type
      */
-    public function __construct(User $user, Conversation $conversation, string $type)
+    public function __construct(?User $user, ?Conversation $conversation, ?string $type)
     {
         $this->user = $user;
         $this->conversation = $conversation;
