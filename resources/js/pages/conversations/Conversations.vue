@@ -66,12 +66,13 @@
                     });
 
                     Echo.private('App.User.' + this.userId)
-                        .notification((notification) => {
-                            if(notification.type === "removeConversation"){
-                                this.conversations.splice(this.conversations.indexOf(notification.value()),1);
+                        .listen(".conversationEvent", (notification) => {
+                            console.log(notification);
+                            if(notification.type === "remove"){
+                                this.conversations.splice(this.conversations.indexOf(notification.conversation),1);
                             }
-                            if(notification.type === "newConversation"){
-                                this.conversations.push(notification.data());
+                            if(notification.type === "add"){
+                                this.conversations.push(notification.conversation);
                             }
                         });
 

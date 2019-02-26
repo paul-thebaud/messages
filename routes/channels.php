@@ -14,8 +14,8 @@
 use App\Models\User;
 use Illuminate\Support\Facades\Broadcast;
 
-Broadcast::channel('App.User.{id}', function (User $user) {
-    return true;
+Broadcast::channel('App.User.{id}', function (User $user, string $id) {
+    return $user->id === $id;
 });
 
 Broadcast::channel('App.Conversation.{id}', function (User $user, string $id) {

@@ -71,7 +71,7 @@ class ConversationUserController extends AbstractController
             ]
         );
 
-        $user->notify(new NewConversation($conversation));
+        broadcast(new \App\Events\ConversationEvent($user,$conversation,"add"));
 
         return response()->json('', JsonResponse::HTTP_CREATED);
     }
@@ -93,7 +93,7 @@ class ConversationUserController extends AbstractController
 
         $conversation->users()->detach($user->id);
 
-        $user->notify(new RemoveConversation($conversation));
+        broadcast(new \App\Events\ConversationEvent($user,$conversation,"remove"));
 
         return response()->json('', JsonResponse::HTTP_NO_CONTENT);
     }
