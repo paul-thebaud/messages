@@ -2,6 +2,7 @@
     <div class="navbar d-flex">
         <div class="flex-grow-1">
             <router-link class="navbar-title" to="/conversations">
+                <img src="/ms-icon-310x310.png" alt="Messages App Logo">
                 Messages
             </router-link>
         </div>
@@ -52,6 +53,9 @@
             color: $text-muted;
             font-weight: bold;
             font-size: 1.2rem;
+            img {
+                max-height: 38px;
+            }
             &:hover {
                 text-decoration: none;
                 color: $gray-800;

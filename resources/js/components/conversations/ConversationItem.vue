@@ -33,8 +33,7 @@
                         return user.username;
                     }).join(', ');
                 }
-                const dots = name.length > 30 ? '...' : '';
-                return `${name.substr(0, 30)}${dots}`;
+                return name;
             }
         }
     };
@@ -60,8 +59,21 @@
             display: block;
         }
 
+        &__name, &__last_message {
+            text-overflow: ellipsis;
+            overflow: hidden;
+        }
+
         &__last_message, &__last_update {
             color: $text-muted;
+        }
+
+        &__name {
+            max-height: 23px;
+        }
+
+        &__last_message {
+            max-height: 18px;
         }
 
         &.router-link-active {

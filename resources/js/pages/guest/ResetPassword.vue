@@ -1,5 +1,9 @@
 <template>
-    <floating-card title="Reset my password">
+    <floating-card>
+        <app-title/>
+        <h4 class="card-title">
+            Reset my password
+        </h4>
         <p class="card-text">
             Please provide us your new password.
         </p>

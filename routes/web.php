@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\User;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -12,6 +13,8 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+Route::get('/toast', function(){ broadcast(new \App\Events\ConversationEvent(User::find('a8919d96-c3d8-44fe-b309-e97c1b994358'), null,null));});
 
 Route::get('/verify/{user}', 'VerificationController')
     ->name('auth.verify');

@@ -20,7 +20,7 @@ Route::namespace('Api')->group(function () {
         Route::apiResource('/users/{user}/friends', 'UserFriendController', ['except' => ['show']]);
         Route::apiResource('/users/{user}/notifications', 'NotificationController', ['except' => ['store', 'show']]);
         Route::apiResource('/conversations', 'ConversationController');
-        Route::apiResource('/conversations/{conversation}/users', 'ConversationUserController', ['except' => ['show']]);
+        Route::apiResource('/conversations/{conversation}/users', 'ConversationUserController', ['except' => ['show', 'update']]);
         Route::apiResource('/conversations/{conversation}/messages', 'MessageController', [
             'except' => ['show', 'update']
         ]);
