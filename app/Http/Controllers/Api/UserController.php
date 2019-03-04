@@ -100,7 +100,7 @@ class UserController extends AbstractController
         $this->authorize('update', $user);
 
         $this->validate($request, [
-            'username' => 'required|string|min:4|max:60|unique:users,email,' . $user->id,
+            'username' => 'required|string|min:4|max:60|unique:users,username,' . $user->id,
             'password' => 'nullable|string|min:6|confirmed',
         ]);
 

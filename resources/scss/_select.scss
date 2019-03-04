@@ -1,0 +1,19 @@
+@import 'variables';
+
+div.dropdown-toggle:after {
+  content: none;
+}
+
+div.v-select {
+  @extend .shadow-sm;
+
+  background: white;
+
+  input.form-control {
+    box-shadow: none !important;
+  }
+
+  span.selected-tag {
+    background: $body-bg;
+  }
+}

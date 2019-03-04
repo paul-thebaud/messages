@@ -63,6 +63,8 @@ class User extends UuidModel implements
     protected $hidden = [
         'email',
         'password',
+        'conversation_user',
+        'email_verified_at',
     ];
 
     /**
@@ -109,7 +111,6 @@ class User extends UuidModel implements
     public function conversations(): BelongsToMany
     {
         return $this->belongsToMany(Conversation::class)
-            ->withPivot(['nickname', 'role'])
             ->as('conversation_user')
             ->using(ConversationUser::class);
     }
