@@ -10,7 +10,8 @@
                     <b-form-invalid-feedback>{{ this.error.get('name') }}</b-form-invalid-feedback>
                 </b-form-group>
                 <b-form-group>
-                    <v-select multiple label="username" :filterable="false" :options="options" @search="onSearch" v-model="selectedUsers">
+                    <v-select multiple label="username" :filterable="false" :options="options" @search="onSearch"
+                              v-model="selectedUsers">
                         <template slot="no-options">
                             type to search users...
                         </template>
@@ -30,19 +31,6 @@
                     <b-btn type="submit" variant="primary" :disabled="loading" block>Update</b-btn>
                 </b-form-group>
             </form>
-            <div class="row">
-                <div v-for="user in conversation.users"
-                     :key="user.id"
-                     class="col-sm-6">
-                    <b-btn variant="primary"
-                           v-b-tooltip.hover
-                           title="Remove this user"
-                           class="mb-2"
-                           block>
-                        {{ user.username }}
-                    </b-btn>
-                </div>
-            </div>
         </div>
     </div>
 </template>
@@ -74,19 +62,19 @@
         mounted() {
             api.show('conversations', this.$route.params.conversation_id)
                 .then(conversation => {
-                    this.conversation = conversation;
+                    this.conversation  = conversation;
                     this.selectedUsers = Array.from(this.conversation.users);
                 });
         },
         methods: {
             update() {
-                this.loading = true;
-                const updatedUsers = diff(this.conversation.users,this.selectedUsers,'id');
+                this.loading       = true;
+                const updatedUsers = diff(this.conversation.users, this.selectedUsers, 'id');
                 updatedUsers.added.forEach((user) => {
-                    api.store(`conversations/${this.conversation.id}/users`,{user_id: user.id});
+                    api.store(`conversations/${this.conversation.id}/users`, { user_id: user.id });
                 });
                 updatedUsers.removed.forEach((user) => {
-                    api.destroy(`conversations/${this.conversation.id}/users`,user.id);
+                    api.destroy(`conversations/${this.conversation.id}/users`, user.id);
                 });
                 this.conversation.users = Array.from(this.selectedUsers);
                 api.update('conversations', this.conversation.id, this.conversation)
@@ -105,9 +93,12 @@
                 this.search(loading, search, this);
             },
             search: _.debounce((loading, search, vm) => {
-                    api.index('users',{search: search}).then(users => {
+                api.index('users', { search: search }).then(users => {
+                    // Filter to remove already added users.
+                    users = users.filter(user => {
+                        return !_.map(vm.selectedUsers, 'id').includes(user.id);
+                    });
                     vm.options = users;
-                        //res.json().then(json => (vm.options = json.items));
                     loading(false);
                 });
             }, 350)
