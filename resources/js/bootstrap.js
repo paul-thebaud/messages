@@ -26,19 +26,34 @@ if (null != window.localStorage.getItem('accessToken')) {
 }
 
 window.Pusher = require('pusher-js');
-
-window.Echo = new Echo({
-    broadcaster: 'pusher',
-    key: process.env.MIX_PUSHER_APP_KEY,
-    wsHost: '127.0.0.1',
-    wsPort: 6001,
-    disableStats: true,
-    auth: {
-        headers: {
-            Authorization: 'Bearer ' + window.localStorage.getItem('accessToken')
+if(process.env.MIX_WS_HOST === "localhost"){
+    window.Echo = new Echo({
+        broadcaster: 'pusher',
+        key: process.env.MIX_PUSHER_APP_KEY,
+        wsHost: '127.0.0.1',
+        wsPort: 6001,
+        disableStats: true,
+        auth: {
+            headers: {
+                Authorization: 'Bearer ' + window.localStorage.getItem('accessToken')
+            }
         }
-    }
-});
+    });
+}else{
+    window.Echo = new Echo({
+        broadcaster: 'pusher',
+        key: process.env.MIX_PUSHER_APP_KEY,
+        wsHost: process.env.MIX_WS_HOST,
+        wssPort: process.env.MIX_WS_PORT,
+        encrypted: process.env.MIX_WS_ENCRYPTION,
+        disableStats: true,
+        auth: {
+            headers: {
+                Authorization: 'Bearer ' + window.localStorage.getItem('accessToken')
+            }
+        }
+    });
+}
 Vue.directive('click-outside', {
     bind: function (el, binding, vnode) {
         el.clickOutsideEvent = function (event) {
