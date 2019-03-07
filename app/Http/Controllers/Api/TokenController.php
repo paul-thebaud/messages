@@ -117,7 +117,7 @@ class TokenController extends AbstractController
                 // Find or create the user.
                 $user = User::query()->firstOrCreate(
                     ['email' => $providerUser->getEmail()],
-                    ['username' => $providerUser->getEmail()]
+                    ['username' => explode('@', $providerUser->getEmail())[0]]
                 );
                 // Validate the user if it is not.
                 if (!$user->hasVerifiedEmail()) {
