@@ -9,6 +9,7 @@ use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\ValidationException;
 use Jenssegers\Agent\Facades\Agent;
 use Laravel\Passport\Token;
@@ -123,6 +124,12 @@ class TokenController extends AbstractController
                     $user->markEmailAsVerified();
                 }
             } catch (Exception $exception) {
+                Log::debug('exception thrown during OAuth2 process', [
+                    $exception->getMessage(),
+                    $exception->getFile(),
+                    $exception->getLine(),
+                    $exception->getTraceAsString(),
+                ]);
                 return response()->json([
                     'errors' => [
                         'email' => ['The authentication code is invalid.']
