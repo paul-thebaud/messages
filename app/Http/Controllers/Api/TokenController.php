@@ -124,12 +124,6 @@ class TokenController extends AbstractController
                     $user->markEmailAsVerified();
                 }
             } catch (Exception $exception) {
-                Log::debug('exception thrown during OAuth2 process', [
-                    $exception->getMessage(),
-                    $exception->getFile(),
-                    $exception->getLine(),
-                    $exception->getTraceAsString(),
-                ]);
                 return response()->json([
                     'errors' => [
                         'email' => ['The authentication code is invalid.']
